@@ -101,9 +101,9 @@ export default function ArticleDetail() {
               href={article.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 transition-colors"
+              className="inline-flex items-center space-x-2 px-4 py-2 bg-[#526FDA] text-white rounded-lg hover:bg-[#4159c9] transition-colors font-medium shadow-sm"
             >
-              <ExternalLink className="w-5 h-5" />
+              <ExternalLink className="w-4 h-4" />
               <span>Source MovieHunt</span>
             </a>
           )}
