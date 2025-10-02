@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd client && npm ci && npm run build",
+  "buildCommand": "cd client && npm ci && npx vite build",
   "outputDirectory": "client/dist",
   "installCommand": "npm install && cd client && npm ci",
   "rewrites": [
