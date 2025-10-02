@@ -327,6 +327,9 @@ CONTENU:
         genre: scrapedData.metadata?.genre,
         director: scrapedData.metadata?.director,
         actors: scrapedData.metadata?.actors,
+        score: scrapedData.metadata?.score,
+        hunted: scrapedData.metadata?.hunted,
+        hiddenGem: scrapedData.metadata?.hiddenGem,
       },
     };
 
