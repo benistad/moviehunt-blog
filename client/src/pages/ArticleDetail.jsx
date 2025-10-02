@@ -104,7 +104,7 @@ export default function ArticleDetail() {
               className="inline-flex items-center space-x-2 px-4 py-2 bg-[#526FDA] text-white rounded-lg hover:bg-[#4159c9] transition-colors font-medium shadow-sm"
             >
               <ExternalLink className="w-4 h-4" />
-              <span>Source MovieHunt</span>
+              <span>Lire la fiche sur MovieHunt</span>
             </a>
           )}
         </div>
