@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Film, Home } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { useEffect } from 'react';
 
 export default function Layout() {
@@ -29,11 +29,8 @@ export default function Layout() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link to="/" className="flex items-center space-x-2">
-              <Film className="w-8 h-8 text-primary-600" />
-              <span className="text-2xl font-bold text-gray-900">
-                MovieHunt <span className="text-primary-600">Blog</span>
-              </span>
+            <Link to="/" className="flex items-center space-x-3">
+              <img src="/logo.png" alt="Le Blog" className="h-12 w-auto" />
             </Link>
 
             <nav className="flex items-center space-x-6">
@@ -63,9 +60,8 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Film className="w-6 h-6 text-primary-500" />
-                <span className="text-xl font-bold text-white">MovieHunt Blog</span>
+              <div className="flex items-center space-x-3 mb-4">
+                <img src="/logo.png" alt="Le Blog" className="h-10 w-auto" />
               </div>
               <p className="text-gray-400">
                 Découvrez les dernières critiques et analyses de films.
