@@ -68,7 +68,7 @@ export default function Layout() {
                 <span className="text-xl font-bold text-white">MovieHunt Blog</span>
               </div>
               <p className="text-gray-400">
-                Découvrez les dernières critiques et analyses de films générées par IA.
+                Découvrez les dernières critiques et analyses de films.
               </p>
             </div>
 
