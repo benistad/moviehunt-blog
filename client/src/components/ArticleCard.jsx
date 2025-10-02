@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Tag, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import MovieRating from './MovieRating';
 
 export default function ArticleCard({ article }) {
   const formattedDate = format(new Date(article.publishedAt), 'dd MMMM yyyy', { locale: fr });
@@ -9,7 +10,7 @@ export default function ArticleCard({ article }) {
   return (
     <Link to={`/article/${article.slug}`} className="card hover:shadow-lg transition-shadow duration-300">
       {article.coverImage && (
-        <div className="aspect-video w-full overflow-hidden bg-gray-200">
+        <div className="aspect-video w-full overflow-hidden bg-gray-200 relative">
           <img
             src={article.coverImage}
             alt={article.title}
@@ -18,6 +19,11 @@ export default function ArticleCard({ article }) {
               e.target.style.display = 'none';
             }}
           />
+          {article.metadata?.score && (
+            <div className="absolute top-3 right-3">
+              <MovieRating rating={article.metadata.score} size="md" />
+            </div>
+          )}
         </div>
       )}
 

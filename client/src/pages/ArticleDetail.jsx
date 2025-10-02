@@ -8,6 +8,7 @@ import rehypeRaw from 'rehype-raw';
 import { articlesAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
+import MovieRating from '../components/MovieRating';
 
 export default function ArticleDetail() {
   const { slug } = useParams();
@@ -67,7 +68,7 @@ export default function ArticleDetail() {
 
       {/* Cover Image */}
       {article.coverImage && (
-        <div className="aspect-video w-full overflow-hidden rounded-xl mb-8 bg-gray-200">
+        <div className="aspect-video w-full overflow-hidden rounded-xl mb-8 bg-gray-200 relative">
           <img
             src={article.coverImage}
             alt={article.title}
@@ -76,6 +77,11 @@ export default function ArticleDetail() {
               e.target.style.display = 'none';
             }}
           />
+          {article.metadata?.score && (
+            <div className="absolute top-4 right-4">
+              <MovieRating rating={article.metadata.score} size="xl" />
+            </div>
+          )}
         </div>
       )}
 
@@ -160,6 +166,15 @@ export default function ArticleDetail() {
               <div>
                 <dt className="text-sm font-medium text-gray-500">Genre</dt>
                 <dd className="text-base text-gray-900">{article.metadata.genre.join(', ')}</dd>
+              </div>
+            )}
+            {article.metadata.score && (
+              <div>
+                <dt className="text-sm font-medium text-gray-500">Note MovieHunt</dt>
+                <dd className="text-base text-gray-900 flex items-center">
+                  <MovieRating rating={article.metadata.score} size="sm" />
+                  <span className="ml-2 font-semibold">{article.metadata.score}/10</span>
+                </dd>
               </div>
             )}
           </dl>
