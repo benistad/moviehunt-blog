@@ -31,6 +31,9 @@ export default function Layout() {
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-3">
               <img src="/logo.png" alt="Le Blog" className="h-12 w-auto" />
+              <span className="text-2xl font-bold text-gray-900">
+                MovieHunt <span className="text-primary-600">Blog</span>
+              </span>
             </Link>
 
             <nav className="flex items-center space-x-6">
@@ -62,6 +65,7 @@ export default function Layout() {
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <img src="/logo.png" alt="Le Blog" className="h-10 w-auto" />
+                <span className="text-xl font-bold text-white">MovieHunt Blog</span>
               </div>
               <p className="text-gray-400">
                 Découvrez les dernières critiques et analyses de films.
