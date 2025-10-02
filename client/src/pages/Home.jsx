@@ -56,7 +56,7 @@ export default function Home() {
           Bienvenue sur le <span className="text-primary-600">MovieHunt Blog</span>
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          Découvrez des critiques et analyses de films générées par intelligence artificielle
+          Découvrez des critiques et analyses de films
         </p>
       </div>
 

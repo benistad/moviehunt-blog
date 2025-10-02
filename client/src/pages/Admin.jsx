@@ -211,7 +211,7 @@ export default function Admin() {
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Administration</h1>
-          <p className="text-gray-600">Gérez vos articles et générez du contenu automatiquement</p>
+          <p className="text-gray-600">Gérez vos articles et créez du contenu</p>
         </div>
         <div className="flex items-center space-x-4">
           <span className="text-sm text-gray-600">

@@ -86,8 +86,7 @@ export default function Layout() {
             <div>
               <h3 className="text-white font-semibold mb-4">À propos</h3>
               <p className="text-gray-400 text-sm">
-                Ce blog utilise GPT-4o mini pour générer automatiquement des articles
-                à partir des pages de moviehunt.fr.
+                Critiques et analyses de films basées sur les contenus de moviehunt.fr.
               </p>
             </div>
           </div>
