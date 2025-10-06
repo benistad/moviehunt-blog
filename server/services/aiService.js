@@ -68,7 +68,8 @@ class AIService {
   buildPrompt(scrapedData, sourceUrl) {
     const metadata = scrapedData.metadata;
     
-    if (!metadata.score) throw new Error('Score du film manquant');
+    // Validation des données essentielles (avec valeurs par défaut)
+    if (!metadata.score && metadata.score !== 0) throw new Error('Score du film manquant');
     if (!metadata.releaseYear) throw new Error('Année de sortie manquante');
     if (!metadata.genre || metadata.genre.length === 0) throw new Error('Genres manquants');
     
@@ -104,9 +105,9 @@ Adapte ton vocabulaire, tes superlatifs et ton enthousiasme à cette note !
 ═══════════════════════════════════════════════════════════════
 ✨ POURQUOI VOIR CE FILM (Points forts à développer)
 ═══════════════════════════════════════════════════════════════
-${metadata.highlights ? metadata.highlights : 'ERREUR: Points forts manquants'}
+${metadata.highlights && metadata.highlights.trim().length > 0 ? metadata.highlights : 'Aucun point fort spécifiquement mentionné. Utilise ton analyse du film pour identifier les points forts.'}
 
-IMPORTANT: Développe CHAQUE point mentionné ci-dessus en détail dans la section "Ce qui fonctionne".
+${metadata.highlights && metadata.highlights.trim().length > 0 ? 'IMPORTANT: Développe CHAQUE point mentionné ci-dessus en détail dans la section "Ce qui fonctionne".' : 'IMPORTANT: Identifie et développe les points forts du film basés sur le synopsis, le genre, et les données disponibles.'}
 
 ═══════════════════════════════════════════════════════════════
 💭 CE QUE NOUS N'AVONS PAS AIMÉ (Points négatifs à développer)
@@ -118,7 +119,7 @@ ${hasNegatives ? 'IMPORTANT: Développe CHAQUE point négatif mentionné ci-dess
 ═══════════════════════════════════════════════════════════════
 📝 SYNOPSIS
 ═══════════════════════════════════════════════════════════════
-${metadata.synopsis ? metadata.synopsis : (metadata.tmdbSynopsis ? metadata.tmdbSynopsis : 'ERREUR: Synopsis manquant')}
+${metadata.synopsis && metadata.synopsis.trim().length > 0 ? metadata.synopsis : (metadata.tmdbSynopsis && metadata.tmdbSynopsis.trim().length > 0 ? metadata.tmdbSynopsis : 'Synopsis non disponible. Utilise les informations générales du film pour créer un contexte.')}
 
 ${metadata.tmdbSynopsis ? `
 ═══════════════════════════════════════════════════════════════
@@ -136,11 +137,11 @@ NOTE: Utilise ces données pour enrichir ton article avec des informations préc
 ═══════════════════════════════════════════════════════════════
 🎬 STAFF REMARQUABLE (Personnes qui ont brillé dans le film)
 ═══════════════════════════════════════════════════════════════
-${metadata.casting ? metadata.casting : 'ERREUR: Casting manquant'}
+${metadata.casting && metadata.casting.trim().length > 0 ? metadata.casting : 'Aucun staff remarquable spécifiquement mentionné pour ce film.'}
 
-NOTE: Cette section met en avant les personnes qui ont brillé dans le film par leur jeu d'acteur, 
-leur réalisation, ou leur maîtrise de leur domaine (photographie, musique, scénario, etc.).
-Tu dois mentionner ces personnes ET parler aussi des autres acteurs principaux du film.
+NOTE: ${metadata.casting && metadata.casting.trim().length > 0 ? 
+'Cette section met en avant les personnes qui ont brillé dans le film par leur jeu d\'acteur, leur réalisation, ou leur maîtrise de leur domaine (photographie, musique, scénario, etc.). Tu dois mentionner ces personnes ET parler aussi des autres acteurs principaux du film.' : 
+'Aucun staff remarquable n\'est spécifiquement mentionné. Dans ce cas, concentre-toi sur les acteurs principaux et l\'équipe technique générale du film dans la section "Le casting et l\'équipe technique".'}
 
 ═══════════════════════════════════════════════════════════════
 🔗 SOURCE
@@ -192,10 +193,15 @@ ${sourceUrl}
    - N'invente PAS de points négatifs qui ne sont pas mentionnés` : ''}
    
    <h2>Le casting et l'équipe technique</h2>
-   - COMMENCE TOUJOURS par mettre en avant les personnes du "STAFF REMARQUABLE" et explique pourquoi elles ont brillé
+   ${metadata.casting && metadata.casting.trim().length > 0 ? 
+   `- COMMENCE TOUJOURS par mettre en avant les personnes du "STAFF REMARQUABLE" et explique pourquoi elles ont brillé
    - Tu PEUX ensuite mentionner d'autres acteurs importants du film (comme l'acteur principal) si cela te semble pertinent
    - NE mets PAS ces autres acteurs au même niveau que le staff remarquable
-   - Si des techniciens sont dans le staff remarquable (réalisateur, photographe, musicien, scénariste), commente leur excellence
+   - Si des techniciens sont dans le staff remarquable (réalisateur, photographe, musicien, scénariste), commente leur excellence` :
+   `- Parle des acteurs principaux et de l'équipe technique du film
+   - Mentionne le réalisateur si tu le connais
+   - Commente le jeu d'acteur et les performances
+   - Parle de la direction artistique, de la photographie ou de la musique si pertinent`}
    
    <h2>Notre verdict</h2>
    - Synthèse de l'avis
