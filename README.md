@@ -141,6 +141,8 @@ POST http://votre-domaine.com/api/webhook/moviehunt
 - **[MOVIEHUNT_API_GUIDE.md](MOVIEHUNT_API_GUIDE.md)** - Guide complet de l'API MovieHunt
 - **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Documentation API REST
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Guide de déploiement en production
+- **[COPIER_COLLER_SUPABASE.md](COPIER_COLLER_SUPABASE.md)** - 🔄 **Keep-Alive Supabase (ULTRA SIMPLE - 5 min)**
+- **[SUPABASE_KEEP_ALIVE_SIMPLE.md](SUPABASE_KEEP_ALIVE_SIMPLE.md)** - Guide détaillé Keep-Alive
 
 ## ✨ Exemple d'Article Généré
 

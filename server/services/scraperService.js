@@ -102,12 +102,9 @@ class ScraperService {
 
     const fullContent = contentParts.join('\n');
 
-    // Extraire le casting de manière structurée
+    // Extraire le casting de manière structurée (optionnel)
     const castingSection = filmData.sections.find(s => s.heading === 'Casting');
-    if (!castingSection) {
-      throw new Error('Section Casting manquante dans les données du film');
-    }
-    const actors = this.extractActorsFromCasting(castingSection.content);
+    const actors = castingSection ? this.extractActorsFromCasting(castingSection.content) : [];
 
     // Construire l'objet de données scrapées
     return {
