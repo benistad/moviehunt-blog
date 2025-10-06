@@ -83,6 +83,15 @@ class AIService {
     
     return `Génère un article de blog complet et engageant sur le film "${scrapedData.title}" à partir des données MovieHunt.
 
+⚠️ RÈGLE IMPORTANTE : ANALYSE LES DONNÉES FOURNIES
+Certaines sections ci-dessous peuvent indiquer "Non disponible". Dans ce cas :
+- N'invente RIEN
+- N'écris PAS de section vide ou générique
+- Adapte la structure de l'article en fonction des données disponibles
+- Si le staff remarquable n'est pas disponible, ne le mentionne pas du tout
+- Si les points forts ne sont pas disponibles, analyse le synopsis et les autres données pour créer du contenu pertinent
+- Concentre-toi sur les informations qui SONT disponibles
+
 ═══════════════════════════════════════════════════════════════
 📊 INFORMATIONS DU FILM
 ═══════════════════════════════════════════════════════════════
@@ -105,9 +114,9 @@ Adapte ton vocabulaire, tes superlatifs et ton enthousiasme à cette note !
 ═══════════════════════════════════════════════════════════════
 ✨ POURQUOI VOIR CE FILM (Points forts à développer)
 ═══════════════════════════════════════════════════════════════
-${metadata.highlights && metadata.highlights.trim().length > 0 ? metadata.highlights : 'Aucun point fort spécifiquement mentionné. Utilise ton analyse du film pour identifier les points forts.'}
+${metadata.highlights && metadata.highlights.trim().length > 0 ? metadata.highlights : 'Non disponible'}
 
-${metadata.highlights && metadata.highlights.trim().length > 0 ? 'IMPORTANT: Développe CHAQUE point mentionné ci-dessus en détail dans la section "Ce qui fonctionne".' : 'IMPORTANT: Identifie et développe les points forts du film basés sur le synopsis, le genre, et les données disponibles.'}
+${metadata.highlights && metadata.highlights.trim().length > 0 ? 'IMPORTANT: Développe CHAQUE point mentionné ci-dessus en détail dans la section "Ce qui fonctionne".' : 'IMPORTANT: Cette section n\'est pas disponible. Analyse le synopsis et les autres données pour créer une section "Ce qui fonctionne" pertinente.'}
 
 ═══════════════════════════════════════════════════════════════
 💭 CE QUE NOUS N'AVONS PAS AIMÉ (Points négatifs à développer)
@@ -119,7 +128,7 @@ ${hasNegatives ? 'IMPORTANT: Développe CHAQUE point négatif mentionné ci-dess
 ═══════════════════════════════════════════════════════════════
 📝 SYNOPSIS
 ═══════════════════════════════════════════════════════════════
-${metadata.synopsis && metadata.synopsis.trim().length > 0 ? metadata.synopsis : (metadata.tmdbSynopsis && metadata.tmdbSynopsis.trim().length > 0 ? metadata.tmdbSynopsis : 'Synopsis non disponible. Utilise les informations générales du film pour créer un contexte.')}
+${metadata.synopsis && metadata.synopsis.trim().length > 0 ? metadata.synopsis : (metadata.tmdbSynopsis && metadata.tmdbSynopsis.trim().length > 0 ? metadata.tmdbSynopsis : 'Non disponible')}
 
 ${metadata.tmdbSynopsis ? `
 ═══════════════════════════════════════════════════════════════
@@ -137,11 +146,11 @@ NOTE: Utilise ces données pour enrichir ton article avec des informations préc
 ═══════════════════════════════════════════════════════════════
 🎬 STAFF REMARQUABLE (Personnes qui ont brillé dans le film)
 ═══════════════════════════════════════════════════════════════
-${metadata.casting && metadata.casting.trim().length > 0 ? metadata.casting : 'Aucun staff remarquable spécifiquement mentionné pour ce film.'}
+${metadata.casting && metadata.casting.trim().length > 0 ? metadata.casting : 'Non disponible'}
 
 NOTE: ${metadata.casting && metadata.casting.trim().length > 0 ? 
-'Cette section met en avant les personnes qui ont brillé dans le film par leur jeu d\'acteur, leur réalisation, ou leur maîtrise de leur domaine (photographie, musique, scénario, etc.). Tu dois mentionner ces personnes ET parler aussi des autres acteurs principaux du film.' : 
-'Aucun staff remarquable n\'est spécifiquement mentionné. Dans ce cas, concentre-toi sur les acteurs principaux et l\'équipe technique générale du film dans la section "Le casting et l\'équipe technique".'}
+'Cette section met en avant les personnes qui ont brillé dans le film. Tu dois mentionner ces personnes ET parler aussi des autres acteurs principaux du film dans la section "Le casting et l\'équipe technique".' : 
+'Cette section n\'est pas disponible. Dans la section "Le casting et l\'équipe technique", parle uniquement des acteurs principaux et de l\'équipe technique générale du film sans mentionner de "staff remarquable".'}
 
 ═══════════════════════════════════════════════════════════════
 🔗 SOURCE
@@ -181,9 +190,12 @@ ${sourceUrl}
    ` : ''}
    
    <h2>Ce qui fonctionne</h2>
-   - DÉVELOPPE EN DÉTAIL CHAQUE point fort mentionné dans "POURQUOI VOIR CE FILM"
+   ${metadata.highlights && metadata.highlights.trim().length > 0 ? 
+   `- DÉVELOPPE EN DÉTAIL CHAQUE point fort mentionné dans "POURQUOI VOIR CE FILM"
    - Reprends EXACTEMENT les points listés et explique-les
-   - Ajoute ton analyse personnelle pour enrichir
+   - Ajoute ton analyse personnelle pour enrichir` :
+   `- Analyse le synopsis, le genre et les données TMDB pour identifier les points forts
+   - Parle de ce qui rend ce film intéressant basé sur les informations disponibles`}
    - Parle de la réalisation, du jeu d'acteurs, de l'atmosphère
    
    ${hasNegatives ? `<h2>Les réserves</h2>
@@ -244,11 +256,13 @@ CONTENU:
 ═══════════════════════════════════════════════════════════════
 - Ton professionnel mais accessible
 - Évite les spoilers majeurs
-- REPRENDS FIDÈLEMENT tous les points mentionnés dans les sections "Pourquoi voir ce film" et "Ce que nous n'avons pas aimé"
+- ANALYSE LES DONNÉES : Si une section indique "Non disponible", ne l'inclus PAS dans l'article
+- REPRENDS FIDÈLEMENT tous les points mentionnés dans les sections disponibles
 - ${hasNegatives ? 'INCLUS la section "Les réserves" car des points négatifs sont mentionnés' : 'N\'INCLUS PAS de section "Les réserves" car aucun point négatif n\'est mentionné'}
 - N'invente JAMAIS de points qui ne sont pas dans les données fournies
 - NE METS JAMAIS de commentaires entre parenthèses du type "(bien que non mentionné)", "(même si)", etc.
 - Écris de manière fluide et naturelle sans justifier tes choix éditoriaux dans le texte
+- Si le staff remarquable est "Non disponible", ne le mentionne PAS du tout dans l'article
 - Mentionne toujours MovieHunt comme source
 - Reste objectif et constructif dans la critique
 
