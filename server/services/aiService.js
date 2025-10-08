@@ -8,8 +8,18 @@ class AIService {
   async generateArticle(scrapedData, sourceUrl) {
     try {
       console.log(`🤖 Génération d'article avec GPT-4o mini...`);
+      console.log(`📊 Données du film:`, {
+        titre: scrapedData.title,
+        score: scrapedData.metadata?.score,
+        genres: scrapedData.metadata?.genre,
+        année: scrapedData.metadata?.releaseYear,
+        hasSynopsis: !!(scrapedData.metadata?.synopsis || scrapedData.metadata?.tmdbSynopsis),
+        hasHighlights: !!scrapedData.metadata?.highlights,
+        hasReview: !!scrapedData.metadata?.review,
+      });
 
       const prompt = this.buildPrompt(scrapedData, sourceUrl);
+      console.log(`📝 Longueur du prompt: ${prompt.length} caractères`);
 
       const completion = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
@@ -50,14 +60,18 @@ class AIService {
       });
 
       const generatedContent = completion.choices[0].message.content;
+      console.log(`📄 Réponse GPT reçue: ${generatedContent.length} caractères`);
       
       // Parser le contenu généré pour extraire les différentes parties
       const article = this.parseGeneratedContent(generatedContent, scrapedData);
 
-      console.log(`✅ Article généré avec succès`);
+      console.log(`✅ Article généré avec succès: "${article.title}"`);
       return article;
     } catch (error) {
       console.error(`❌ Erreur de génération IA: ${error.message}`);
+      if (error.response) {
+        console.error(`   Détails API:`, error.response.data);
+      }
       throw new Error(`Échec de la génération: ${error.message}`);
     }
   }
@@ -129,6 +143,15 @@ ${hasNegatives ? 'IMPORTANT: Développe CHAQUE point négatif mentionné ci-dess
 📝 SYNOPSIS
 ═══════════════════════════════════════════════════════════════
 ${metadata.synopsis && metadata.synopsis.trim().length > 0 ? metadata.synopsis : (metadata.tmdbSynopsis && metadata.tmdbSynopsis.trim().length > 0 ? metadata.tmdbSynopsis : 'Non disponible')}
+
+${!metadata.synopsis && !metadata.tmdbSynopsis ? `
+⚠️ IMPORTANT: Le synopsis n'est pas disponible pour ce film.
+Dans ta section "Synopsis", tu devras:
+- Créer un résumé basé sur le titre, les genres (${genres}), et les points forts mentionnés
+- Rester factuel et ne pas inventer de détails d'intrigue
+- Te concentrer sur le contexte et la promesse du film plutôt que sur l'histoire détaillée
+- Mentionner que c'est un film de ${year} dans le genre ${genres}
+` : ''}
 
 ${metadata.tmdbSynopsis ? `
 ═══════════════════════════════════════════════════════════════
@@ -241,6 +264,9 @@ ${sourceUrl}
 📋 FORMAT DE RÉPONSE (RESPECTE EXACTEMENT CE FORMAT)
 ═══════════════════════════════════════════════════════════════
 
+⚠️ IMPORTANT : Tu DOIS respecter EXACTEMENT ce format avec les marqueurs suivants.
+Ne mets AUCUN texte avant le premier marqueur TITRE:
+
 TITRE: [Ton titre accrocheur ici]
 EXTRAIT: [Ton résumé de 150-200 caractères]
 TAGS: [tag1, tag2, tag3, tag4, tag5, tag6]
@@ -249,7 +275,19 @@ META_DESCRIPTION: [Meta description SEO 150-160 caractères]
 KEYWORDS: [keyword1, keyword2, keyword3, keyword4, keyword5]
 
 CONTENU:
-[Ton article complet ici avec les sections en ## comme indiqué ci-dessus]
+[Ton article complet ici en HTML avec les balises <h2>, <p>, etc.]
+
+EXEMPLE DE FORMAT CORRECT:
+TITRE: Butcher's Crossing : Un western contemplatif avec Nicolas Cage
+EXTRAIT: Découvrez Butcher's Crossing, un western atypique porté par Nicolas Cage dans un rôle inédit. Une plongée dans l'Amérique sauvage du XIXe siècle.
+TAGS: western, Nicolas Cage, drame, nature, histoire américaine
+META_TITRE: Butcher's Crossing : Critique du western avec Nicolas Cage
+META_DESCRIPTION: Critique de Butcher's Crossing, western contemplatif avec Nicolas Cage. Découvrez notre avis sur ce film qui explore l'Amérique sauvage.
+KEYWORDS: Butcher's Crossing critique, Nicolas Cage western, film western 2023, critique film
+
+CONTENU:
+<h2>Introduction</h2>
+<p>Votre contenu HTML ici...</p>
 
 ═══════════════════════════════════════════════════════════════
 ⚠️ CONSIGNES IMPORTANTES
@@ -329,6 +367,9 @@ CONTENU:
    * Parse le contenu généré par l'IA
    */
   parseGeneratedContent(generatedContent, scrapedData) {
+    console.log('🔍 Parsing du contenu généré...');
+    console.log('📄 Longueur du contenu brut:', generatedContent.length);
+    
     const lines = generatedContent.split('\n');
     const article = {
       title: '',
@@ -384,9 +425,29 @@ CONTENU:
 
     article.content = contentLines.join('\n').trim();
 
+    // Log pour debug
+    console.log('📊 Résultat du parsing:');
+    console.log('  - Titre:', article.title ? '✓' : '✗');
+    console.log('  - Extrait:', article.excerpt ? '✓' : '✗');
+    console.log('  - Contenu:', article.content.length, 'caractères');
+    console.log('  - Tags:', article.tags.length);
+
+    // Si le contenu est vide, c'est probablement que l'IA n'a pas suivi le format
+    if (!article.content || article.content.length < 100) {
+      console.warn('⚠️ Contenu vide ou trop court détecté. Utilisation du contenu brut.');
+      console.log('📝 Contenu brut (premiers 500 caractères):', generatedContent.substring(0, 500));
+      
+      // Fallback: utiliser tout le contenu généré comme contenu de l'article
+      article.content = generatedContent;
+    }
+
     // Fallbacks si certains champs sont vides
     if (!article.title) article.title = scrapedData.title;
-    if (!article.excerpt) article.excerpt = article.content.substring(0, 200) + '...';
+    if (!article.excerpt) {
+      // Extraire les premiers 200 caractères du contenu HTML en enlevant les balises
+      const textContent = article.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      article.excerpt = textContent.substring(0, 200) + '...';
+    }
     if (!article.seo.metaTitle) article.seo.metaTitle = article.title;
     if (!article.seo.metaDescription) article.seo.metaDescription = article.excerpt;
 
