@@ -23,6 +23,16 @@ const nextConfig = {
   // Optimisations
   compress: true,
   
+  // Rewrites pour proxy API
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://moviehunt-blog-api.vercel.app/api/:path*',
+      },
+    ];
+  },
+
   // Redirections
   async redirects() {
     return [
