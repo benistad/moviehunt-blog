@@ -21,7 +21,6 @@ const nextConfig = {
   },
   
   // Optimisations
-  swcMinify: true,
   compress: true,
   
   // Redirections
