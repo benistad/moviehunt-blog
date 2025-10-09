@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 export default function SEO({
   title,
   description,
-  image,
+  image = null,
   url,
   type = 'website',
   article = null,
