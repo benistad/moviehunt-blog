@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../../src/contexts/AuthContext';
+import { useAuth } from '../../../src/contexts/AuthContextNext';
 import LoadingSpinner from '../../../src/components/LoadingSpinner';
 import dynamic from 'next/dynamic';
 
