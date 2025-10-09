@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
+import { SITE_URL } from '../utils/env';
 
 /**
  * Composant pour ajouter les données structurées Schema.org (JSON-LD) pour les articles
  * Améliore le SEO et l'affichage dans les résultats de recherche Google
  */
 export default function ArticleSchema({ article }) {
-  const siteUrl = import.meta.env.VITE_SITE_URL || 'https://blog.moviehunt.fr';
+  const siteUrl = SITE_URL || 'https://blog.moviehunt.fr';
   
   // Extraire le texte brut du contenu HTML pour la description
   const getPlainText = (html) => {

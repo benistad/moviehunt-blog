@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { SITE_URL } from '../utils/env';
 
 export default function SEO({
   title,
@@ -9,7 +10,7 @@ export default function SEO({
   article = null,
   keywords = [],
 }) {
-  const siteUrl = import.meta.env.VITE_SITE_URL || 'https://blog.moviehunt.fr';
+  const siteUrl = SITE_URL || 'https://blog.moviehunt.fr';
   const siteName = 'MovieHunt Blog';
   const defaultDescription = 'Découvrez des critiques et analyses de films sélectionnés par MovieHunt. Des pépites cinématographiques à ne pas manquer.';
   const defaultImage = `${siteUrl}/og-image.jpg`;
