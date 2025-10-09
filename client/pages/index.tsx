@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import axios from 'axios';
 import ArticleCard from '../src/components/ArticleCard';
@@ -29,7 +29,14 @@ export default function Home({ initialArticles, totalPages }: HomeProps) {
   const [articles, setArticles] = useState(initialArticles);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(!initialArticles || initialArticles.length === 0);
+  
+  // Charger les articles au montage si pas d'articles initiaux
+  useEffect(() => {
+    if (!initialArticles || initialArticles.length === 0) {
+      fetchArticles(1, '');
+    }
+  }, []);
 
   const fetchArticles = async (page: number, search: string = '') => {
     setLoading(true);
