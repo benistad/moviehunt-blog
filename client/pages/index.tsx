@@ -136,32 +136,37 @@ export default function Home({ initialArticles, totalPages }: HomeProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
-    const response = await axios.get(`${apiUrl}/articles`, {
-      params: {
-        page: 1,
-        limit: 9,
-        status: 'published',
-      },
-    });
+// Temporairement désactivé - utilise client-side fetching
+// export const getStaticProps: GetStaticProps = async () => {
+//   try {
+//     const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
+//     const response = await axios.get(`${apiUrl}/articles`, {
+//       params: {
+//         page: 1,
+//         limit: 9,
+//         status: 'published',
+//       },
+//     });
 
-    return {
-      props: {
-        initialArticles: response.data.data.articles,
-        totalPages: response.data.data.pagination.pages,
-      },
-      revalidate: 3600, // ISR : Régénère toutes les heures
-    };
-  } catch (error) {
-    console.error('Error in getStaticProps:', error);
-    return {
-      props: {
-        initialArticles: [],
-        totalPages: 1,
-      },
-      revalidate: 60, // Retry plus souvent en cas d'erreur
-    };
-  }
+//     return {
+//       props: {
+//         initialArticles: response.data.data.articles,
+//         totalPages: response.data.data.pagination.pages,
+//       },
+//       revalidate: 3600,
+//     };
+//   } catch (error) {
+//     console.error('Error in getStaticProps:', error);
+//     return {
+//       props: {
+//         initialArticles: [],
+//         totalPages: 1,
+//       },
+//       revalidate: 60,
+//     };
+//   }
+// };
+
+Home.getInitialProps = () => {
+  return { initialArticles: [], totalPages: 1 };
 };

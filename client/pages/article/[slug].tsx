@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { Calendar, Tag, ArrowLeft, ExternalLink } from 'lucide-react';
 import { format } from 'date-fns';
@@ -219,34 +219,35 @@ export default function ArticlePage({ article }: ArticlePageProps) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  try {
-    const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
-    const response = await axios.get(`${apiUrl}/articles`, {
-      params: {
-        limit: 100,
-        status: 'published',
-      },
-    });
+// Temporairement désactivé - utilise getServerSideProps
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   try {
+//     const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
+//     const response = await axios.get(`${apiUrl}/articles`, {
+//       params: {
+//         limit: 100,
+//         status: 'published',
+//       },
+//     });
 
-    const paths = response.data.data.articles.map((article: Article) => ({
-      params: { slug: article.slug },
-    }));
+//     const paths = response.data.data.articles.map((article: Article) => ({
+//       params: { slug: article.slug },
+//     }));
 
-    return {
-      paths,
-      fallback: 'blocking', // ISR : Génère les nouvelles pages à la demande
-    };
-  } catch (error) {
-    console.error('Error in getStaticPaths:', error);
-    return {
-      paths: [],
-      fallback: 'blocking',
-    };
-  }
-};
+//     return {
+//       paths,
+//       fallback: 'blocking',
+//     };
+//   } catch (error) {
+//     console.error('Error in getStaticPaths:', error);
+//     return {
+//       paths: [],
+//       fallback: 'blocking',
+//     };
+//   }
+// };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
     const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
     const response = await axios.get(`${apiUrl}/articles/slug/${params?.slug}`);
@@ -255,7 +256,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         article: response.data.data,
       },
-      revalidate: 3600, // ISR : Régénère toutes les heures
     };
   } catch (error) {
     console.error('Error in getStaticProps:', error);
