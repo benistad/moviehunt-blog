@@ -1,12 +1,13 @@
 {
   "version": 2,
   "buildCommand": "cd client && npm install && npm run build",
-  "outputDirectory": "client/dist",
+  "outputDirectory": "client/.next",
   "installCommand": "cd client && npm install",
+  "framework": "nextjs",
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/api/:path*",
+      "destination": "https://moviehunt-blog-api.vercel.app/api/:path*"
     }
   ]
 }
