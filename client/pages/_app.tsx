@@ -5,6 +5,7 @@ import { AuthProvider } from '../src/contexts/AuthContext';
 import Layout from '../src/components/LayoutNext';
 import '../src/index.css';
 
+// Force rebuild - v2
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <HelmetProvider>
