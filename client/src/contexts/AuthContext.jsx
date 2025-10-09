@@ -40,6 +40,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signIn = async (email, password) => {
+    if (!supabase) {
+      throw new Error('Supabase non configuré');
+    }
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -49,6 +52,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
+    if (!supabase) {
+      throw new Error('Supabase non configuré');
+    }
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   };
