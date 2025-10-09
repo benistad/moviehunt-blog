@@ -4,7 +4,7 @@ import { ArrowLeft, Save, Eye, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { articlesAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
-import CKEditorComponent from '../components/CKEditorComponent';
+import CKEditorComponent from '../components/CKEditorWrapper';
 
 export default function ArticleEditor() {
   const { id } = useParams();

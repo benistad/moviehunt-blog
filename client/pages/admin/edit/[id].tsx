@@ -1,8 +1,14 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../../../src/contexts/AuthContext';
-import ArticleEditor from '../../../src/pages/ArticleEditor';
 import LoadingSpinner from '../../../src/components/LoadingSpinner';
+import dynamic from 'next/dynamic';
+
+// Charger ArticleEditor uniquement côté client (pas de SSR)
+const ArticleEditor = dynamic(() => import('../../../src/pages/ArticleEditor'), {
+  ssr: false,
+  loading: () => <LoadingSpinner text="Chargement de l'éditeur..." />
+});
 
 export default function EditArticlePage() {
   const router = useRouter();
@@ -23,4 +29,11 @@ export default function EditArticlePage() {
   }
 
   return <ArticleEditor />;
+}
+
+// Désactiver le SSG pour cette page (nécessite authentification)
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
 }
