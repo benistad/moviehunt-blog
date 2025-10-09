@@ -1,10 +1,8 @@
-import { GetStaticProps } from 'next';
 import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import axios from 'axios';
-import ArticleCard from '../src/components/ArticleCard';
+import ArticleCardNext from '../src/components/ArticleCardNext';
 import SEO from '../src/components/SEO';
-import Pagination from '../src/components/Pagination';
 
 interface Article {
   _id: string;
@@ -125,16 +123,26 @@ export default function Home({ initialArticles, totalPages }: HomeProps) {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {articles.map((article) => (
-                <ArticleCard key={article._id} article={article} />
+                <ArticleCardNext key={article._id} article={article} />
               ))}
             </div>
 
             {totalPages > 1 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              <div className="mt-12 flex justify-center gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-4 py-2 rounded-lg ${
+                      currentPage === page
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
             )}
           </>
         )}
