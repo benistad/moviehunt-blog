@@ -2,6 +2,24 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
+// Middleware pour ajouter les headers CORS sur toutes les réponses
+router.use((req, res, next) => {
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Cross-Origin-Resource-Policy': 'cross-origin',
+    'Cross-Origin-Embedder-Policy': 'unsafe-none',
+  });
+  
+  // Gérer les requêtes OPTIONS (preflight)
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  
+  next();
+});
+
 // Proxy pour les images TMDB
 router.get('/image/*', async (req, res) => {
   try {
@@ -16,14 +34,10 @@ router.get('/image/*', async (req, res) => {
       }
     });
     
-    // Définir les headers CORS et cache
+    // Définir les headers supplémentaires
     res.set({
       'Content-Type': response.headers['content-type'] || 'image/jpeg',
-      'Cache-Control': 'public, max-age=31536000', // Cache 1 an
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET',
-      'Cross-Origin-Resource-Policy': 'cross-origin',
-      'Cross-Origin-Embedder-Policy': 'unsafe-none',
+      'Cache-Control': 'public, max-age=31536000, immutable', // Cache 1 an
     });
     
     res.send(Buffer.from(response.data));
