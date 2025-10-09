@@ -8,33 +8,35 @@ import '../src/index.css';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <HelmetProvider>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-          success: {
-            duration: 3000,
-            iconTheme: {
-              primary: '#10b981',
-              secondary: '#fff',
-            },
-          },
-          error: {
+      <AuthProvider>
+        <Toaster
+          position="top-right"
+          toastOptions={{
             duration: 4000,
-            iconTheme: {
-              primary: '#ef4444',
-              secondary: '#fff',
+            style: {
+              background: '#363636',
+              color: '#fff',
             },
-          },
-        }}
-      />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              duration: 4000,
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+            },
+          }}
+        />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AuthProvider>
     </HelmetProvider>
   );
 }
