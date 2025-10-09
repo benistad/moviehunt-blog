@@ -5,6 +5,7 @@ import ArticleCard from '../components/ArticleCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import Pagination from '../components/Pagination';
+import SEO from '../components/SEO';
 
 export default function Home() {
   const [articles, setArticles] = useState([]);
@@ -49,16 +50,31 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-gray-900 mb-4">
-          Bienvenue sur le <span className="text-primary-600">MovieHunt Blog</span>
-        </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          Découvrez des critiques et analyses de films
-        </p>
-      </div>
+    <>
+      {/* SEO Meta Tags */}
+      <SEO
+        title="Accueil - Critiques et analyses de films"
+        description="Découvrez des critiques et analyses de films sélectionnés par MovieHunt. Des pépites cinématographiques méconnues et des recommandations de qualité."
+        url="/"
+        keywords={[
+          'films méconnus',
+          'pépites cinéma',
+          'recommandations films',
+          'hidden gems',
+          'critiques films indépendants',
+        ]}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            Bienvenue sur le <span className="text-primary-600">MovieHunt Blog</span>
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Découvrez des critiques et analyses de films
+          </p>
+        </div>
 
       {/* Search Bar */}
       <div className="max-w-2xl mx-auto mb-12">
@@ -101,6 +117,7 @@ export default function Home() {
           />
         </>
       )}
-    </div>
+      </div>
+    </>
   );
 }

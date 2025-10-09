@@ -9,6 +9,8 @@ import { articlesAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import MovieRating from '../components/MovieRating';
+import SEO from '../components/SEO';
+import ArticleSchema from '../components/ArticleSchema';
 
 export default function ArticleDetail() {
   const { slug } = useParams();
@@ -55,8 +57,36 @@ export default function ArticleDetail() {
 
   const formattedDate = format(new Date(article.publishedAt), 'dd MMMM yyyy', { locale: fr });
 
+  // Préparer les données SEO
+  const seoKeywords = [
+    ...(article.tags || []),
+    article.metadata?.movieTitle,
+    ...(article.metadata?.genre || []),
+    ...(article.metadata?.actors?.slice(0, 3) || []), // Top 3 acteurs
+  ].filter(Boolean);
+
   return (
-    <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      {/* SEO Meta Tags */}
+      <SEO
+        title={article.seo?.metaTitle || article.title}
+        description={article.seo?.metaDescription || article.excerpt}
+        image={article.coverImage}
+        url={`/article/${article.slug}`}
+        type="article"
+        keywords={article.seo?.keywords || seoKeywords}
+        article={{
+          publishedAt: article.publishedAt,
+          modifiedAt: article.updatedAt,
+          author: 'MovieHunt',
+          tags: article.tags,
+        }}
+      />
+
+      {/* Schema.org JSON-LD */}
+      <ArticleSchema article={article} />
+
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Back Button */}
       <Link
         to="/"
@@ -187,6 +217,7 @@ export default function ArticleDetail() {
           Voir plus d'articles
         </Link>
       </div>
-    </article>
+      </article>
+    </>
   );
 }

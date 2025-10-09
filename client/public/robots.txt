@@ -1,0 +1,14 @@
+# robots.txt pour MovieHunt Blog
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://blog.moviehunt.fr/sitemap.xml
+
+# Crawl-delay pour être gentil avec les serveurs
+Crawl-delay: 1
+
+# Bloquer les pages d'administration
+Disallow: /admin
+Disallow: /login
