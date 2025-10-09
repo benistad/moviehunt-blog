@@ -11,6 +11,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import MovieRating from '../components/MovieRating';
 import SEO from '../components/SEO';
 import ArticleSchema from '../components/ArticleSchema';
+import { getProxiedImageUrl } from '../utils/imageProxy';
 
 export default function ArticleDetail() {
   const { slug } = useParams();
@@ -100,7 +101,7 @@ export default function ArticleDetail() {
       {article.coverImage && (
         <div className="aspect-video w-full overflow-hidden rounded-xl mb-8 bg-gray-200 relative">
           <img
-            src={article.coverImage}
+            src={getProxiedImageUrl(article.coverImage)}
             alt={article.title}
             className="w-full h-full object-cover"
             onError={(e) => {
