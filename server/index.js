@@ -41,8 +41,29 @@ const PORT = process.env.PORT;
 app.use(helmet());
 app.use(compression());
 app.use(morgan('dev'));
+
+// Configuration CORS pour autoriser plusieurs domaines
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://www.moviehunt-blog.fr',
+  'https://moviehunt-blog.fr',
+  'https://moviehunt-blog.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: (origin, callback) => {
+    // Autoriser les requêtes sans origin (comme les apps mobiles ou curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`⚠️ Origine CORS refusée: ${origin}`);
+      callback(new Error('Non autorisé par CORS'));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());
