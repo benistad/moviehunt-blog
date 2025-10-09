@@ -3,9 +3,11 @@ const axios = require('axios');
 class TMDBService {
   constructor() {
     if (!process.env.TMDB_API_KEY) {
-      throw new Error('❌ ERREUR: TMDB_API_KEY est requis dans .env');
+      console.warn('⚠️ WARNING: TMDB_API_KEY non configuré - Les fonctionnalités TMDB seront désactivées');
+      this.apiKey = null;
+    } else {
+      this.apiKey = process.env.TMDB_API_KEY;
     }
-    this.apiKey = process.env.TMDB_API_KEY;
     this.baseUrl = 'https://api.themoviedb.org/3';
     this.imageBaseUrl = 'https://image.tmdb.org/t/p';
   }
@@ -14,6 +16,11 @@ class TMDBService {
    * Recherche un film par titre et année
    */
   async searchMovie(title, year = null) {
+    if (!this.apiKey) {
+      console.warn('⚠️ TMDB API non disponible');
+      return null;
+    }
+    
     try {
 
       console.log(`🎬 Recherche TMDB: "${title}" ${year ? `(${year})` : ''}`);
