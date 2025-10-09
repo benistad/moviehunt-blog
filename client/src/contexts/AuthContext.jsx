@@ -16,9 +16,18 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Si Supabase n'est pas configuré, ne pas essayer de s'authentifier
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     // Vérifier la session au chargement
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      setLoading(false);
+    }).catch((error) => {
+      console.error('Erreur auth:', error);
       setLoading(false);
     });
 
