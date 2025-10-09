@@ -18,13 +18,15 @@ router.get('/image/*', async (req, res) => {
     
     // Définir les headers CORS et cache
     res.set({
-      'Content-Type': response.headers['content-type'],
+      'Content-Type': response.headers['content-type'] || 'image/jpeg',
       'Cache-Control': 'public, max-age=31536000', // Cache 1 an
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET',
+      'Cross-Origin-Resource-Policy': 'cross-origin',
+      'Cross-Origin-Embedder-Policy': 'unsafe-none',
     });
     
-    res.send(response.data);
+    res.send(Buffer.from(response.data));
   } catch (error) {
     console.error('Erreur proxy image:', error.message);
     res.status(404).json({ error: 'Image non trouvée' });
