@@ -253,14 +253,18 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     console.log('[SSR] API URL:', apiUrl);
     console.log('[SSR] Fetching article:', params?.slug);
     const response = await axios.get(`${apiUrl}/articles/slug/${params?.slug}`);
+    
+    console.log('[SSR] Response status:', response.status);
+    console.log('[SSR] Article found:', response.data?.data?.title);
 
     return {
       props: {
         article: response.data.data,
       },
     };
-  } catch (error) {
-    console.error('Error fetching article:', error);
+  } catch (error: any) {
+    console.error('[SSR] Error fetching article:', error.message);
+    console.error('[SSR] Error details:', error.response?.status, error.response?.data);
     return {
       notFound: true,
     };
