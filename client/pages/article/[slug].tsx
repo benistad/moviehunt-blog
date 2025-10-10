@@ -52,6 +52,9 @@ export default function ArticlePage({ article }: ArticlePageProps) {
     );
   }
 
+  // Protection contre les erreurs de rendu
+  try {
+
   const formattedDate = format(new Date(article.publishedAt), 'dd MMMM yyyy', { locale: fr });
 
   // Préparer les données SEO
@@ -217,6 +220,18 @@ export default function ArticlePage({ article }: ArticlePageProps) {
       </article>
     </>
   );
+  } catch (error) {
+    console.error('[ArticlePage] Render error:', error);
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <h1 className="text-2xl font-bold mb-4 text-red-600">Erreur de rendu</h1>
+        <p className="mb-4">Une erreur est survenue lors de l'affichage de l'article.</p>
+        <Link href="/" className="text-primary-600 hover:underline">
+          Retour à l'accueil
+        </Link>
+      </div>
+    );
+  }
 }
 
 // Temporairement désactivé - utilise getServerSideProps
