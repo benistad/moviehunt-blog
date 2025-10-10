@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { 
   Plus, 
   RefreshCw, 
@@ -17,11 +17,11 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { articlesAPI, queueAPI } from '../services/api';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContextNext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function Admin() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { signOut, user } = useAuth();
   const [activeTab, setActiveTab] = useState('generate');
   const [url, setUrl] = useState('');
@@ -94,7 +94,7 @@ export default function Admin() {
       fetchDrafts();
       fetchQueue();
       // Rediriger vers l'éditeur
-      navigate(`/admin/edit/${response.data.data._id}`);
+      router.push(`/admin/edit/${response.data.data._id}`);
     } catch (error) {
       toast.error(error.message || 'Erreur lors de la génération', { id: toastId });
     } finally {
@@ -154,7 +154,7 @@ export default function Admin() {
     try {
       await signOut();
       toast.success('Déconnexion réussie');
-      navigate('/');
+      router.push('/');
     } catch (error) {
       toast.error('Erreur lors de la déconnexion');
     }
@@ -413,7 +413,7 @@ export default function Admin() {
                     </div>
                     <div className="flex items-center space-x-2 ml-4">
                       <button
-                        onClick={() => navigate(`/admin/edit/${draft._id}`)}
+                        onClick={() => router.push(`/admin/edit/${draft._id}`)}
                         className="btn-primary"
                         title="Éditer"
                       >
@@ -477,7 +477,7 @@ export default function Admin() {
                     </div>
                     <div className="flex items-center space-x-2 ml-4">
                       <button
-                        onClick={() => navigate(`/admin/edit/${article._id}`)}
+                        onClick={() => router.push(`/admin/edit/${article._id}`)}
                         className="btn-secondary"
                         title="Éditer"
                       >
