@@ -5,7 +5,7 @@ import { AuthProvider } from '../src/contexts/AuthContextNext';
 import Layout from '../src/components/LayoutNext';
 import '../src/index.css';
 
-// AuthProvider Next.js compatible - v4
+// AuthProvider Next.js compatible - v5
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <HelmetProvider>
