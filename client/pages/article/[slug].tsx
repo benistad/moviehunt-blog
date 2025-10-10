@@ -6,7 +6,7 @@ import { fr } from 'date-fns/locale';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import SEO from '../../src/components/SEO';
+import SEO from '../../components/SEO';
 import ArticleSchema from '../../src/components/ArticleSchema';
 import MovieRating from '../../src/components/MovieRating';
 
