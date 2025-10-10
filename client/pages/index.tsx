@@ -23,11 +23,12 @@ interface HomeProps {
   totalPages: number;
 }
 
-export default function Home({ initialArticles, totalPages }: HomeProps) {
-  const [articles, setArticles] = useState(initialArticles);
+export default function Home({ initialArticles = [], totalPages: initialTotalPages = 1 }: Partial<HomeProps>) {
+  const [articles, setArticles] = useState<Article[]>(initialArticles);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(!initialArticles || initialArticles.length === 0);
+  const [loading, setLoading] = useState(true);
   
   // Charger les articles au montage si pas d'articles initiaux
   useEffect(() => {
@@ -48,10 +49,12 @@ export default function Home({ initialArticles, totalPages }: HomeProps) {
           search,
         },
       });
-      setArticles(response.data.data.articles);
+      setArticles(response.data.data.articles || []);
+      setTotalPages(response.data.data.pagination?.pages || 1);
       setCurrentPage(page);
     } catch (error) {
       console.error('Error fetching articles:', error);
+      setArticles([]);
     } finally {
       setLoading(false);
     }
