@@ -10,6 +10,12 @@ export default function ArticleSchema({ article }) {
   
   // Extraire le texte brut du contenu HTML pour la description
   const getPlainText = (html) => {
+    // Vérifier si on est côté client
+    if (typeof window === 'undefined') {
+      // Côté serveur : simple regex pour retirer les tags HTML
+      return html.replace(/<[^>]*>/g, '').trim();
+    }
+    // Côté client : utiliser le DOM
     const div = document.createElement('div');
     div.innerHTML = html;
     return div.textContent || div.innerText || '';
