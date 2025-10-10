@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { LogIn, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContextNext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ export default function Login() {
     try {
       await signIn(email, password);
       toast.success('Connexion réussie !');
-      navigate('/admin');
+      router.push('/admin');
     } catch (error) {
       console.error('Erreur de connexion:', error);
       toast.error('Email ou mot de passe incorrect');
