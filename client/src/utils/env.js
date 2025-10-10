@@ -18,7 +18,8 @@ export const getEnv = (key) => {
 };
 
 // Variables d'environnement courantes
-export const API_URL = getEnv('NEXT_PUBLIC_API_URL') || getEnv('VITE_API_URL') || '/api';
-export const SITE_URL = getEnv('NEXT_PUBLIC_SITE_URL') || getEnv('VITE_SITE_URL') || '';
-export const SUPABASE_URL = getEnv('NEXT_PUBLIC_SUPABASE_URL') || getEnv('VITE_SUPABASE_URL');
-export const SUPABASE_ANON_KEY = getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') || getEnv('VITE_SUPABASE_ANON_KEY');
+// Next.js remplace process.env.NEXT_PUBLIC_* au moment du build
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || getEnv('VITE_API_URL') || '/api';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || getEnv('VITE_SITE_URL') || '';
+export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || getEnv('VITE_SUPABASE_URL');
+export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || getEnv('VITE_SUPABASE_ANON_KEY');
