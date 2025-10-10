@@ -32,11 +32,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ne s'exécute que côté client
-    if (typeof window === 'undefined') {
-      return;
-    }
-
     // Si Supabase n'est pas configuré, ne pas essayer de s'authentifier
     if (!supabase) {
       console.warn('Supabase non configuré - authentification désactivée');
