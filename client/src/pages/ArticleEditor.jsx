@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { ArrowLeft, Save, Eye, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { articlesAPI } from '../services/api';
@@ -7,8 +7,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import CKEditorComponent from '../components/CKEditorWrapper';
 
 export default function ArticleEditor() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const { id } = router.query;
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,7 +36,7 @@ export default function ArticleEditor() {
       setTags(data.tags?.join(', ') || '');
     } catch (error) {
       toast.error('Erreur de chargement');
-      navigate('/admin');
+      router.push('/admin');
     } finally {
       setLoading(false);
     }
@@ -85,7 +85,7 @@ export default function ArticleEditor() {
       }
       
       toast.success(isDraft ? 'Article publié !' : 'Modifications publiées !');
-      navigate('/admin');
+      router.push('/admin');
     } catch (error) {
       toast.error('Erreur de publication');
     }

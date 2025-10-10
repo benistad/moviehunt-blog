@@ -1,33 +1,12 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '../../../src/contexts/AuthContextNext';
-import LoadingSpinner from '../../../src/components/LoadingSpinner';
 import dynamic from 'next/dynamic';
 
-// Charger ArticleEditor uniquement côté client (pas de SSR)
+// Charger ArticleEditor uniquement côté client (avec la logique d'auth)
 const ArticleEditor = dynamic(() => import('../../../src/pages/ArticleEditor'), {
   ssr: false,
-  loading: () => <LoadingSpinner text="Chargement de l'éditeur..." />
+  loading: () => <div className="p-4 text-center">Chargement de l'éditeur...</div>
 });
 
 export default function EditArticlePage() {
-  const router = useRouter();
-  const { user, loading } = useAuth();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  if (loading) {
-    return <LoadingSpinner text="Vérification de l'authentification..." />;
-  }
-
-  if (!user) {
-    return null;
-  }
-
   return <ArticleEditor />;
 }
 
