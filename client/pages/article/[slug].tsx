@@ -249,7 +249,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
-    const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || 'https://moviehunt-blog-api.vercel.app/api';
     const response = await axios.get(`${apiUrl}/articles/slug/${params?.slug}`);
 
     return {
@@ -258,7 +258,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     };
   } catch (error) {
-    console.error('Error in getStaticProps:', error);
+    console.error('Error fetching article:', error);
     return {
       notFound: true,
     };
