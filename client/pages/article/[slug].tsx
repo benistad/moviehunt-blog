@@ -250,6 +250,8 @@ export default function ArticlePage({ article }: ArticlePageProps) {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || 'https://moviehunt-blog-api.vercel.app/api';
+    console.log('[SSR] API URL:', apiUrl);
+    console.log('[SSR] Fetching article:', params?.slug);
     const response = await axios.get(`${apiUrl}/articles/slug/${params?.slug}`);
 
     return {
