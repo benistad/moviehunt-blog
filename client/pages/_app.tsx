@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '../src/contexts/AuthContextNext';
 import Layout from '../src/components/LayoutNext';
 import '../src/index.css';
+import './globals.css';
 
 // AuthProvider Next.js compatible - v5
 export default function App({ Component, pageProps }: AppProps) {
