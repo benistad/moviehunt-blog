@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Calendar, Tag } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -30,14 +29,14 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
         {/* Image */}
         <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
           {article.coverImage ? (
-            <Image
+            <img
               src={getProxiedImageUrl(article.coverImage)}
               alt={article.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               loading="lazy"
-              quality={85}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400">
