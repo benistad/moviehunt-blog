@@ -8,23 +8,26 @@ export default function Document() {
         <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
         
-        {/* Fonts */}
+        {/* Preconnect pour les domaines externes */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://moviehunt-blog-api.vercel.app" />
+        
+        {/* Fonts optimisées - Poppins avec display=swap pour éviter FOIT */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
         
-        {/* CKEditor */}
-        <script src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js" crossOrigin="anonymous" />
+        {/* CKEditor - chargé de manière asynchrone */}
+        <script async src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js" crossOrigin="anonymous" />
       </Head>
       <body>
         <Main />
         <NextScript />
         
-        {/* Cabin Analytics */}
-        <script async src="https://scripts.withcabin.com/hello.js" />
+        {/* Cabin Analytics - déjà async */}
+        <script async defer src="https://scripts.withcabin.com/hello.js" />
       </body>
     </Html>
   );

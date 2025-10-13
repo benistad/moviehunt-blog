@@ -34,8 +34,10 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
   useEffect(() => {
     if (!initialArticles || initialArticles.length === 0) {
       fetchArticles(1, '');
+    } else {
+      setLoading(false);
     }
-  }, []);
+  }, [initialArticles]);
 
   const fetchArticles = async (page: number, search: string = '') => {
     setLoading(true);
@@ -200,37 +202,35 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
   );
 }
 
-// Temporairement désactivé - utilise client-side fetching
-// export const getStaticProps: GetStaticProps = async () => {
-//   try {
-//     const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
-//     const response = await axios.get(`${apiUrl}/articles`, {
-//       params: {
-//         page: 1,
-//         limit: 9,
-//         status: 'published',
-//       },
-//     });
+// SSG avec ISR pour des performances optimales
+export async function getStaticProps() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://moviehunt-blog-api.vercel.app/api';
+    const response = await axios.get(`${apiUrl}/articles`, {
+      params: {
+        page: 1,
+        limit: 9,
+        status: 'published',
+      },
+      timeout: 5000, // Timeout de 5 secondes
+    });
 
-//     return {
-//       props: {
-//         initialArticles: response.data.data.articles,
-//         totalPages: response.data.data.pagination.pages,
-//       },
-//       revalidate: 3600,
-//     };
-//   } catch (error) {
-//     console.error('Error in getStaticProps:', error);
-//     return {
-//       props: {
-//         initialArticles: [],
-//         totalPages: 1,
-//       },
-//       revalidate: 60,
-//     };
-//   }
-// };
-
-Home.getInitialProps = () => {
-  return { initialArticles: [], totalPages: 1 };
-};
+    return {
+      props: {
+        initialArticles: response.data.data.articles || [],
+        totalPages: response.data.data.pagination?.pages || 1,
+      },
+      revalidate: 300, // Revalider toutes les 5 minutes
+    };
+  } catch (error) {
+    console.error('Error in getStaticProps:', error);
+    // En cas d'erreur, retourner des props vides mais ne pas faire échouer le build
+    return {
+      props: {
+        initialArticles: [],
+        totalPages: 1,
+      },
+      revalidate: 60, // Réessayer plus fréquemment en cas d'erreur
+    };
+  }
+}
