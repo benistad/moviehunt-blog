@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Article } = require('../models');
 const articleGeneratorService = require('../services/articleGeneratorService');
+const aiService = require('../services/aiService');
 const {
   urlValidation,
   articleIdValidation,
@@ -134,6 +135,63 @@ router.post('/generate', urlValidation, async (req, res, next) => {
       message: result.message,
     });
   } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * POST /api/articles/generate-from-prompt
+ * Génère un nouvel article depuis un prompt libre
+ */
+router.post('/generate-from-prompt', async (req, res, next) => {
+  try {
+    const { prompt } = req.body;
+
+    if (!prompt || prompt.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Le prompt est requis',
+      });
+    }
+
+    console.log(`📝 Génération d'article depuis prompt: "${prompt}"`);
+
+    // Générer l'article avec l'IA
+    const generatedArticle = await aiService.generateArticleFromPrompt(prompt);
+
+    // Créer un slug à partir du titre
+    const slug = generatedArticle.title
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    // Créer l'article en base de données
+    const article = await Article.create({
+      title: generatedArticle.title,
+      slug,
+      excerpt: generatedArticle.excerpt,
+      content: generatedArticle.content,
+      tags: generatedArticle.tags,
+      status: 'draft',
+      seo: generatedArticle.seo,
+      coverImage: generatedArticle.coverImage,
+      metadata: {
+        generatedFromPrompt: true,
+        originalPrompt: prompt,
+      },
+    });
+
+    console.log(`✅ Article créé en brouillon: ${article._id}`);
+
+    res.status(201).json({
+      success: true,
+      data: article,
+      message: 'Article généré avec succès depuis le prompt',
+    });
+  } catch (error) {
+    console.error('❌ Erreur lors de la génération depuis prompt:', error);
     next(error);
   }
 });

@@ -517,6 +517,189 @@ Contenu: ${content.substring(0, 500)}`,
       return [];
     }
   }
+
+  /**
+   * Génère un article à partir d'un prompt libre
+   */
+  async generateArticleFromPrompt(prompt) {
+    try {
+      console.log(`🤖 Génération d'article depuis un prompt...`);
+      console.log(`📝 Prompt: ${prompt}`);
+
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: `Tu es un rédacteur expert en cinéma et critique de films. 
+            Tu écris des articles de blog engageants, informatifs et optimisés pour le SEO.
+            Ton style est professionnel mais accessible, avec une touche d'enthousiasme pour le cinéma.
+            Tu structures tes articles avec des titres, sous-titres et paragraphes bien organisés.
+            
+            IMPORTANT: Tu génères du contenu en HTML pur pour un éditeur WYSIWYG (CKEditor 5).
+            Utilise UNIQUEMENT ces balises HTML:
+            - <h1>, <h2>, <h3>, <h4> pour les titres
+            - <p> pour les paragraphes (OBLIGATOIRE pour chaque paragraphe)
+            - <strong> pour le gras, <em> pour l'italique, <u> pour le souligné
+            - <ul> et <li> pour les listes à puces
+            - <ol> et <li> pour les listes numérotées
+            - <a href="..."> pour les liens
+            - <blockquote> pour les citations
+            
+            N'utilise JAMAIS la syntaxe Markdown (##, **, *, etc.).
+            Chaque paragraphe DOIT être entouré de balises <p></p>.`,
+          },
+          {
+            role: 'user',
+            content: `${prompt}
+
+═══════════════════════════════════════════════════════════════
+📝 INSTRUCTIONS DE RÉDACTION
+═══════════════════════════════════════════════════════════════
+
+1. **Titre accrocheur** : Crée un titre captivant qui donne envie de lire (max 80 caractères)
+
+2. **Extrait/Résumé** : Rédige un résumé percutant de 150-200 caractères qui résume l'essence de l'article
+
+3. **Article complet** (800-1200 mots) structuré en HTML PUR avec:
+   - Une introduction engageante (2-3 paragraphes)
+   - Des sections bien organisées avec des <h2>
+   - Des paragraphes dans des balises <p>
+   - Une conclusion percutante
+   
+4. **Tags** : Génère 6-8 tags pertinents (genres, thèmes, acteurs, etc.)
+
+5. **SEO** :
+   - Meta-titre : 50-60 caractères, optimisé pour le référencement
+   - Meta-description : 150-160 caractères, incitative au clic
+   - Keywords : 8-12 mots-clés stratégiques
+
+═══════════════════════════════════════════════════════════════
+📋 FORMAT DE RÉPONSE (RESPECTE EXACTEMENT CE FORMAT)
+═══════════════════════════════════════════════════════════════
+
+⚠️ IMPORTANT : Tu DOIS respecter EXACTEMENT ce format avec les marqueurs suivants.
+Ne mets AUCUN texte avant le premier marqueur TITRE:
+
+TITRE: [Ton titre accrocheur ici]
+EXTRAIT: [Ton résumé de 150-200 caractères]
+TAGS: [tag1, tag2, tag3, tag4, tag5, tag6]
+META_TITRE: [Meta titre SEO 50-60 caractères]
+META_DESCRIPTION: [Meta description SEO 150-160 caractères]
+KEYWORDS: [keyword1, keyword2, keyword3, keyword4, keyword5]
+
+CONTENU:
+[Ton article complet ici en HTML avec les balises <h2>, <p>, etc.]
+
+EXEMPLE DE FORMAT CORRECT:
+TITRE: Halloween : Les meilleurs films d'horreur à voir en octobre
+EXTRAIT: Découvrez notre sélection des films d'horreur incontournables pour célébrer Halloween. Frissons garantis !
+TAGS: halloween, horreur, films d'horreur, octobre, sélection films
+META_TITRE: Top Films d'Horreur Halloween - Notre Sélection 2024
+META_DESCRIPTION: Les meilleurs films d'horreur pour Halloween. Découvrez notre sélection de classiques et nouveautés qui vont vous terrifier !
+KEYWORDS: films halloween, films d'horreur, halloween 2024, meilleurs films horreur, sélection halloween
+
+CONTENU:
+<h2>Introduction</h2>
+<p>Votre contenu HTML ici...</p>`,
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: 2500,
+      });
+
+      const generatedContent = completion.choices[0].message.content;
+      console.log(`📄 Réponse GPT reçue: ${generatedContent.length} caractères`);
+      
+      // Parser le contenu généré
+      const article = this.parseGeneratedContentFromPrompt(generatedContent);
+
+      console.log(`✅ Article généré avec succès: "${article.title}"`);
+      return article;
+    } catch (error) {
+      console.error(`❌ Erreur de génération IA: ${error.message}`);
+      if (error.response) {
+        console.error(`   Détails API:`, error.response.data);
+      }
+      throw new Error(`Échec de la génération: ${error.message}`);
+    }
+  }
+
+  /**
+   * Parse le contenu généré depuis un prompt
+   */
+  parseGeneratedContentFromPrompt(generatedContent) {
+    console.log('🔍 Parsing du contenu généré depuis prompt...');
+    console.log('📄 Longueur du contenu brut:', generatedContent.length);
+    
+    const lines = generatedContent.split('\n');
+    const article = {
+      title: '',
+      excerpt: '',
+      content: '',
+      tags: [],
+      seo: {
+        metaTitle: '',
+        metaDescription: '',
+        keywords: [],
+      },
+    };
+
+    let inContent = false;
+    let contentLines = [];
+
+    for (const line of lines) {
+      if (line.startsWith('TITRE:')) {
+        article.title = line.replace('TITRE:', '').trim();
+      } else if (line.startsWith('EXTRAIT:')) {
+        article.excerpt = line.replace('EXTRAIT:', '').trim();
+      } else if (line.startsWith('TAGS:')) {
+        article.tags = line.replace('TAGS:', '')
+          .split(',')
+          .map(tag => tag.trim())
+          .filter(tag => tag);
+      } else if (line.startsWith('META_TITRE:')) {
+        article.seo.metaTitle = line.replace('META_TITRE:', '').trim();
+      } else if (line.startsWith('META_DESCRIPTION:')) {
+        article.seo.metaDescription = line.replace('META_DESCRIPTION:', '').trim();
+      } else if (line.startsWith('KEYWORDS:')) {
+        article.seo.keywords = line.replace('KEYWORDS:', '')
+          .split(',')
+          .map(kw => kw.trim())
+          .filter(kw => kw);
+      } else if (line.startsWith('CONTENU:')) {
+        inContent = true;
+      } else if (inContent) {
+        contentLines.push(line);
+      }
+    }
+
+    article.content = contentLines.join('\n').trim();
+
+    // Log pour debug
+    console.log('📊 Résultat du parsing:');
+    console.log('  - Titre:', article.title ? '✓' : '✗');
+    console.log('  - Extrait:', article.excerpt ? '✓' : '✗');
+    console.log('  - Contenu:', article.content.length, 'caractères');
+    console.log('  - Tags:', article.tags.length);
+
+    // Si le contenu est vide, utiliser le contenu brut
+    if (!article.content || article.content.length < 100) {
+      console.warn('⚠️ Contenu vide ou trop court détecté. Utilisation du contenu brut.');
+      article.content = generatedContent;
+    }
+
+    // Fallbacks si certains champs sont vides
+    if (!article.title) article.title = 'Article généré';
+    if (!article.excerpt) {
+      const textContent = article.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      article.excerpt = textContent.substring(0, 200) + '...';
+    }
+    if (!article.seo.metaTitle) article.seo.metaTitle = article.title;
+    if (!article.seo.metaDescription) article.seo.metaDescription = article.excerpt;
+
+    return article;
+  }
 }
 
 module.exports = new AIService();

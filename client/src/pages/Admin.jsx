@@ -13,7 +13,8 @@ import {
   Loader2,
   Edit,
   FileText,
-  LogOut
+  LogOut,
+  Sparkles
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { articlesAPI, queueAPI } from '../services/api';
@@ -25,7 +26,9 @@ export default function Admin() {
   const { signOut, user } = useAuth();
   const [activeTab, setActiveTab] = useState('generate');
   const [url, setUrl] = useState('');
+  const [prompt, setPrompt] = useState('');
   const [generating, setGenerating] = useState(false);
+  const [generatingFromPrompt, setGeneratingFromPrompt] = useState(false);
   const [articles, setArticles] = useState([]);
   const [drafts, setDrafts] = useState([]);
   const [queue, setQueue] = useState([]);
@@ -99,6 +102,32 @@ export default function Admin() {
       toast.error(error.message || 'Erreur lors de la génération', { id: toastId });
     } finally {
       setGenerating(false);
+    }
+  };
+
+  const handleGenerateFromPrompt = async (e) => {
+    e.preventDefault();
+    
+    if (!prompt.trim()) {
+      toast.error('Veuillez entrer un prompt');
+      return;
+    }
+
+    setGeneratingFromPrompt(true);
+    const toastId = toast.loading('Génération de l\'article en cours...');
+
+    try {
+      const response = await articlesAPI.generateFromPrompt(prompt);
+      toast.success('Article généré en brouillon !', { id: toastId });
+      setPrompt('');
+      fetchStats();
+      fetchDrafts();
+      // Rediriger vers l'éditeur
+      router.push(`/admin/edit/${response.data.data._id}`);
+    } catch (error) {
+      toast.error(error.message || 'Erreur lors de la génération', { id: toastId });
+    } finally {
+      setGeneratingFromPrompt(false);
     }
   };
 
@@ -284,7 +313,18 @@ export default function Admin() {
             }`}
           >
             <Plus className="w-5 h-5 inline mr-2" />
-            Générer un article
+            Générer depuis URL
+          </button>
+          <button
+            onClick={() => setActiveTab('prompt')}
+            className={`pb-4 px-1 border-b-2 font-medium transition-colors ${
+              activeTab === 'prompt'
+                ? 'border-primary-600 text-primary-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <Sparkles className="w-5 h-5 inline mr-2" />
+            Générer par IA
           </button>
           <button
             onClick={() => setActiveTab('drafts')}
@@ -326,7 +366,7 @@ export default function Admin() {
       {activeTab === 'generate' && (
         <div className="card p-8 max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Générer un nouvel article
+            Générer un article depuis une URL
           </h2>
           <form onSubmit={handleGenerateArticle} className="space-y-6">
             <div>
@@ -361,6 +401,61 @@ export default function Admin() {
               ) : (
                 <>
                   <Plus className="w-5 h-5 inline mr-2" />
+                  Générer l'article
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {activeTab === 'prompt' && (
+        <div className="card p-8 max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <Sparkles className="w-6 h-6 inline mr-2 text-primary-600" />
+            Générer un article par IA
+          </h2>
+          <form onSubmit={handleGenerateFromPrompt} className="space-y-6">
+            <div>
+              <label htmlFor="prompt" className="block text-sm font-medium text-gray-700 mb-2">
+                Décrivez l'article que vous souhaitez générer
+              </label>
+              <textarea
+                id="prompt"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="Exemple : Écris un article au sujet d'Halloween et des meilleurs films d'horreur à voir en octobre"
+                className="input min-h-[150px] resize-y"
+                disabled={generatingFromPrompt}
+                required
+              />
+              <p className="mt-2 text-sm text-gray-500">
+                L'IA va générer un article complet basé sur votre demande. Soyez aussi précis que possible pour obtenir le meilleur résultat.
+              </p>
+              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-800 font-medium mb-2">💡 Exemples de prompts :</p>
+                <ul className="text-sm text-blue-700 space-y-1">
+                  <li>• "Écris un article sur les films de Noël incontournables"</li>
+                  <li>• "Rédige une critique du dernier film Marvel"</li>
+                  <li>• "Fais un top 10 des meilleurs thrillers psychologiques"</li>
+                  <li>• "Écris un article sur l'évolution du cinéma d'horreur"</li>
+                </ul>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={generatingFromPrompt}
+              className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {generatingFromPrompt ? (
+                <>
+                  <Loader2 className="w-5 h-5 inline mr-2 animate-spin" />
+                  Génération en cours...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-5 h-5 inline mr-2" />
                   Générer l'article
                 </>
               )}
