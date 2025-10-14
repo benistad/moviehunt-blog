@@ -177,6 +177,7 @@ router.post('/generate-from-prompt', async (req, res, next) => {
       status: 'draft',
       seo: generatedArticle.seo,
       coverImage: generatedArticle.coverImage,
+      sourceUrl: '', // Pas de source URL pour les articles générés par prompt
       metadata: {
         generatedFromPrompt: true,
         originalPrompt: prompt,
