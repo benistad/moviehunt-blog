@@ -50,9 +50,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Augmenter la limite de taille des requêtes pour supporter les images en base64
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+// Limite de taille des requêtes (Vercel a une limite stricte de 4.5MB)
+app.use(express.json({ limit: '4mb' }));
+app.use(express.urlencoded({ extended: true, limit: '4mb' }));
 
 // Routes
 app.use('/api/articles', articlesRoutes);

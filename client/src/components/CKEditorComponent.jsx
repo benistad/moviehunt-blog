@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { Base64UploadAdapterPlugin } from '../utils/ckEditorUploadAdapter';
 import {
   ClassicEditor,
   Autosave,
@@ -14,7 +13,6 @@ import {
   BlockQuote,
   Bold,
   Link,
-  ImageUpload,
   ImageInsert,
   PictureEditing,
   Heading,
@@ -43,7 +41,6 @@ import {
   Emoji,
   Mention,
   BalloonToolbar,
-  FileRepository,
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';
@@ -102,8 +99,6 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           Bold,
           Emoji,
           Essentials,
-          FileRepository,
-          Base64UploadAdapterPlugin,
           Heading,
           ImageBlock,
           ImageCaption,
@@ -114,7 +109,6 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           ImageStyle,
           ImageTextAlternative,
           ImageToolbar,
-          ImageUpload,
           Indent,
           IndentBlock,
           Italic,
