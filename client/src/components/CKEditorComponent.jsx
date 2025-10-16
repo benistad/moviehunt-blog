@@ -43,6 +43,7 @@ import {
   Emoji,
   Mention,
   BalloonToolbar,
+  FileRepository,
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';
@@ -102,6 +103,7 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           Bold,
           Emoji,
           Essentials,
+          FileRepository,
           Heading,
           ImageBlock,
           ImageCaption,
