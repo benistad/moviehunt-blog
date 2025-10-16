@@ -8,7 +8,7 @@ const { Article } = require('../models');
  */
 router.get('/sitemap.xml', async (req, res, next) => {
   try {
-    const siteUrl = process.env.CLIENT_URL?.replace('http://localhost:5173', 'https://blog.moviehunt.fr') || 'https://blog.moviehunt.fr';
+    const siteUrl = process.env.CLIENT_URL?.replace('http://localhost:5173', 'https://www.moviehunt-blog.fr') || 'https://www.moviehunt-blog.fr';
     
     // Récupérer tous les articles publiés
     const articles = await Article.find({ status: 'published' })

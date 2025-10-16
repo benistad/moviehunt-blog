@@ -4,7 +4,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://blog.moviehunt.fr/sitemap.xml
+Sitemap: https://www.moviehunt-blog.fr/api/sitemap.xml
 
 # Crawl-delay pour être gentil avec les serveurs
 Crawl-delay: 1
