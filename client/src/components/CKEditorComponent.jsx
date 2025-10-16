@@ -12,13 +12,10 @@ import {
   AutoImage,
   BlockQuote,
   Bold,
-  CKBox,
-  CloudServices,
   Link,
   ImageUpload,
   ImageInsert,
   PictureEditing,
-  CKBoxImageEdit,
   Heading,
   ImageCaption,
   ImageInline,
@@ -49,11 +46,8 @@ import {
 
 import 'ckeditor5/ckeditor5.css';
 
-const LICENSE_KEY =
-  'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NjA1NzI3OTksImp0aSI6IjgyMjhiMzcxLTgwYjgtNDM1OS05ZDllLWNhNDUwMDg2NjdmMiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjRjNjUxYmEyIn0.x6ZGnTnXRkRshyfO7GNpsiPQwyqch_QCIEtdKNMsl18nkEnXdsSMt9iJejHPXXNWAB44IPQ0V1NG-rhdG1X0sg';
-
-const CLOUD_SERVICES_TOKEN_URL =
-  'https://_khwxola4t62.cke-cs.com/token/dev/9ad20ed19e40c339a34cf60192b3875eb98bea73017003553ca94ee30156?limit=10';
+// Utilisation de la licence GPL (gratuite) pour CKEditor
+const LICENSE_KEY = 'GPL';
 
 export default function CKEditorComponent({ content, onChange, movieTitle }) {
   const editorContainerRef = useRef(null);
@@ -85,7 +79,6 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
             '|',
             'link',
             'insertImage',
-            'ckbox',
             'mediaEmbed',
             'insertTable',
             'blockQuote',
@@ -105,9 +98,6 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           BalloonToolbar,
           BlockQuote,
           Bold,
-          CKBox,
-          CKBoxImageEdit,
-          CloudServices,
           Emoji,
           Essentials,
           Heading,
@@ -144,9 +134,6 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           Underline,
         ],
         balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'bulletedList', 'numberedList'],
-        cloudServices: {
-          tokenUrl: CLOUD_SERVICES_TOKEN_URL,
-        },
         heading: {
           options: [
             {
@@ -190,8 +177,6 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
             'imageStyle:breakText',
             '|',
             'resizeImage',
-            '|',
-            'ckboxImageEdit',
           ],
         },
         licenseKey: LICENSE_KEY,
