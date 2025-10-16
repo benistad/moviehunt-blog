@@ -94,7 +94,6 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           shouldNotGroupWhenFull: false,
         },
         plugins: [
-          Base64UploadAdapterPlugin,
           Autoformat,
           AutoImage,
           Autosave,
@@ -104,6 +103,7 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           Emoji,
           Essentials,
           FileRepository,
+          Base64UploadAdapterPlugin,
           Heading,
           ImageBlock,
           ImageCaption,
