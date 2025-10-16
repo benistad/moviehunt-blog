@@ -19,6 +19,7 @@ export default function ArticleEditor() {
   const [excerpt, setExcerpt] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
+  const [coverImage, setCoverImage] = useState('');
 
   useEffect(() => {
     fetchArticle();
@@ -34,6 +35,7 @@ export default function ArticleEditor() {
       setExcerpt(data.excerpt);
       setContent(data.content);
       setTags(data.tags?.join(', ') || '');
+      setCoverImage(data.coverImage || '');
     } catch (error) {
       toast.error('Erreur de chargement');
       router.push('/admin');
@@ -50,6 +52,7 @@ export default function ArticleEditor() {
         excerpt,
         content,
         tags: tags.split(',').map(t => t.trim()).filter(t => t),
+        coverImage,
       });
       toast.success('Article sauvegardé');
       fetchArticle();
@@ -77,6 +80,7 @@ export default function ArticleEditor() {
         excerpt,
         content,
         tags: tags.split(',').map(t => t.trim()).filter(t => t),
+        coverImage,
       });
       
       // Puis publier si c'était un brouillon
@@ -166,6 +170,35 @@ export default function ArticleEditor() {
               rows={3}
               className="input"
             />
+          </div>
+
+          <div className="card p-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Image de couverture (URL)
+            </label>
+            <input
+              type="url"
+              value={coverImage}
+              onChange={(e) => setCoverImage(e.target.value)}
+              placeholder="https://image.tmdb.org/t/p/original/..."
+              className="input mb-3"
+            />
+            {coverImage && (
+              <div className="mt-3">
+                <p className="text-sm text-gray-600 mb-2">Aperçu :</p>
+                <img
+                  src={coverImage}
+                  alt="Aperçu de la couverture"
+                  className="w-full max-w-md rounded-lg"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+            <p className="text-sm text-gray-500 mt-2">
+              💡 Astuce : Utilisez une image TMDB ou uploadez sur <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">ImgBB</a> puis collez l'URL directe
+            </p>
           </div>
 
           <div className="card p-6">
