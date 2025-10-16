@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { Base64UploadAdapterPlugin } from '../utils/ckEditorUploadAdapter';
 import {
   ClassicEditor,
   Autosave,
@@ -13,6 +14,7 @@ import {
   BlockQuote,
   Bold,
   Link,
+  ImageUpload,
   ImageInsert,
   PictureEditing,
   Heading,
@@ -91,6 +93,7 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           shouldNotGroupWhenFull: false,
         },
         plugins: [
+          Base64UploadAdapterPlugin,
           Autoformat,
           AutoImage,
           Autosave,
@@ -109,6 +112,7 @@ export default function CKEditorComponent({ content, onChange, movieTitle }) {
           ImageStyle,
           ImageTextAlternative,
           ImageToolbar,
+          ImageUpload,
           Indent,
           IndentBlock,
           Italic,
