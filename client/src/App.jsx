@@ -4,7 +4,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
-import GoogleAnalytics from './components/GoogleAnalytics';
 import Home from './pages/Home';
 import ArticleDetail from './pages/ArticleDetail';
 import Login from './pages/Login';
@@ -17,7 +16,6 @@ function App() {
     <HelmetProvider>
       <AuthProvider>
         <Router>
-        <GoogleAnalytics />
         <Toaster
           position="top-right"
           toastOptions={{

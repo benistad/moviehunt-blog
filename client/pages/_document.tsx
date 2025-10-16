@@ -21,6 +21,19 @@ export default function Document() {
         
         {/* CKEditor - chargé de manière asynchrone */}
         <script async src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js" crossOrigin="anonymous" />
+        
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C32K63D702" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-C32K63D702');
+            `,
+          }}
+        />
       </Head>
       <body>
         <Main />
