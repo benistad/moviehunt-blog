@@ -31,6 +31,10 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   
+  // Séparer les articles par catégorie
+  const reviewArticles = articles.filter(article => article.category !== 'list');
+  const listArticles = articles.filter(article => article.category === 'list');
+  
   // Charger les articles au montage si pas d'articles initiaux
   useEffect(() => {
     if (!initialArticles || initialArticles.length === 0) {
@@ -152,16 +156,7 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
         </section>
 
         {/* Articles Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Titre de section avec style Cineverse */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-800">Derniers articles</h2>
-              <div className="flex-1 h-px bg-gradient-to-r from-primary-300 to-transparent"></div>
-            </div>
-          </div>
-
-          {/* Articles Grid */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           {loading ? (
             <div className="flex justify-center items-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
@@ -172,12 +167,51 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {articles.map((article) => (
-                  <ArticleCardNext key={article._id} article={article} />
-                ))}
-              </div>
+              {/* Section Critiques de films */}
+              {reviewArticles.length > 0 && (
+                <section>
+                  <div className="mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-lg flex items-center gap-2">
+                        <span>⭐</span>
+                        <span>Critiques de films</span>
+                      </div>
+                      <div className="flex-1 h-px bg-gradient-to-r from-blue-300 to-transparent"></div>
+                    </div>
+                    <p className="text-gray-600 mt-3 ml-1">Analyses et critiques détaillées de films</p>
+                  </div>
 
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {reviewArticles.map((article) => (
+                      <ArticleCardNext key={article._id} article={article} />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Section Listes de films */}
+              {listArticles.length > 0 && (
+                <section>
+                  <div className="mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-orange-500 text-white px-4 py-2 rounded-full font-bold text-lg flex items-center gap-2">
+                        <span>📋</span>
+                        <span>Listes de films</span>
+                      </div>
+                      <div className="flex-1 h-px bg-gradient-to-r from-orange-300 to-transparent"></div>
+                    </div>
+                    <p className="text-gray-600 mt-3 ml-1">Sélections et tops de films à découvrir</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {listArticles.map((article) => (
+                      <ArticleCardNext key={article._id} article={article} />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="mt-12 flex justify-center gap-2">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
