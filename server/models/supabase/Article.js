@@ -209,6 +209,10 @@ class Article {
   static async findByIdAndUpdate(id, updates, options = {}) {
     const updateData = {};
     
+    // Log pour debug
+    console.log('🔍 Updates reçus:', updates);
+    console.log('🔍 Category dans updates:', updates.category);
+    
     // Mapper tous les champs possibles
     if (updates.title !== undefined) updateData.title = updates.title;
     if (updates.content !== undefined) updateData.content = updates.content;
@@ -223,6 +227,8 @@ class Article {
     if (updates.seo !== undefined) updateData.seo = updates.seo;
     if (updates.scrapedData !== undefined) updateData.scraped_data = updates.scrapedData;
     if (updates.generatedBy !== undefined) updateData.generated_by = updates.generatedBy;
+    
+    console.log('🔍 UpdateData à envoyer à Supabase:', updateData);
 
     // Si aucune mise à jour, retourner l'article existant
     if (Object.keys(updateData).length === 0) {
