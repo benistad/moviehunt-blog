@@ -307,6 +307,7 @@ class Article {
       scrapedData: article.scraped_data,
       coverImage: article.cover_image,
       tags: article.tags,
+      category: article.category,
       status: article.status,
       generatedBy: article.generated_by,
       metadata: article.metadata,
