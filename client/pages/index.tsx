@@ -50,10 +50,7 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
           limit: 9,
           status: 'published',
           search,
-          _ts: Date.now(),
-        },
-        headers: {
-          'Cache-Control': 'no-cache',
+          _ts: Date.now(), // Cache-buster suffisant
         },
       });
       setArticles(response.data.data.articles || []);
