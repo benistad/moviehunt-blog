@@ -12,6 +12,7 @@ interface Article {
   coverImage: string;
   publishedAt: string;
   tags: string[];
+  category?: string;
   metadata?: {
     score?: number;
     movieTitle?: string;

@@ -21,6 +21,7 @@ interface Article {
   updatedAt: string;
   sourceUrl: string;
   tags: string[];
+  category?: string;
   metadata?: {
     score?: number;
     movieTitle?: string;
@@ -122,6 +123,16 @@ export default function ArticlePage({ article }: ArticlePageProps) {
           </h1>
 
           <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-6">
+            {/* Badge catégorie */}
+            {article.category && (
+              <div className={`px-4 py-2 rounded-full font-semibold text-sm shadow-sm ${
+                article.category === 'list' 
+                  ? 'bg-orange-500 text-white' 
+                  : 'bg-blue-500 text-white'
+              }`}>
+                {article.category === 'list' ? '📋 Liste de films' : '⭐ Critique de film'}
+              </div>
+            )}
             <div className="flex items-center space-x-2">
               <Calendar className="w-5 h-5" />
               <span>{formattedDate}</span>

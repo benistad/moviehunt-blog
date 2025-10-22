@@ -12,6 +12,7 @@ interface Article {
   coverImage: string;
   publishedAt: string;
   tags: string[];
+  category?: string;
   metadata?: {
     score?: number;
     movieTitle?: string;
@@ -48,6 +49,19 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
           {/* Overlay gradient au hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           
+          {/* Badge catégorie */}
+          <div className="absolute top-4 left-4 z-10">
+            {article.category === 'list' ? (
+              <div className="bg-orange-500 text-white px-3 py-1.5 rounded-full font-semibold text-xs shadow-lg">
+                📋 Liste
+              </div>
+            ) : (
+              <div className="bg-blue-500 text-white px-3 py-1.5 rounded-full font-semibold text-xs shadow-lg">
+                ⭐ Critique
+              </div>
+            )}
+          </div>
+
           {article.metadata?.score && (
             <div className="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1.5 rounded-full font-bold shadow-lg transform group-hover:scale-110 transition-transform duration-300 z-10">
               {article.metadata.score}/10

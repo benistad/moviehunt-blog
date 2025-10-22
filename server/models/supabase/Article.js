@@ -90,6 +90,7 @@ class Article {
       cover_image: data.coverImage || null,
       tags: data.tags || [],
       status: data.status || 'draft',
+      category: data.category || 'review',
       generated_by: data.generatedBy || 'manual',
       metadata: data.metadata || {},
       seo: data.seo || {},
@@ -214,6 +215,7 @@ class Article {
     if (updates.excerpt !== undefined) updateData.excerpt = updates.excerpt;
     if (updates.tags !== undefined) updateData.tags = updates.tags;
     if (updates.status !== undefined) updateData.status = updates.status;
+    if (updates.category !== undefined) updateData.category = updates.category;
     if (updates.publishedAt !== undefined) updateData.published_at = updates.publishedAt;
     if (updates.coverImage !== undefined) updateData.cover_image = updates.coverImage;
     if (updates.sourceUrl !== undefined) updateData.source_url = updates.sourceUrl;

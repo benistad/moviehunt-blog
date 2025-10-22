@@ -42,6 +42,10 @@ const articleUpdateValidation = [
     .optional()
     .isIn(['draft', 'published', 'archived'])
     .withMessage('Statut invalide'),
+  body('category')
+    .optional()
+    .isIn(['review', 'list'])
+    .withMessage('Catégorie invalide (doit être "review" ou "list")'),
   validate,
 ];
 

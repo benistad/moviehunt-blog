@@ -20,6 +20,7 @@ export default function ArticleEditor() {
   const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
   const [coverImage, setCoverImage] = useState('');
+  const [category, setCategory] = useState('review'); // Par défaut : Critiques de films
 
   useEffect(() => {
     fetchArticle();
@@ -36,6 +37,7 @@ export default function ArticleEditor() {
       setContent(data.content);
       setTags(data.tags?.join(', ') || '');
       setCoverImage(data.coverImage || '');
+      setCategory(data.category || 'review');
     } catch (error) {
       toast.error('Erreur de chargement');
       router.push('/admin');
@@ -53,6 +55,7 @@ export default function ArticleEditor() {
         content,
         tags: tags.split(',').map(t => t.trim()).filter(t => t),
         coverImage,
+        category,
       });
       toast.success('Article sauvegardé');
       fetchArticle();
@@ -81,6 +84,7 @@ export default function ArticleEditor() {
         content,
         tags: tags.split(',').map(t => t.trim()).filter(t => t),
         coverImage,
+        category,
       });
       
       // Puis publier si c'était un brouillon
@@ -198,6 +202,23 @@ export default function ArticleEditor() {
             )}
             <p className="text-sm text-gray-500 mt-2">
               💡 Astuce : Utilisez une image TMDB ou uploadez sur <a href="https://imgbb.com" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">ImgBB</a> puis collez l'URL directe
+            </p>
+          </div>
+
+          <div className="card p-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Catégorie
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="input"
+            >
+              <option value="review">Critiques de films</option>
+              <option value="list">Listes de films</option>
+            </select>
+            <p className="text-sm text-gray-500 mt-2">
+              💡 Choisissez "Critiques de films" pour un article de critique ou "Listes de films" pour une liste/sélection de films
             </p>
           </div>
 
