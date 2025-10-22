@@ -35,14 +35,10 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
   const reviewArticles = articles.filter(article => article.category !== 'list');
   const listArticles = articles.filter(article => article.category === 'list');
   
-  // Charger les articles au montage si pas d'articles initiaux
+  // Toujours rafraîchir les articles au montage pour refléter les changements récents
   useEffect(() => {
-    if (!initialArticles || initialArticles.length === 0) {
-      fetchArticles(1, '');
-    } else {
-      setLoading(false);
-    }
-  }, [initialArticles]);
+    fetchArticles(1, '');
+  }, []);
 
   const fetchArticles = async (page: number, search: string = '') => {
     setLoading(true);
@@ -54,6 +50,10 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
           limit: 9,
           status: 'published',
           search,
+          _ts: Date.now(),
+        },
+        headers: {
+          'Cache-Control': 'no-cache',
         },
       });
       setArticles(response.data.data.articles || []);
