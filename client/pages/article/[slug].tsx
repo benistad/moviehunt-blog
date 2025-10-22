@@ -130,7 +130,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
                   ? 'bg-orange-500 text-white' 
                   : 'bg-blue-500 text-white'
               }`}>
-                {article.category === 'list' ? '📋 Liste de films' : '⭐ Critique de film'}
+                {article.category === 'list' ? '📋 Liste de films' : 'Critique de film'}
               </div>
             )}
             <div className="flex items-center space-x-2">

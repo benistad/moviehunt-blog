@@ -172,9 +172,8 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
                 <section>
                   <div className="mb-8">
                     <div className="flex items-center gap-3">
-                      <div className="bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-lg flex items-center gap-2">
-                        <span>⭐</span>
-                        <span>Critiques de films</span>
+                      <div className="bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-lg">
+                        Critiques de films
                       </div>
                       <div className="flex-1 h-px bg-gradient-to-r from-blue-300 to-transparent"></div>
                     </div>

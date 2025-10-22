@@ -57,7 +57,7 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
               </div>
             ) : (
               <div className="bg-blue-500 text-white px-3 py-1.5 rounded-full font-semibold text-xs shadow-lg">
-                ⭐ Critique
+                Critique
               </div>
             )}
           </div>
