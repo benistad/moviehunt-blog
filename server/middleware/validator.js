@@ -44,6 +44,7 @@ const articleUpdateValidation = [
     .withMessage('Statut invalide'),
   body('category')
     .optional()
+    .trim()
     .isIn(['review', 'list'])
     .withMessage('Catégorie invalide (doit être "review" ou "list")'),
   validate,

@@ -222,6 +222,9 @@ router.post('/:id/regenerate', articleIdValidation, async (req, res, next) => {
 router.put('/:id', [...articleIdValidation, ...articleUpdateValidation], async (req, res, next) => {
   try {
     const updates = req.body;
+    console.log('📝 PUT /api/articles/:id - Updates reçus:', JSON.stringify(updates, null, 2));
+    console.log('📝 Category dans req.body:', updates.category);
+    
     const article = await Article.findByIdAndUpdate(
       req.params.id,
       updates,
