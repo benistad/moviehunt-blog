@@ -230,6 +230,9 @@ class Article {
     }
 
     try {
+      console.log('🔄 Envoi à Supabase - ID:', id);
+      console.log('🔄 Données à mettre à jour:', JSON.stringify(updateData, null, 2));
+      
       const { data, error } = await supabase
         .from('articles')
         .update(updateData)
@@ -237,7 +240,13 @@ class Article {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Erreur Supabase:', error);
+        throw error;
+      }
+      
+      console.log('✅ Article mis à jour avec succès');
+      console.log('✅ Category après update:', data?.category);
       return options.new !== false ? this.formatArticle(data) : null;
     } catch (error) {
       console.error('Erreur mise à jour article:', error);
