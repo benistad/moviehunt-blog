@@ -49,22 +49,17 @@ export default function ArticleEditor() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const updateData = {
+      await articlesAPI.update(id, {
         title,
         excerpt,
         content,
         tags: tags.split(',').map(t => t.trim()).filter(t => t),
         coverImage,
         category,
-      };
-      console.log('📤 Données envoyées au backend:', updateData);
-      console.log('📤 Category:', category);
-      
-      await articlesAPI.update(id, updateData);
+      });
       toast.success('Article sauvegardé');
       fetchArticle();
     } catch (error) {
-      console.error('❌ Erreur:', error);
       toast.error('Erreur de sauvegarde');
     } finally {
       setSaving(false);
