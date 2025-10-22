@@ -23,6 +23,7 @@ const importRoutes = require('./routes/import');
 const tmdbRoutes = require('./routes/tmdb');
 const sitemapRoutes = require('./routes/sitemap');
 const proxyRoutes = require('./routes/proxy');
+const testCategoryRoutes = require('./routes/test-category');
 
 // Vérification des variables d'environnement requises
 if (!process.env.PORT) {
@@ -62,6 +63,7 @@ app.use('/api/webhook', webhookRoutes);
 app.use('/api/import', importRoutes);
 app.use('/api/tmdb', tmdbRoutes);
 app.use('/api/proxy', proxyRoutes);
+app.use('/api/test-category', testCategoryRoutes);
 app.use('/api', sitemapRoutes);
 
 // Route de santé
