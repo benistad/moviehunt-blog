@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "moviehunt-blog-api-v2",
+  "name": "moviehunt-blog-api-v3-category",
   "builds": [
     {
       "src": "index.js",
