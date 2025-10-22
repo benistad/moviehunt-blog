@@ -13,6 +13,7 @@ if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
 }
 
 console.log('📦 Utilisation de Supabase comme base de données');
+console.log('✅ Système de catégories activé (v1.1)');
 
 // Routes
 const articlesRoutes = require('./routes/articles');
