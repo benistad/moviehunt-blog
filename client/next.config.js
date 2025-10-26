@@ -34,15 +34,17 @@ const nextConfig = {
         hostname: 'imgur.com',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/webp'], // Uniquement WebP (plus rapide qu'AVIF)
+    deviceSizes: [640, 828, 1200], // Réduire le nombre de tailles
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
     minimumCacheTTL: 86400,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: false,
     loader: 'default',
+    // Optimisation du cache et de la qualité
+    disableStaticImages: false,
   },
   
   // Variables d'environnement publiques
