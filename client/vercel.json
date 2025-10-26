@@ -1,10 +1,4 @@
 {
   "version": 2,
-  "framework": "nextjs",
-  "rewrites": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "https://moviehunt-blog-api.vercel.app/api/sitemap.xml"
-    }
-  ]
+  "framework": "nextjs"
 }
