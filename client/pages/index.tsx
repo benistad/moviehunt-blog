@@ -136,7 +136,7 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
                 href="https://www.moviehunt.fr" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 rounded-full bg-primary-600 text-white text-lg font-semibold shadow-lg hover:bg-primary-700 transform hover:scale-105 transition-all duration-300 ease-in-out"
+                className="inline-flex items-center px-8 py-4 rounded-full bg-indigo-700 text-white text-lg font-semibold shadow-lg hover:bg-indigo-800 transform hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Découvrir MovieHunt
                 <svg 
