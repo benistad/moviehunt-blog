@@ -15,20 +15,29 @@ export default function Document() {
         <link rel="preconnect" href="https://image.tmdb.org" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
-        {/* Fonts optimisées - Chargement asynchrone */}
+        {/* Fonts optimisées - Uniquement Poppins avec display=swap */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
           media="print"
           // @ts-ignore
           onLoad="this.media='all'"
         />
         <noscript>
           <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
             rel="stylesheet"
           />
         </noscript>
+        
+        {/* Fallback font system pour éviter FOIT */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            body {
+              font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            }
+          `
+        }} />
         
         {/* CKEditor - Chargé uniquement si nécessaire (admin) */}
         

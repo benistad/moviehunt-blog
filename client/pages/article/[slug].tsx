@@ -80,13 +80,16 @@ export default function ArticlePage({ article }: ArticlePageProps) {
       {/* Preload de l'image LCP pour améliorer les performances */}
       <Head>
         {article.coverImage && (
-          <link
-            rel="preload"
-            as="image"
-            href={article.coverImage}
-            imageSrcSet={`${article.coverImage}?w=640 640w, ${article.coverImage}?w=1200 1200w`}
-            imageSizes="(max-width: 768px) 100vw, 1200px"
-          />
+          <>
+            <link
+              rel="preload"
+              as="image"
+              href={article.coverImage}
+              // @ts-ignore
+              fetchpriority="high"
+            />
+            <link rel="preconnect" href="https://image.tmdb.org" />
+          </>
         )}
       </Head>
 
@@ -129,7 +132,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
               priority
               sizes="(max-width: 768px) 100vw, 1200px"
               className="object-cover"
-              quality={85}
+              quality={75}
               placeholder="blur"
               blurDataURL={blurDataURL}
             />

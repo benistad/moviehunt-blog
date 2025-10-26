@@ -2,20 +2,31 @@
 const nextConfig = {
   reactStrictMode: true,
   
-  // Configuration des images - Optimisations performance
+  // Configuration des images - Optimisations performance maximales
   images: {
-    domains: [
-      'www.moviehunt.fr',
-      'image.tmdb.org',
-      'fjoxqvdilkbxivzskrmg.supabase.co', // Supabase storage
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.moviehunt.fr',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.tmdb.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'fjoxqvdilkbxivzskrmg.supabase.co',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 86400, // 24h au lieu de 60s
+    minimumCacheTTL: 86400,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: false,
+    loader: 'default',
   },
   
   // Variables d'environnement publiques
