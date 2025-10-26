@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   
-  // Configuration des images
+  // Configuration des images - Optimisations performance
   images: {
     domains: [
       'www.moviehunt.fr',
@@ -10,9 +10,12 @@ const nextConfig = {
       'fjoxqvdilkbxivzskrmg.supabase.co', // Supabase storage
     ],
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 86400, // 24h au lieu de 60s
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   
   // Variables d'environnement publiques

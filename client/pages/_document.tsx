@@ -13,24 +13,38 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://moviehunt-blog-api.vercel.app" />
         
-        {/* Fonts optimisées - Poppins avec display=swap pour éviter FOIT */}
+        {/* Fonts optimisées - Chargement asynchrone */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+          media="print"
+          // @ts-ignore
+          onLoad="this.media='all'"
         />
+        <noscript>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;600&display=swap"
+            rel="stylesheet"
+          />
+        </noscript>
         
-        {/* CKEditor - chargé de manière asynchrone */}
-        <script async src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js" crossOrigin="anonymous" />
+        {/* CKEditor - Chargé uniquement si nécessaire (admin) */}
         
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C32K63D702" />
+        {/* Google Analytics - Chargement différé */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-C32K63D702');
+              window.addEventListener('load', function() {
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-C32K63D702';
+                document.head.appendChild(script);
+                
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-C32K63D702');
+              });
             `,
           }}
         />
