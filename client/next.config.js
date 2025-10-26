@@ -33,6 +33,15 @@ const nextConfig = {
   // Compiler optimisé avec SWC
   swcMinify: true,
   
+  // Optimisations de production
+  productionBrowserSourceMaps: false,
+  
+  // Optimisation du bundle
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react', 'date-fns'],
+  },
+  
   // Optimisations de build
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
@@ -88,6 +97,15 @@ const nextConfig = {
       // Cache pour les assets statiques
       {
         source: '/logo.png',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/og-image.jpg',
         headers: [
           {
             key: 'Cache-Control',

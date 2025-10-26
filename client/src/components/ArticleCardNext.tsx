@@ -4,6 +4,7 @@ import { Calendar, Tag } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { getProxiedImageUrl } from '../utils/imageProxy';
+import { blurDataURL } from '../utils/imageOptimization';
 
 interface Article {
   _id: string;
@@ -39,6 +40,8 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
               className="object-cover group-hover:scale-110 transition-transform duration-500"
               quality={75}
               loading="lazy"
+              placeholder="blur"
+              blurDataURL={blurDataURL}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400">

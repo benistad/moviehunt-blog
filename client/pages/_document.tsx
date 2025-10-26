@@ -8,10 +8,12 @@ export default function Document() {
         <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
         
-        {/* Preconnect pour les domaines externes */}
+        {/* Preconnect pour les domaines externes - Optimisé */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://moviehunt-blog-api.vercel.app" />
+        <link rel="preconnect" href="https://image.tmdb.org" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
         {/* Fonts optimisées - Chargement asynchrone */}
         <link

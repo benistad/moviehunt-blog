@@ -11,6 +11,7 @@ import rehypeRaw from 'rehype-raw';
 import SEO from '../../components/SEO';
 import ArticleSchema from '../../src/components/ArticleSchema';
 import MovieRating from '../../src/components/MovieRating';
+import { blurDataURL } from '../../src/utils/imageOptimization';
 
 // Lazy load ReactMarkdown pour réduire le bundle initial
 const ReactMarkdown = dynamic(() => import('react-markdown'), {
@@ -129,6 +130,8 @@ export default function ArticlePage({ article }: ArticlePageProps) {
               sizes="(max-width: 768px) 100vw, 1200px"
               className="object-cover"
               quality={85}
+              placeholder="blur"
+              blurDataURL={blurDataURL}
             />
             {article.metadata?.score && (
               <div className="absolute top-4 right-4 z-10">
