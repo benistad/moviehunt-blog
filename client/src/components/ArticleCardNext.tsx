@@ -41,6 +41,10 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
               loading="lazy"
               placeholder="blur"
               blurDataURL={blurDataURL}
+              onError={(e) => {
+                // Fallback en cas d'erreur de chargement
+                e.currentTarget.style.display = 'none';
+              }}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400">
