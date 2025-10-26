@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { Calendar, Tag } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { getProxiedImageUrl } from '../utils/imageProxy';
 import { blurDataURL } from '../utils/imageOptimization';
 
 interface Article {
@@ -33,7 +32,7 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
         <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
           {article.coverImage ? (
             <Image
-              src={getProxiedImageUrl(article.coverImage)}
+              src={article.coverImage}
               alt={article.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
