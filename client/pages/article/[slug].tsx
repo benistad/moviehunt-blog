@@ -125,17 +125,27 @@ export default function ArticlePage({ article }: ArticlePageProps) {
         {/* Cover Image - Optimisée avec Next.js Image */}
         {article.coverImage && (
           <div className="aspect-video w-full overflow-hidden rounded-xl mb-8 bg-gray-200 relative">
-            <Image
-              src={article.coverImage}
-              alt={article.title}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1200px"
-              className="object-cover"
-              quality={60}
-              placeholder="blur"
-              blurDataURL={blurDataURL}
-            />
+            {article.coverImage.startsWith('/') ? (
+              // Image locale - utiliser img tag
+              <img
+                src={article.coverImage}
+                alt={article.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              // Image externe - utiliser Next.js Image
+              <Image
+                src={article.coverImage}
+                alt={article.title}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 1200px"
+                className="object-cover"
+                quality={60}
+                placeholder="blur"
+                blurDataURL={blurDataURL}
+              />
+            )}
             {article.metadata?.score && (
               <div className="absolute top-4 right-4 z-10">
                 <MovieRating rating={article.metadata.score} size="xl" />
