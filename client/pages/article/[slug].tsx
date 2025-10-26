@@ -1,14 +1,22 @@
-import { GetStaticPaths, GetStaticProps, GetServerSideProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
-import { Calendar, Tag, ArrowLeft, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
+import Head from 'next/head';
+import { Calendar, Tag, ArrowLeft } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
+import dynamic from 'next/dynamic';
 import rehypeRaw from 'rehype-raw';
 import SEO from '../../components/SEO';
 import ArticleSchema from '../../src/components/ArticleSchema';
 import MovieRating from '../../src/components/MovieRating';
+
+// Lazy load ReactMarkdown pour réduire le bundle initial
+const ReactMarkdown = dynamic(() => import('react-markdown'), {
+  loading: () => <div className="animate-pulse h-96 bg-gray-100 rounded-lg" />,
+  ssr: true,
+});
 
 interface Article {
   _id: string;
@@ -68,6 +76,19 @@ export default function ArticlePage({ article }: ArticlePageProps) {
 
   return (
     <>
+      {/* Preload de l'image LCP pour améliorer les performances */}
+      <Head>
+        {article.coverImage && (
+          <link
+            rel="preload"
+            as="image"
+            href={article.coverImage}
+            imageSrcSet={`${article.coverImage}?w=640 640w, ${article.coverImage}?w=1200 1200w`}
+            imageSizes="(max-width: 768px) 100vw, 1200px"
+          />
+        )}
+      </Head>
+
       {/* SEO Meta Tags */}
       <SEO
         title={article.seo?.metaTitle || article.title}
@@ -97,19 +118,20 @@ export default function ArticlePage({ article }: ArticlePageProps) {
           <span>Retour aux articles</span>
         </Link>
 
-        {/* Cover Image */}
+        {/* Cover Image - Optimisée avec Next.js Image */}
         {article.coverImage && (
           <div className="aspect-video w-full overflow-hidden rounded-xl mb-8 bg-gray-200 relative">
-            <img
+            <Image
               src={article.coverImage}
               alt={article.title}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
-              }}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className="object-cover"
+              quality={85}
             />
             {article.metadata?.score && (
-              <div className="absolute top-4 right-4">
+              <div className="absolute top-4 right-4 z-10">
                 <MovieRating rating={article.metadata.score} size="xl" />
               </div>
             )}
@@ -234,54 +256,56 @@ export default function ArticlePage({ article }: ArticlePageProps) {
   }
 }
 
-// Temporairement désactivé - utilise getServerSideProps
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   try {
-//     const apiUrl = process.env.API_URL || 'http://localhost:5000/api';
-//     const response = await axios.get(`${apiUrl}/articles`, {
-//       params: {
-//         limit: 100,
-//         status: 'published',
-//       },
-//     });
-
-//     const paths = response.data.data.articles.map((article: Article) => ({
-//       params: { slug: article.slug },
-//     }));
-
-//     return {
-//       paths,
-//       fallback: 'blocking',
-//     };
-//   } catch (error) {
-//     console.error('Error in getStaticPaths:', error);
-//     return {
-//       paths: [],
-//       fallback: 'blocking',
-//     };
-//   }
-// };
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+// ISR (Incremental Static Regeneration) pour de meilleures performances
+export const getStaticPaths: GetStaticPaths = async () => {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || 'https://moviehunt-blog-api.vercel.app/api';
-    console.log('[SSR] API URL:', apiUrl);
-    console.log('[SSR] Fetching article:', params?.slug);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://moviehunt-blog-api.vercel.app/api';
+    const response = await axios.get(`${apiUrl}/articles`, {
+      params: {
+        limit: 20, // Pré-générer les 20 articles les plus récents
+        status: 'published',
+      },
+    });
+
+    const paths = response.data.data.articles.map((article: Article) => ({
+      params: { slug: article.slug },
+    }));
+
+    return {
+      paths,
+      fallback: 'blocking', // Génère les autres pages à la demande
+    };
+  } catch (error) {
+    console.error('[ISR] Error in getStaticPaths:', error);
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://moviehunt-blog-api.vercel.app/api';
+    console.log('[ISR] API URL:', apiUrl);
+    console.log('[ISR] Fetching article:', params?.slug);
     const response = await axios.get(`${apiUrl}/articles/slug/${params?.slug}`);
     
-    console.log('[SSR] Response status:', response.status);
-    console.log('[SSR] Article found:', response.data?.data?.title);
+    console.log('[ISR] Response status:', response.status);
+    console.log('[ISR] Article found:', response.data?.data?.title);
 
     return {
       props: {
         article: response.data.data,
       },
+      revalidate: 3600, // Régénérer toutes les heures (ISR)
     };
   } catch (error: any) {
-    console.error('[SSR] Error fetching article:', error.message);
-    console.error('[SSR] Error details:', error.response?.status, error.response?.data);
+    console.error('[ISR] Error fetching article:', error.message);
+    console.error('[ISR] Error details:', error.response?.status, error.response?.data);
     return {
       notFound: true,
+      revalidate: 60, // Réessayer après 1 minute en cas d'erreur
     };
   }
 };
