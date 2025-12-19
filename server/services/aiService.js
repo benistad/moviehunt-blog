@@ -22,7 +22,7 @@ class AIService {
       console.log(`📝 Longueur du prompt: ${prompt.length} caractères`);
 
       const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           {
             role: 'system',
@@ -462,7 +462,7 @@ CONTENU:
       console.log(`🤖 Amélioration de l'article...`);
 
       const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           {
             role: 'system',
@@ -493,7 +493,7 @@ ${currentContent}`,
   async generateTags(title, content) {
     try {
       const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           {
             role: 'system',
@@ -527,7 +527,7 @@ Contenu: ${content.substring(0, 500)}`,
       console.log(`📝 Prompt: ${prompt}`);
 
       const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           {
             role: 'system',
