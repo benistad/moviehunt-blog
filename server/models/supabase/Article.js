@@ -211,6 +211,7 @@ class Article {
     
     // Mapper tous les champs possibles
     if (updates.title !== undefined) updateData.title = updates.title;
+    if (updates.slug !== undefined) updateData.slug = updates.slug;
     if (updates.content !== undefined) updateData.content = updates.content;
     if (updates.excerpt !== undefined) updateData.excerpt = updates.excerpt;
     if (updates.tags !== undefined) updateData.tags = updates.tags;

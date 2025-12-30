@@ -21,6 +21,7 @@ export default function ArticleEditor() {
   const [tags, setTags] = useState('');
   const [coverImage, setCoverImage] = useState('');
   const [category, setCategory] = useState('review'); // Par défaut : Critiques de films
+  const [slug, setSlug] = useState('');
 
   useEffect(() => {
     fetchArticle();
@@ -38,6 +39,7 @@ export default function ArticleEditor() {
       setTags(data.tags?.join(', ') || '');
       setCoverImage(data.coverImage || '');
       setCategory(data.category || 'review');
+      setSlug(data.slug || '');
     } catch (error) {
       toast.error('Erreur de chargement');
       router.push('/admin');
@@ -51,6 +53,7 @@ export default function ArticleEditor() {
     try {
       await articlesAPI.update(id, {
         title,
+        slug,
         excerpt,
         content,
         tags: tags.split(',').map(t => t.trim()).filter(t => t),
@@ -80,6 +83,7 @@ export default function ArticleEditor() {
       // Sauvegarder d'abord les modifications
       await articlesAPI.update(id, {
         title,
+        slug,
         excerpt,
         content,
         tags: tags.split(',').map(t => t.trim()).filter(t => t),
@@ -162,6 +166,25 @@ export default function ArticleEditor() {
               onChange={(e) => setTitle(e.target.value)}
               className="input"
             />
+          </div>
+
+          <div className="card p-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              URL de l'article
+            </label>
+            <div className="flex items-center">
+              <span className="text-gray-500 mr-2">/article/</span>
+              <input
+                type="text"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/--+/g, '-'))}
+                placeholder="mon-article"
+                className="input flex-1"
+              />
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              💡 L'URL sera : /article/{slug || 'mon-article'}
+            </p>
           </div>
 
           <div className="card p-6">
