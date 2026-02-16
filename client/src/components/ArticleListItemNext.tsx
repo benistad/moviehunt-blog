@@ -77,7 +77,7 @@ export default function ArticleListItemNext({ article }: ArticleListItemProps) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-w-0 flex flex-col justify-between">
+      <div className="flex-1 min-w-0 flex flex-col">
         {/* Top - Badges */}
         <div className="flex items-center gap-2 mb-2">
           {getCategoryBadge()}
@@ -85,12 +85,12 @@ export default function ArticleListItemNext({ article }: ArticleListItemProps) {
         </div>
 
         {/* Title */}
-        <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-primary-600 transition-colors mb-2">
+        <h3 className="text-sm font-bold text-gray-900 line-clamp-2 leading-tight group-hover:text-primary-600 transition-colors mb-auto">
           {article.title}
         </h3>
 
         {/* Date */}
-        <div className="flex items-center space-x-1 text-xs text-gray-500">
+        <div className="flex items-center space-x-1 text-xs text-gray-500 mt-2">
           <Calendar className="w-3 h-3" />
           <span>{formattedDate}</span>
         </div>
