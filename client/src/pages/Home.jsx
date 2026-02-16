@@ -4,6 +4,7 @@ import { articlesAPI } from '../services/api';
 import ArticleCard from '../components/ArticleCard';
 import HeroArticle from '../components/HeroArticle';
 import ArticleListItem from '../components/ArticleListItem';
+import ArticleCarousel from '../components/ArticleCarousel';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import Pagination from '../components/Pagination';
@@ -11,6 +12,8 @@ import SEO from '../components/SEO';
 
 export default function Home() {
   const [articles, setArticles] = useState([]);
+  const [critiques, setCritiques] = useState([]);
+  const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,8 +41,38 @@ export default function Home() {
     }
   };
 
+  const fetchCritiques = async () => {
+    try {
+      const response = await articlesAPI.getAll({
+        page: 1,
+        limit: 10,
+        status: 'published',
+        category: 'critique',
+      });
+      setCritiques(response.data.data.articles);
+    } catch (err) {
+      console.error('Error fetching critiques:', err);
+    }
+  };
+
+  const fetchLists = async () => {
+    try {
+      const response = await articlesAPI.getAll({
+        page: 1,
+        limit: 10,
+        status: 'published',
+        category: 'list',
+      });
+      setLists(response.data.data.articles);
+    } catch (err) {
+      console.error('Error fetching lists:', err);
+    }
+  };
+
   useEffect(() => {
     fetchArticles(1, searchQuery);
+    fetchCritiques();
+    fetchLists();
   }, []);
 
   const handleSearch = (e) => {
@@ -103,25 +136,47 @@ export default function Home() {
           <>
             {/* Hero + Sidebar Layout */}
             {!showAllArticles && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                {/* Hero Article - 2/3 width */}
-                <div className="lg:col-span-2">
-                  <HeroArticle article={heroArticle} />
-                </div>
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                  {/* Hero Article - 2/3 width */}
+                  <div className="lg:col-span-2">
+                    <HeroArticle article={heroArticle} />
+                  </div>
 
-                {/* Sidebar - Latest Articles - 1/3 width */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                    <span className="text-primary-600 mr-2">|</span>
-                    DERNIERS ARTICLES
-                  </h2>
-                  <div className="space-y-4">
-                    {sidebarArticles.map((article) => (
-                      <ArticleListItem key={article._id} article={article} />
-                    ))}
+                  {/* Sidebar - Latest Articles - 1/3 width */}
+                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                      <span className="text-primary-600 mr-2">|</span>
+                      DERNIERS ARTICLES
+                    </h2>
+                    <div className="space-y-4">
+                      {sidebarArticles.map((article) => (
+                        <ArticleListItem key={article._id} article={article} />
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+
+                {/* Critiques Carousel */}
+                {critiques.length > 0 && (
+                  <ArticleCarousel
+                    title="Critiques de films"
+                    articles={critiques}
+                    viewAllLink="/critiques"
+                    icon="🎬"
+                  />
+                )}
+
+                {/* Lists Carousel */}
+                {lists.length > 0 && (
+                  <ArticleCarousel
+                    title="Listes"
+                    articles={lists}
+                    viewAllLink="/listes"
+                    icon="📋"
+                  />
+                )}
+              </>
             )}
 
             {/* More Articles Section */}
