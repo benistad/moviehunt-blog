@@ -42,7 +42,7 @@ export default function Critiques({ initialArticles = [], totalPages: initialTot
           page,
           limit: 12,
           status: 'published',
-          category: 'critique',
+          category: 'review',
           _ts: Date.now(),
         },
       });
@@ -137,7 +137,7 @@ export async function getStaticProps() {
         page: 1,
         limit: 12,
         status: 'published',
-        category: 'critique',
+        category: 'review',
       },
       timeout: 5000,
     });

@@ -252,7 +252,7 @@ export async function getStaticProps() {
         page: 1,
         limit: 10,
         status: 'published',
-        category: 'critique',
+        category: 'review',
       },
       timeout: 5000,
     });
