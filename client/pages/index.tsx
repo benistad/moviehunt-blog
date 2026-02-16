@@ -41,17 +41,17 @@ export default function Home({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showAllArticles, setShowAllArticles] = useState(false);
   
   const heroArticle = articles[0];
   const sidebarArticles = articles.slice(1, 6);
   const remainingArticles = articles.slice(6);
   
-  // Toujours rafraîchir les articles au montage pour refléter les changements récents
-  useEffect(() => {
-    fetchArticles(1, '');
-  }, []);
+  // Pas besoin de refetch au montage, on a déjà les données SSG
+  // useEffect(() => {
+  //   fetchArticles(1, '');
+  // }, []);
 
   const fetchArticles = async (page: number, search: string = '') => {
     setLoading(true);
