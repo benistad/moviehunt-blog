@@ -223,24 +223,6 @@ export default function Home({
                 </>
               )}
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="mt-12 flex justify-center gap-2">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => handlePageChange(page)}
-                      className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
-                        currentPage === page
-                          ? 'bg-primary-600 text-white shadow-lg transform scale-105'
-                          : 'bg-white text-gray-700 hover:bg-gray-100 shadow-md'
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-              )}
             </>
           )}
         </div>
