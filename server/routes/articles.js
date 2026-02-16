@@ -19,8 +19,14 @@ router.get('/', async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 10;
     const status = req.query.status || 'published';
     const search = req.query.search || '';
+    const category = req.query.category;
 
     const query = { status };
+
+    // Filtre par catégorie si fourni
+    if (category) {
+      query.category = category;
+    }
 
     // Recherche textuelle si fournie
     if (search) {
