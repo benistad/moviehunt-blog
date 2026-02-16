@@ -33,6 +33,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'imgur.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
+      },
     ],
     formats: ['image/webp'], // Uniquement WebP (plus rapide qu'AVIF)
     deviceSizes: [640, 828, 1200], // Réduire le nombre de tailles
