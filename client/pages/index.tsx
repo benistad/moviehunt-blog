@@ -104,41 +104,41 @@ export default function Home({
       />
 
       <div className="space-y-12">
-        {/* Hero Section - Style Cineverse */}
-        <section className="relative bg-gradient-to-br from-slate-100 via-red-50 to-orange-50 py-16 px-4 rounded-2xl overflow-hidden mt-4 mx-4 sm:mx-6 lg:mx-8">
+        {/* Hero Section - Style Cineverse - Réduit */}
+        <section className="relative bg-gradient-to-br from-slate-100 via-red-50 to-orange-50 py-4 px-4 rounded-2xl overflow-hidden mt-4 mx-4 sm:mx-6 lg:mx-8">
           {/* Blobs animés en arrière-plan */}
-          <div className="absolute top-0 -left-4 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-          <div className="absolute top-0 -right-4 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-red-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute top-0 -left-4 w-48 h-48 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-48 h-48 bg-orange-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-48 h-48 bg-red-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
           
           <div className="relative max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
+            <h1 className="text-2xl md:text-3xl font-extrabold mb-2 leading-tight">
               <span className="text-primary-800">MovieHunt Blog: </span>
               <span style={{ color: '#FEBE29' }}>critiques de films</span>
             </h1>
             
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-700 mb-8 max-w-2xl mx-auto">
+            <h2 className="text-base md:text-lg font-bold text-gray-700 mb-3 max-w-2xl mx-auto">
               Découvrez des analyses et recommandations
             </h2>
             
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-gray-600 mb-4 max-w-2xl mx-auto">
               Des critiques détaillées de films sélectionnés par MovieHunt, des pépites cinématographiques et des analyses approfondies.
             </p>
 
             {/* Search Bar intégrée au hero */}
-            <div className="max-w-2xl mx-auto mb-6">
+            <div className="max-w-2xl mx-auto mb-3">
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
                   placeholder="Rechercher un article..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white text-gray-800 rounded-full py-3 pl-12 pr-32 focus:outline-none focus:ring-2 focus:ring-primary-300 transition-all duration-300 shadow-lg"
+                  className="w-full bg-white text-gray-800 rounded-full py-2 pl-10 pr-28 text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 transition-all duration-300 shadow-lg"
                 />
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <button 
                   type="submit" 
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition-all duration-300 font-semibold"
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-primary-600 text-white px-4 py-1.5 text-sm rounded-full hover:bg-primary-700 transition-all duration-300 font-semibold"
                 >
                   Rechercher
                 </button>
@@ -150,12 +150,12 @@ export default function Home({
                 href="https://www.moviehunt.fr" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 rounded-full bg-indigo-700 text-white text-lg font-semibold shadow-lg hover:bg-indigo-800 transform hover:scale-105 transition-all duration-300 ease-in-out"
+                className="inline-flex items-center px-5 py-2 rounded-full bg-indigo-700 text-white text-sm font-semibold shadow-lg hover:bg-indigo-800 transform hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Découvrir MovieHunt
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5 ml-2" 
+                  className="h-4 w-4 ml-2" 
                   viewBox="0 0 20 20" 
                   fill="currentColor"
                 >
