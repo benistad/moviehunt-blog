@@ -223,22 +223,6 @@ export default function Home({
                 </>
               )}
 
-              {/* More Articles Section */}
-              {remainingArticles.length > 0 && (
-                <>
-                  <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900">
-                      {showAllArticles ? 'Tous les articles' : 'Plus d\'articles'}
-                    </h2>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {(showAllArticles ? articles : remainingArticles).map((article) => (
-                      <ArticleCardNext key={article._id} article={article} />
-                    ))}
-                  </div>
-                </>
-              )}
-
               {/* Pagination */}
               {totalPages > 1 && (
                 <div className="mt-12 flex justify-center gap-2">
