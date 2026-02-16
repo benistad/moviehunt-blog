@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import axios from 'axios';
 import ArticleCardNext from '../src/components/ArticleCardNext';
+import HeroArticleNext from '../src/components/HeroArticleNext';
+import ArticleListItemNext from '../src/components/ArticleListItemNext';
+import ArticleCarouselNext from '../src/components/ArticleCarouselNext';
 import SEO from '../src/components/SEO';
 
 interface Article {
@@ -21,19 +24,29 @@ interface Article {
 
 interface HomeProps {
   initialArticles: Article[];
+  initialCritiques: Article[];
+  initialLists: Article[];
   totalPages: number;
 }
 
-export default function Home({ initialArticles = [], totalPages: initialTotalPages = 1 }: Partial<HomeProps>) {
+export default function Home({ 
+  initialArticles = [], 
+  initialCritiques = [],
+  initialLists = [],
+  totalPages: initialTotalPages = 1 
+}: Partial<HomeProps>) {
   const [articles, setArticles] = useState<Article[]>(initialArticles);
+  const [critiques, setCritiques] = useState<Article[]>(initialCritiques);
+  const [lists, setLists] = useState<Article[]>(initialLists);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showAllArticles, setShowAllArticles] = useState(false);
   
-  // Séparer les articles par catégorie
-  const reviewArticles = articles.filter(article => article.category !== 'list');
-  const listArticles = articles.filter(article => article.category === 'list');
+  const heroArticle = articles[0];
+  const sidebarArticles = articles.slice(1, 6);
+  const remainingArticles = articles.slice(6);
   
   // Toujours rafraîchir les articles au montage pour refléter les changements récents
   useEffect(() => {
@@ -66,6 +79,7 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowAllArticles(true);
     fetchArticles(1, searchQuery);
   };
 
@@ -153,7 +167,7 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
         </section>
 
         {/* Articles Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <div className="flex justify-center items-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
@@ -164,47 +178,65 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
             </div>
           ) : (
             <>
-              {/* Section Critiques de films */}
-              {reviewArticles.length > 0 && (
-                <section>
-                  <div className="mb-8">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-lg">
-                        Critiques de films
-                      </div>
-                      <div className="flex-1 h-px bg-gradient-to-r from-blue-300 to-transparent"></div>
+              {/* Hero + Sidebar Layout */}
+              {!showAllArticles && heroArticle && (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                    {/* Hero Article - 2/3 width */}
+                    <div className="lg:col-span-2">
+                      <HeroArticleNext article={heroArticle} />
                     </div>
-                    <p className="text-gray-600 mt-3 ml-1">Analyses et critiques détaillées de films</p>
+
+                    {/* Sidebar - Latest Articles - 1/3 width */}
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                      <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        <span className="text-primary-600 mr-2">|</span>
+                        DERNIERS ARTICLES
+                      </h2>
+                      <div className="space-y-4">
+                        {sidebarArticles.map((article) => (
+                          <ArticleListItemNext key={article._id} article={article} />
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {reviewArticles.map((article) => (
-                      <ArticleCardNext key={article._id} article={article} />
-                    ))}
-                  </div>
-                </section>
+                  {/* Critiques Carousel */}
+                  {critiques.length > 0 && (
+                    <ArticleCarouselNext
+                      title="Critiques de films"
+                      articles={critiques}
+                      viewAllLink="/critiques"
+                      icon="🎬"
+                    />
+                  )}
+
+                  {/* Lists Carousel */}
+                  {lists.length > 0 && (
+                    <ArticleCarouselNext
+                      title="Listes"
+                      articles={lists}
+                      viewAllLink="/listes"
+                      icon="📋"
+                    />
+                  )}
+                </>
               )}
 
-              {/* Section Listes de films */}
-              {listArticles.length > 0 && (
-                <section>
-                  <div className="mb-8">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-orange-500 text-white px-4 py-2 rounded-full font-bold text-lg flex items-center gap-2">
-                        <span>📋</span>
-                        <span>Listes de films</span>
-                      </div>
-                      <div className="flex-1 h-px bg-gradient-to-r from-orange-300 to-transparent"></div>
-                    </div>
-                    <p className="text-gray-600 mt-3 ml-1">Sélections et tops de films à découvrir</p>
+              {/* More Articles Section */}
+              {remainingArticles.length > 0 && (
+                <>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {showAllArticles ? 'Tous les articles' : 'Plus d\'articles'}
+                    </h2>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {listArticles.map((article) => (
+                    {(showAllArticles ? articles : remainingArticles).map((article) => (
                       <ArticleCardNext key={article._id} article={article} />
                     ))}
                   </div>
-                </section>
+                </>
               )}
 
               {/* Pagination */}
@@ -237,31 +269,58 @@ export default function Home({ initialArticles = [], totalPages: initialTotalPag
 export async function getStaticProps() {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://moviehunt-blog-api.vercel.app/api';
-    const response = await axios.get(`${apiUrl}/articles`, {
+    
+    // Récupérer tous les articles
+    const articlesResponse = await axios.get(`${apiUrl}/articles`, {
       params: {
         page: 1,
-        limit: 9,
+        limit: 12,
         status: 'published',
       },
-      timeout: 5000, // Timeout de 5 secondes
+      timeout: 5000,
+    });
+
+    // Récupérer les critiques
+    const critiquesResponse = await axios.get(`${apiUrl}/articles`, {
+      params: {
+        page: 1,
+        limit: 10,
+        status: 'published',
+        category: 'critique',
+      },
+      timeout: 5000,
+    });
+
+    // Récupérer les listes
+    const listsResponse = await axios.get(`${apiUrl}/articles`, {
+      params: {
+        page: 1,
+        limit: 10,
+        status: 'published',
+        category: 'list',
+      },
+      timeout: 5000,
     });
 
     return {
       props: {
-        initialArticles: response.data.data.articles || [],
-        totalPages: response.data.data.pagination?.pages || 1,
+        initialArticles: articlesResponse.data.data.articles || [],
+        initialCritiques: critiquesResponse.data.data.articles || [],
+        initialLists: listsResponse.data.data.articles || [],
+        totalPages: articlesResponse.data.data.pagination?.pages || 1,
       },
-      revalidate: 300, // Revalider toutes les 5 minutes
+      revalidate: 60, // Revalider toutes les 60 secondes pour voir les changements plus rapidement
     };
   } catch (error) {
     console.error('Error in getStaticProps:', error);
-    // En cas d'erreur, retourner des props vides mais ne pas faire échouer le build
     return {
       props: {
         initialArticles: [],
+        initialCritiques: [],
+        initialLists: [],
         totalPages: 1,
       },
-      revalidate: 60, // Réessayer plus fréquemment en cas d'erreur
+      revalidate: 60,
     };
   }
 }
