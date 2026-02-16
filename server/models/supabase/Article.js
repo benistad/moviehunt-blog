@@ -47,6 +47,10 @@ class ArticleQuery {
       supabaseQuery = supabaseQuery.eq('status', this.query.status);
     }
 
+    if (this.query.category) {
+      supabaseQuery = supabaseQuery.eq('category', this.query.category);
+    }
+
     if (this.query.tags) {
       supabaseQuery = supabaseQuery.contains('tags', [this.query.tags]);
     }
@@ -196,6 +200,10 @@ class Article {
 
     if (query.status) {
       supabaseQuery = supabaseQuery.eq('status', query.status);
+    }
+
+    if (query.category) {
+      supabaseQuery = supabaseQuery.eq('category', query.category);
     }
 
     const { count, error } = await supabaseQuery;
