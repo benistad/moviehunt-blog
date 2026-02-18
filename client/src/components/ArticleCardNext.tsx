@@ -82,7 +82,9 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
             {article.title}
           </h2>
 
-          <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed flex-1">{article.excerpt}</p>
+          <div className="flex-1 mb-4 overflow-hidden">
+            <p className="text-gray-600 leading-relaxed line-clamp-3">{article.excerpt}</p>
+          </div>
 
           {/* Meta */}
           <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
