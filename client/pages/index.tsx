@@ -233,40 +233,24 @@ export default function Home({
 
 // SSG avec ISR pour des performances optimales
 export async function getStaticProps() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://moviehunt-blog-api.vercel.app/api';
+
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://moviehunt-blog-api.vercel.app/api';
-    
-    // Récupérer tous les articles
-    const articlesResponse = await axios.get(`${apiUrl}/articles`, {
-      params: {
-        page: 1,
-        limit: 12,
-        status: 'published',
-      },
-      timeout: 5000,
-    });
-
-    // Récupérer les critiques
-    const critiquesResponse = await axios.get(`${apiUrl}/articles`, {
-      params: {
-        page: 1,
-        limit: 10,
-        status: 'published',
-        category: 'review',
-      },
-      timeout: 5000,
-    });
-
-    // Récupérer les listes
-    const listsResponse = await axios.get(`${apiUrl}/articles`, {
-      params: {
-        page: 1,
-        limit: 10,
-        status: 'published',
-        category: 'list',
-      },
-      timeout: 5000,
-    });
+    // Lancer les 3 requêtes en parallèle
+    const [articlesResponse, critiquesResponse, listsResponse] = await Promise.all([
+      axios.get(`${apiUrl}/articles`, {
+        params: { page: 1, limit: 12, status: 'published' },
+        timeout: 8000,
+      }),
+      axios.get(`${apiUrl}/articles`, {
+        params: { page: 1, limit: 10, status: 'published', category: 'review' },
+        timeout: 8000,
+      }),
+      axios.get(`${apiUrl}/articles`, {
+        params: { page: 1, limit: 10, status: 'published', category: 'list' },
+        timeout: 8000,
+      }),
+    ]);
 
     return {
       props: {
@@ -275,7 +259,7 @@ export async function getStaticProps() {
         initialLists: listsResponse.data.data.articles || [],
         totalPages: articlesResponse.data.data.pagination?.pages || 1,
       },
-      revalidate: 60, // Revalider toutes les 60 secondes pour voir les changements plus rapidement
+      revalidate: 60,
     };
   } catch (error) {
     console.error('Error in getStaticProps:', error);

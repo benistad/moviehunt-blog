@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -62,10 +63,14 @@ export default function HeroArticleNext({ article }: HeroArticleProps) {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         {article.coverImage && (
-          <img
+          <Image
             src={article.coverImage}
             alt={article.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 66vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            quality={75}
           />
         )}
         {/* Gradient Overlay - Dark blue/purple gradient */}

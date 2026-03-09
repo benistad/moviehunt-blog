@@ -38,10 +38,10 @@ const nextConfig = {
         hostname: 'i.ibb.co',
       },
     ],
-    formats: ['image/webp'], // Uniquement WebP (plus rapide qu'AVIF)
+    formats: ['image/avif', 'image/webp'], // AVIF = meilleure compression, fallback WebP
     deviceSizes: [640, 828, 1200], // Réduire le nombre de tailles
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
-    minimumCacheTTL: 86400,
+    imageSizes: [16, 32, 64, 128, 256],
+    minimumCacheTTL: 604800, // 7 jours (au lieu de 1 jour)
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
