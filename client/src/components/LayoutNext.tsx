@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Home, Film, BookOpen } from 'lucide-react';
 import { useEffect, ReactNode, useState } from 'react';
 
@@ -46,10 +47,12 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center space-x-3 group">
               <div className="relative w-10 h-10">
-                <img 
+                <Image 
                   src="/logo.png" 
                   alt="MovieHunt Blog" 
-                  className="h-10 w-auto object-contain group-hover:rotate-6 transition-transform duration-300" 
+                  width={40}
+                  height={40}
+                  className="object-contain group-hover:rotate-6 transition-transform duration-300" 
                 />
               </div>
               <span className="text-2xl font-bold">
@@ -103,7 +106,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <img src="/logo.png" alt="MovieHunt Blog" className="h-10 w-auto" />
+                <Image src="/logo.png" alt="MovieHunt Blog" width={40} height={40} className="object-contain" />
                 <span className="text-xl font-bold">
                   <span className="text-indigo-700">MovieHunt</span>{' '}
                   <span className="text-primary-600">Blog</span>
