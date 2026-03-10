@@ -73,8 +73,8 @@ export default function HeroArticleNext({ article }: HeroArticleProps) {
             quality={75}
           />
         )}
-        {/* Gradient Overlay - Dark blue/purple gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/95 via-purple-900/90 to-indigo-800/95"></div>
+        {/* Gradient Overlay - uniquement en bas pour la lisibilité du texte */}
+        <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/95 via-indigo-900/60 to-transparent"></div>
       </div>
 
       {/* Content */}
