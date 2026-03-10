@@ -108,6 +108,8 @@ export default function Listes({ initialArticles = [], totalPages: initialTotalP
                   <button
                     key={page}
                     onClick={() => handlePageChange(page)}
+                    aria-label={`Page ${page}`}
+                    aria-current={currentPage === page ? 'page' : undefined}
                     className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
                       currentPage === page
                         ? 'bg-primary-600 text-white shadow-lg transform scale-105'

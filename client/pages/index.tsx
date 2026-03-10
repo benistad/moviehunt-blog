@@ -141,7 +141,8 @@ export default function Home({
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <button 
-                  type="submit" 
+                  type="submit"
+                  aria-label="Lancer la recherche"
                   className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-primary-600 text-white px-4 py-1.5 text-sm rounded-full hover:bg-primary-700 transition-all duration-300 font-semibold"
                 >
                   Rechercher

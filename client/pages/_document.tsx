@@ -8,36 +8,37 @@ export default function Document() {
         <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
         
-        {/* Preconnect pour les domaines externes - Optimisé */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/* Preconnect pour les domaines externes */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://moviehunt-blog-api.vercel.app" />
         <link rel="preconnect" href="https://image.tmdb.org" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        
-        {/* Fonts optimisées - Uniquement Poppins avec display=swap */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-          media="print"
-          // @ts-ignore
-          onLoad="this.media='all'"
-        />
-        <noscript>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-            rel="stylesheet"
-          />
-        </noscript>
-        
-        {/* Fallback font system pour éviter FOIT */}
+
+        {/* Fallback font system - rendu immédiat sans attendre Poppins */}
         <style dangerouslySetInnerHTML={{
           __html: `
             body {
-              font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             }
           `
         }} />
+
+        {/* Poppins chargée de façon non-bloquante après le rendu */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=optional';
+                link.onload = function() {
+                  document.body.style.fontFamily = "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif";
+                };
+                document.head.appendChild(link);
+              })();
+            `,
+          }}
+        />
         
         {/* CKEditor - Chargé uniquement si nécessaire (admin) */}
         
