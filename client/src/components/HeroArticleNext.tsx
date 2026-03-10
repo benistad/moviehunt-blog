@@ -114,7 +114,7 @@ export default function HeroArticleNext({ article }: HeroArticleProps) {
               <span className="text-sm">{formattedDate}</span>
             </div>
 
-            <button className="inline-flex items-center px-6 py-2 bg-white text-gray-900 rounded-lg font-medium hover:bg-orange-400 hover:text-white transition-all duration-300 shadow-lg group-hover:shadow-xl">
+            <button aria-label={`Lire l'article : ${article.title}`} className="inline-flex items-center px-6 py-2 bg-white text-gray-900 rounded-lg font-medium hover:bg-orange-400 hover:text-white transition-all duration-300 shadow-lg group-hover:shadow-xl">
               Lire l'article →
             </button>
           </div>

@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app';
-import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '../src/contexts/AuthContextNext';
 import Layout from '../src/components/LayoutNext';
@@ -9,9 +8,8 @@ import './globals.css';
 // AuthProvider Next.js compatible - v5
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <HelmetProvider>
-      <AuthProvider>
-        <Toaster
+    <AuthProvider>
+      <Toaster
           position="top-right"
           toastOptions={{
             duration: 4000,
@@ -38,7 +36,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </AuthProvider>
-    </HelmetProvider>
+    </AuthProvider>
   );
 }

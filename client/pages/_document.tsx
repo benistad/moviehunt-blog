@@ -14,31 +14,26 @@ export default function Document() {
         <link rel="preconnect" href="https://image.tmdb.org" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-        {/* Fallback font system - rendu immédiat sans attendre Poppins */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            body {
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            }
-          `
-        }} />
-
-        {/* Poppins chargée de façon non-bloquante après le rendu */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=optional';
-                link.onload = function() {
-                  document.body.style.fontFamily = "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif";
-                };
-                document.head.appendChild(link);
-              })();
-            `,
-          }}
+        {/* Poppins - non-bloquant via media=print trick */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+          media="print"
+          // @ts-ignore
+          onLoad="this.media='all'"
         />
+        <noscript>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+            rel="stylesheet"
+          />
+        </noscript>
+
+        {/* Fallback font system */}
+        <style dangerouslySetInnerHTML={{
+          __html: `body { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }`
+        }} />
         
         {/* CKEditor - Chargé uniquement si nécessaire (admin) */}
         

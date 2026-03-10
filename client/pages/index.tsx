@@ -1,15 +1,10 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
 import axios from 'axios';
-import dynamic from 'next/dynamic';
 import HeroArticleNext from '../src/components/HeroArticleNext';
 import ArticleListItemNext from '../src/components/ArticleListItemNext';
+import ArticleCarouselNext from '../src/components/ArticleCarouselNext';
 import SEONext from '../src/components/SEONext';
-
-const ArticleCarouselNext = dynamic(
-  () => import('../src/components/ArticleCarouselNext'),
-  { ssr: false }
-);
 
 interface Article {
   _id: string;
