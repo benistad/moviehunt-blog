@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { Home, Search } from 'lucide-react';
-import SEO from '../src/components/SEO';
+import SEONext from '../src/components/SEONext';
 
 export default function NotFound() {
   return (
     <>
-      <SEO
+      <SEONext
         title="Page non trouvée - 404"
         description="La page que vous recherchez n'existe pas ou a été déplacée."
         url="/404"
