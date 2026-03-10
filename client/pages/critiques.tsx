@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import ArticleCardNext from '../src/components/ArticleCardNext';
-import SEO from '../src/components/SEO';
+import SEONext from '../src/components/SEONext';
 
 interface Article {
   _id: string;
@@ -27,11 +27,7 @@ export default function Critiques({ initialArticles = [], totalPages: initialTot
   const [articles, setArticles] = useState<Article[]>(initialArticles);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchArticles(1);
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const fetchArticles = async (page: number) => {
     setLoading(true);
@@ -64,7 +60,7 @@ export default function Critiques({ initialArticles = [], totalPages: initialTot
 
   return (
     <>
-      <SEO
+      <SEONext
         title="Critiques de films - MovieHunt Blog"
         description="Découvrez toutes nos critiques et analyses détaillées de films. Des pépites cinématographiques aux blockbusters, retrouvez nos avis argumentés."
         url="/critiques"

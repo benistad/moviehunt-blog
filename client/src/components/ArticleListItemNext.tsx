@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -61,10 +62,13 @@ export default function ArticleListItemNext({ article }: ArticleListItemProps) {
       {/* Thumbnail */}
       <div className="relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-gray-200">
         {article.coverImage && (
-          <img
+          <Image
             src={article.coverImage}
             alt={article.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            fill
+            sizes="96px"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
           />
         )}
         

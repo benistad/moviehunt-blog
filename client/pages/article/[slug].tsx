@@ -8,7 +8,7 @@ import { fr } from 'date-fns/locale';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import rehypeRaw from 'rehype-raw';
-import SEO from '../../components/SEO';
+import SEONext from '../../src/components/SEONext';
 import ArticleSchema from '../../src/components/ArticleSchema';
 import MovieRating from '../../src/components/MovieRating';
 import { blurDataURL } from '../../src/utils/imageOptimization';
@@ -94,7 +94,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
       </Head>
 
       {/* SEO Meta Tags */}
-      <SEO
+      <SEONext
         title={article.seo?.metaTitle || article.title}
         description={article.seo?.metaDescription || article.excerpt}
         image={article.coverImage}

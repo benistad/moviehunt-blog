@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Search } from 'lucide-react';
 import axios from 'axios';
-import ArticleCardNext from '../src/components/ArticleCardNext';
+import dynamic from 'next/dynamic';
 import HeroArticleNext from '../src/components/HeroArticleNext';
 import ArticleListItemNext from '../src/components/ArticleListItemNext';
-import ArticleCarouselNext from '../src/components/ArticleCarouselNext';
-import SEO from '../src/components/SEO';
+import SEONext from '../src/components/SEONext';
+
+const ArticleCarouselNext = dynamic(
+  () => import('../src/components/ArticleCarouselNext'),
+  { ssr: false }
+);
 
 interface Article {
   _id: string;
@@ -90,7 +94,7 @@ export default function Home({
 
   return (
     <>
-      <SEO
+      <SEONext
         title="Accueil - Critiques et analyses de films"
         description="Découvrez des critiques et analyses de films sélectionnés par MovieHunt. Des pépites cinématographiques méconnues et des recommandations de qualité."
         url="/"
