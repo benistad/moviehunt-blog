@@ -25,7 +25,7 @@ export const articlesAPI = {
   getAll: (params = {}) => api.get('/articles', { params }),
   getById: (id) => api.get(`/articles/${id}`),
   getBySlug: (slug) => api.get(`/articles/slug/${slug}`),
-  generate: (url) => api.post('/articles/generate', { url }),
+  generate: (url, customInstructions = '') => api.post('/articles/generate', { url, customInstructions }),
   generateFromPrompt: (prompt) => api.post('/articles/generate-from-prompt', { prompt }),
   regenerate: (id) => api.post(`/articles/${id}/regenerate`),
   update: (id, data) => api.put(`/articles/${id}`, data),

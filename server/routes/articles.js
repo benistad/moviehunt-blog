@@ -131,9 +131,9 @@ router.get('/slug/:slug', async (req, res, next) => {
  */
 router.post('/generate', urlValidation, async (req, res, next) => {
   try {
-    const { url } = req.body;
+    const { url, customInstructions } = req.body;
 
-    const result = await articleGeneratorService.generateFromUrl(url, 'manual');
+    const result = await articleGeneratorService.generateFromUrl(url, 'manual', customInstructions);
 
     res.status(201).json({
       success: true,

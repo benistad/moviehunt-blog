@@ -26,6 +26,7 @@ export default function Admin() {
   const { signOut, user } = useAuth();
   const [activeTab, setActiveTab] = useState('generate');
   const [url, setUrl] = useState('');
+  const [customInstructions, setCustomInstructions] = useState('');
   const [prompt, setPrompt] = useState('');
   const [generating, setGenerating] = useState(false);
   const [generatingFromPrompt, setGeneratingFromPrompt] = useState(false);
@@ -90,9 +91,10 @@ export default function Admin() {
     const toastId = toast.loading('Génération de l\'article en cours...');
 
     try {
-      const response = await articlesAPI.generate(url);
+      const response = await articlesAPI.generate(url, customInstructions);
       toast.success('Article généré en brouillon !', { id: toastId });
       setUrl('');
+      setCustomInstructions('');
       fetchStats();
       fetchDrafts();
       fetchQueue();
@@ -385,6 +387,24 @@ export default function Admin() {
               />
               <p className="mt-2 text-sm text-gray-500">
                 Entrez l'URL d'une page MovieHunt pour générer automatiquement un article
+              </p>
+            </div>
+
+            <div>
+              <label htmlFor="customInstructions" className="block text-sm font-medium text-gray-700 mb-2">
+                Recommandations particulières (optionnel)
+              </label>
+              <textarea
+                id="customInstructions"
+                value={customInstructions}
+                onChange={(e) => setCustomInstructions(e.target.value)}
+                placeholder="Ex: Insister sur l'aspect visuel du film, comparer avec d'autres films du réalisateur, adopter un ton plus critique..."
+                className="input min-h-[100px] resize-y"
+                disabled={generating}
+                rows={4}
+              />
+              <p className="mt-2 text-sm text-gray-500">
+                💡 Ajoutez des consignes spécifiques pour personnaliser cet article (ton, angle d'analyse, comparaisons...)
               </p>
             </div>
 

@@ -7,11 +7,14 @@ class ArticleGeneratorService {
   /**
    * Génère un article complet depuis une URL
    */
-  async generateFromUrl(url, addedBy = 'manual') {
+  async generateFromUrl(url, addedBy = 'manual', customInstructions = '') {
     let queueItem = null;
 
     try {
       console.log(`📝 Début de génération pour: ${url}`);
+      if (customInstructions) {
+        console.log(`📋 Recommandations particulières: ${customInstructions}`);
+      }
 
       // Vérifier si l'URL est valide
       if (!scraperService.isValidMovieHuntUrl(url)) {
@@ -85,7 +88,7 @@ class ArticleGeneratorService {
       }
 
       // Étape 2: Générer l'article avec l'IA
-      const generatedArticle = await aiService.generateArticle(scrapedData, url);
+      const generatedArticle = await aiService.generateArticle(scrapedData, url, customInstructions);
 
       // Étape 3: Créer l'article dans la base de données (en brouillon par défaut)
       const article = await Article.create({

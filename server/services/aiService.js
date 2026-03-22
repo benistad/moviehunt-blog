@@ -3,11 +3,11 @@ const openai = require('../config/openai');
 class AIService {
   /**
    * Génère un article de blog à partir des données scrapées
-   * Utilise GPT-4o mini pour la génération
+   * Utilise GPT-4o pour la génération
    */
-  async generateArticle(scrapedData, sourceUrl) {
+  async generateArticle(scrapedData, sourceUrl, customInstructions = '') {
     try {
-      console.log(`🤖 Génération d'article avec GPT-4o mini...`);
+      console.log(`🤖 Génération d'article avec GPT-4o...`);
       console.log(`📊 Données du film:`, {
         titre: scrapedData.title,
         score: scrapedData.metadata?.score,
@@ -18,11 +18,12 @@ class AIService {
         hasReview: !!scrapedData.metadata?.review,
       });
 
-      const prompt = this.buildPrompt(scrapedData, sourceUrl);
+      const prompt = this.buildPrompt(scrapedData, sourceUrl, customInstructions);
       console.log(`📝 Longueur du prompt: ${prompt.length} caractères`);
 
       const completion = await openai.chat.completions.create({
         model: 'gpt-4o',
+        temperature: 0.8,
         messages: [
           {
             role: 'system',
@@ -77,9 +78,9 @@ class AIService {
   }
 
   /**
-   * Construit le prompt pour GPT-4o mini avec les données de l'API MovieHunt
+   * Construit le prompt pour GPT-4o avec les données de l'API MovieHunt
    */
-  buildPrompt(scrapedData, sourceUrl) {
+  buildPrompt(scrapedData, sourceUrl, customInstructions = '') {
     const metadata = scrapedData.metadata;
     
     // Validation des données essentielles (avec valeurs par défaut)
@@ -95,7 +96,18 @@ class AIService {
     // Déterminer si on a des points négatifs
     const hasNegatives = metadata.review && metadata.review.trim().length > 0;
     
-    return `Génère un article de blog complet et engageant sur le film "${scrapedData.title}" à partir des données MovieHunt.
+    // Ajouter les recommandations particulières si présentes
+    const customSection = customInstructions ? `
+
+═══════════════════════════════════════════════════════════════
+🎯 RECOMMANDATIONS PARTICULIÈRES POUR CET ARTICLE
+═══════════════════════════════════════════════════════════════
+${customInstructions}
+
+⚠️ IMPORTANT: Respecte ces recommandations tout en conservant la structure et le style général de l'article.
+` : '';
+    
+    return `Génère un article de blog complet et engageant sur le film "${scrapedData.title}" à partir des données MovieHunt.${customSection}
 
 ⚠️ RÈGLE IMPORTANTE : ANALYSE LES DONNÉES FOURNIES
 Certaines sections ci-dessous peuvent indiquer "Non disponible". Dans ce cas :
@@ -463,6 +475,7 @@ CONTENU:
 
       const completion = await openai.chat.completions.create({
         model: 'gpt-4o',
+        temperature: 0.8,
         messages: [
           {
             role: 'system',
@@ -528,6 +541,7 @@ Contenu: ${content.substring(0, 500)}`,
 
       const completion = await openai.chat.completions.create({
         model: 'gpt-4o',
+        temperature: 0.8,
         messages: [
           {
             role: 'system',
