@@ -67,12 +67,16 @@ export default function ArticlePage({ article }: ArticlePageProps) {
 
   const formattedDate = format(new Date(article.publishedAt), 'dd MMMM yyyy', { locale: fr });
 
-  // Préparer les données SEO
+  // Préparer les données SEO optimisées
   const seoKeywords = [
     ...(article.tags || []),
     article.metadata?.movieTitle,
     ...(article.metadata?.genre || []),
     ...(article.metadata?.actors?.slice(0, 3) || []),
+    'films Netflix 2026',
+    'que regarder sur Netflix',
+    'meilleurs films Netflix',
+    'films cachés Netflix',
   ].filter(Boolean) as string[];
 
   return (

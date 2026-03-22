@@ -69,8 +69,8 @@ export default function HeroArticleNext({ article }: HeroArticleProps) {
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 66vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-            quality={75}
+            className="object-contain object-center group-hover:scale-105 transition-transform duration-500"
+            quality={90}
           />
         )}
         {/* Gradient Overlay - uniquement en bas pour la lisibilité du texte */}
