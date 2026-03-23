@@ -126,6 +126,14 @@ Le contenu de l'article doit être en HTML avec cette structure pour chaque film
 cp "/chemin/source/visuel.png" "client/public/nom-article.png"
 ```
 
+**⚠️ Important : Format de l'image de couverture**
+
+L'image de couverture s'affiche avec `object-contain` pour utiliser toute la hauteur de l'image :
+- La hauteur de l'image est toujours affichée en entier (pas de rognage vertical)
+- Les côtés peuvent être rognés si l'image est plus large que le format 16:9
+- L'image est centrée dans le conteneur (`object-center`)
+- Format recommandé : 16:9 (1920x1080) pour un affichage optimal sans rognage
+
 ### Étape 4 : Création de l'Article dans Supabase
 
 **⚠️ IMPORTANT : Utiliser les noms de colonnes snake_case de Supabase**
