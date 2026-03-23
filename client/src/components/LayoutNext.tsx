@@ -42,7 +42,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header - Redesign */}
-      <header className="bg-white sticky top-0 z-50 shadow-sm">
+      <header className="bg-gradient-to-r from-purple-700 via-purple-600 to-purple-700 sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo + Nom */}
@@ -56,7 +56,7 @@ export default function Layout({ children }: LayoutProps) {
                   className="object-contain" 
                 />
               </div>
-              <span className="text-xl font-bold text-gray-900">
+              <span className="text-2xl font-extrabold text-white">
                 MovieHunt <span className="font-normal">Blog</span>
               </span>
             </Link>
@@ -64,11 +64,11 @@ export default function Layout({ children }: LayoutProps) {
             {/* Barre de recherche + Navigation */}
             <div className="flex items-center space-x-6">
               {/* Barre de recherche */}
-              <div className="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2 w-64">
+              <div className="hidden md:flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 w-64 border border-white/30">
                 <input
                   type="text"
                   placeholder="Recherche..."
-                  className="bg-transparent border-none outline-none text-sm w-full text-gray-700 placeholder-gray-500"
+                  className="bg-transparent border-none outline-none text-sm w-full text-white placeholder-white/70"
                 />
                 <button className="bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 ml-2 transition-colors">
                   <Search className="w-4 h-4" />
@@ -79,7 +79,7 @@ export default function Layout({ children }: LayoutProps) {
               <nav className="hidden md:flex items-center space-x-6">
                 <Link
                   href="/"
-                  className="text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors"
+                  className="text-white/90 hover:text-white font-medium text-sm transition-colors"
                 >
                   Accueil
                 </Link>
@@ -87,7 +87,7 @@ export default function Layout({ children }: LayoutProps) {
                   href="https://www.moviehunt.fr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors"
+                  className="text-white/90 hover:text-white font-medium text-sm transition-colors"
                 >
                   MovieHunt
                 </a>
