@@ -63,7 +63,7 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
                 📋 Liste
               </div>
             ) : (
-              <div className="bg-blue-500 text-white px-3 py-1.5 rounded-full font-semibold text-xs shadow-lg">
+              <div className="bg-\[#4f46e5\] text-white px-3 py-1.5 rounded-full font-semibold text-xs shadow-lg">
                 Critique
               </div>
             )}

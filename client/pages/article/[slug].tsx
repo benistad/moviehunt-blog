@@ -170,7 +170,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
               <div className={`px-4 py-2 rounded-full font-semibold text-sm shadow-sm ${
                 article.category === 'list' 
                   ? 'bg-orange-500 text-white' 
-                  : 'bg-blue-500 text-white'
+                  : 'bg-\[#4f46e5\] text-white'
               }`}>
                 {article.category === 'list' ? '📋 Liste de films' : 'Critique de film'}
               </div>

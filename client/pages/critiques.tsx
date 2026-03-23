@@ -76,7 +76,7 @@ export default function Critiques({ initialArticles = [], totalPages: initialTot
         {/* Header */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="bg-blue-500 text-white px-5 py-2.5 rounded-full font-bold text-xl">
+            <div className="bg-\[#4f46e5\] text-white px-5 py-2.5 rounded-full font-bold text-xl">
               🎬 Critiques de films
             </div>
           </div>

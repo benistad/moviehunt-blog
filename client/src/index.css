@@ -50,7 +50,7 @@
   }
 
   .badge-info {
-    @apply badge bg-blue-100 text-blue-800;
+    @apply badge bg-[#4f46e5]/20 text-[#4f46e5];
   }
 }
 

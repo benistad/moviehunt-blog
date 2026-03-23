@@ -37,7 +37,7 @@ export default function ArticleListItemNext({ article }: ArticleListItemProps) {
       );
     }
     return (
-      <span className="inline-flex items-center px-3 py-1 bg-blue-500 text-white rounded-full font-semibold text-xs">
+      <span className="inline-flex items-center px-3 py-1 bg-\[#4f46e5\] text-white rounded-full font-semibold text-xs">
         Critique
       </span>
     );

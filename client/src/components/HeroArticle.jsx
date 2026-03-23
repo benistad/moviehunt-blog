@@ -18,7 +18,7 @@ export default function HeroArticle({ article }) {
       );
     }
     return (
-      <span className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-full font-semibold text-sm shadow-lg">
+      <span className="inline-flex items-center px-4 py-2 bg-\[#4f46e5\] text-white rounded-full font-semibold text-sm shadow-lg">
         🎬 Critique
       </span>
     );

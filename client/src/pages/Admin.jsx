@@ -452,9 +452,9 @@ export default function Admin() {
               <p className="mt-2 text-sm text-gray-500">
                 L'IA va générer un article complet basé sur votre demande. Soyez aussi précis que possible pour obtenir le meilleur résultat.
               </p>
-              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-sm text-blue-800 font-medium mb-2">💡 Exemples de prompts :</p>
-                <ul className="text-sm text-blue-700 space-y-1">
+              <div className="mt-4 p-4 bg-[#4f46e5]/10 border border-[#4f46e5]/30 rounded-lg">
+                <p className="text-sm text-[#4f46e5] font-medium mb-2">💡 Exemples de prompts :</p>
+                <ul className="text-sm text-[#4f46e5] space-y-1">
                   <li>• "Écris un article sur les films de Noël incontournables"</li>
                   <li>• "Rédige une critique du dernier film Marvel"</li>
                   <li>• "Fais un top 10 des meilleurs thrillers psychologiques"</li>
