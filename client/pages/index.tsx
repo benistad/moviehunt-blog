@@ -87,23 +87,23 @@ export default function Home({
           )}
 
           {/* Trending (droite ~42%) */}
-          <div className="lg:w-[42%] bg-gradient-to-br from-pink-500 via-red-400 to-purple-600 rounded-2xl p-5 flex flex-col min-h-[480px]">
-            <h3 className="text-white text-lg font-extrabold tracking-wider uppercase mb-4">Trending</h3>
-            <div className="flex flex-col gap-4 flex-1 justify-center">
+          <div className="lg:w-[42%] bg-gradient-to-br from-pink-500 via-red-400 to-purple-600 rounded-2xl p-6 flex flex-col">
+            <h3 className="text-white text-xl font-extrabold tracking-wider uppercase mb-5">Trending</h3>
+            <div className="flex flex-col gap-4 flex-1">
               {trendingArticles.map((article) => (
                 <Link key={article._id} href={`/article/${article.slug}`}>
-                  <div className="flex items-center gap-3 bg-white/20 rounded-xl p-2.5 hover:bg-white/30 transition-colors cursor-pointer">
-                    <div className="relative w-[80px] h-[60px] rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="flex items-center gap-3 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition-colors cursor-pointer">
+                    <div className="relative w-[90px] h-[68px] rounded-lg overflow-hidden flex-shrink-0">
                       <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <h4 className="font-semibold text-[13px] text-white line-clamp-2 leading-tight flex-1">{article.title}</h4>
+                        <h4 className="font-semibold text-sm text-white line-clamp-2 leading-tight flex-1">{article.title}</h4>
                         {article.metadata?.score != null && (
                           <span className="bg-white text-red-500 text-[11px] font-bold px-1.5 py-0.5 rounded flex-shrink-0">{article.metadata.score}/10</span>
                         )}
                       </div>
-                      <span className="inline-block bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mt-1">
+                      <span className="inline-block bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mt-1.5">
                         {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
                       </span>
                     </div>
@@ -116,15 +116,15 @@ export default function Home({
       </section>
 
       {/* ═══ CRITIQUES DE FILMS ═══ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-        <h2 className="text-2xl font-bold text-gray-900 mb-5">Critiques de films</h2>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Critiques de films</h2>
 
         <div className="flex flex-col md:flex-row gap-3">
-          {/* Grande card gauche — haute, occupe ~35% de la largeur */}
+          {/* Grande card gauche — haute, occupe ~38% de la largeur */}
           {critiques[0] && (
-            <div className="md:w-[35%] flex-shrink-0">
+            <div className="md:w-[38%] flex-shrink-0">
               <Link href={`/article/${critiques[0].slug}`}>
-                <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer h-[300px] md:h-full group">
+                <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer h-[320px] md:h-full group">
                   <Image src={critiques[0].coverImage || '/placeholder.jpg'} alt={critiques[0].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   {critiques[0].metadata?.score != null && (
@@ -224,7 +224,7 @@ export default function Home({
       </section>
 
       {/* ═══ LISTES — Carousel ═══ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-2xl font-bold text-gray-900">Listes</h2>
           <div className="flex gap-2">
@@ -247,11 +247,11 @@ export default function Home({
           <style jsx>{`#lists-carousel::-webkit-scrollbar { display: none; }`}</style>
           {lists.map((article) => (
             <Link key={article._id} href={`/article/${article.slug}`} className="flex-shrink-0 snap-start">
-              <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-52 h-80 group">
+              <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-[210px] h-[340px] group">
                 <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-                  <h3 className="font-bold text-white text-base line-clamp-4 leading-snug">{article.title}</h3>
+                  <h3 className="font-bold text-white text-lg line-clamp-4 leading-snug">{article.title}</h3>
                 </div>
               </div>
             </Link>
