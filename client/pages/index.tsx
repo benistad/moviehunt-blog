@@ -280,31 +280,31 @@ export default function Home({
       {/* ═══ LISTES — Carousel ═══ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-2xl font-bold text-gray-900">Listes</h2>
-          <div className="flex gap-2">
+          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Listes</h2>
+          <div className="flex gap-4">
             <button
               onClick={() => { const el = document.getElementById('lists-carousel'); if (el) el.scrollBy({ left: -260, behavior: 'smooth' }); }}
-              className="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="text-[#4F46E5] hover:text-[#E50914] transition-colors"
             >
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
             </button>
             <button
               onClick={() => { const el = document.getElementById('lists-carousel'); if (el) el.scrollBy({ left: 260, behavior: 'smooth' }); }}
-              className="w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+              className="text-[#4F46E5] hover:text-[#E50914] transition-colors"
             >
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
             </button>
           </div>
         </div>
-        <div id="lists-carousel" className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div id="lists-carousel" className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           <style jsx>{`#lists-carousel::-webkit-scrollbar { display: none; }`}</style>
           {lists.map((article) => (
             <Link key={article._id} href={`/article/${article.slug}`} className="flex-shrink-0 snap-start">
-              <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-[210px] h-[340px] group">
-                <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-                  <h3 className="font-bold text-white text-lg line-clamp-4 leading-snug">{article.title}</h3>
+              <div className="relative rounded-[24px] overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-[280px] h-[280px] group bg-black">
+                <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10 group-hover:from-black/95 transition-colors duration-300" />
+                <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
+                  <h3 className="font-extrabold text-white text-[26px] leading-[1.15] tracking-tight drop-shadow-lg">{article.title}</h3>
                 </div>
               </div>
             </Link>
