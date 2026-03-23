@@ -55,7 +55,7 @@ export default function Layout({ children }: LayoutProps) {
                 height={48}
                 className="object-contain w-10 h-10 md:w-12 md:h-12" 
               />
-              <span className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors ${isScrolled ? 'text-gray-900' : 'text-white drop-shadow-lg'}`}>
+              <span className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors ${isScrolled ? 'text-[#4F46E5]' : 'text-white drop-shadow-lg'}`}>
                 MovieHunt <span className="font-normal text-[#E50914]">Blog</span>
               </span>
             </Link>
