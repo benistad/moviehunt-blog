@@ -39,10 +39,13 @@ export default function Layout({ children }: LayoutProps) {
     return router.pathname === path;
   };
 
+  const isHomePage = router.pathname === '/';
+  const isHeaderWhite = isScrolled || !isHomePage;
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Header - Transparent au top, Blanc translucide au scroll */}
-      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent pt-8 pb-4'}`}>
+      {/* Header - Transparent au top sur l'accueil, Blanc translucide au scroll ou sur autres pages */}
+      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${isHeaderWhite ? 'bg-white/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent pt-8 pb-4'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between gap-4">
             
@@ -55,14 +58,14 @@ export default function Layout({ children }: LayoutProps) {
                 height={48}
                 className="object-contain w-10 h-10 md:w-12 md:h-12" 
               />
-              <span className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors ${isScrolled ? 'text-[#4F46E5]' : 'text-white drop-shadow-lg'}`}>
+              <span className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors ${isHeaderWhite ? 'text-[#4F46E5]' : 'text-white drop-shadow-lg'}`}>
                 MovieHunt <span className="font-normal text-[#E50914]">Blog</span>
               </span>
             </Link>
 
             {/* Barre de recherche centrale */}
             <div className="hidden lg:flex flex-1 justify-center max-w-md mx-4">
-              <div className={`flex items-center rounded-full px-5 py-2 w-full transition-all ${isScrolled ? 'bg-gray-100 border border-transparent shadow-inner focus-within:bg-white focus-within:border-gray-300 focus-within:shadow-md' : 'bg-white shadow-lg border border-white/50'}`}>
+              <div className={`flex items-center rounded-full px-5 py-2 w-full transition-all ${isHeaderWhite ? 'bg-gray-100 border border-transparent shadow-inner focus-within:bg-white focus-within:border-gray-300 focus-within:shadow-md' : 'bg-white shadow-lg border border-white/50'}`}>
                 <input
                   type="text"
                   placeholder="Recherche..."
@@ -78,7 +81,7 @@ export default function Layout({ children }: LayoutProps) {
             <nav className="hidden md:flex items-center gap-6 shrink-0">
               <Link
                 href="/"
-                className={`font-medium text-base transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] ${isScrolled ? 'text-gray-900 hover:text-[#E50914] after:bg-[#E50914]' : 'text-white hover:text-white/80 drop-shadow-md after:bg-white'}`}
+                className={`font-medium text-base transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] ${isHeaderWhite ? 'text-gray-900 hover:text-[#E50914] after:bg-[#E50914]' : 'text-white hover:text-white/80 drop-shadow-md after:bg-white'}`}
               >
                 Accueil
               </Link>
@@ -86,7 +89,7 @@ export default function Layout({ children }: LayoutProps) {
                 href="https://www.moviehunt.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`font-medium text-base transition-colors ${isScrolled ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white drop-shadow-md'}`}
+                className={`font-medium text-base transition-colors ${isHeaderWhite ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white drop-shadow-md'}`}
               >
                 MovieHunt
               </a>
@@ -97,7 +100,7 @@ export default function Layout({ children }: LayoutProps) {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1">
+      <main className={`flex-1 ${!isHomePage ? 'pt-[100px]' : ''}`}>
         {children}
       </main>
 
