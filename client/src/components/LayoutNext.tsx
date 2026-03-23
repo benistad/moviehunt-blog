@@ -59,7 +59,7 @@ export default function Layout({ children }: LayoutProps) {
                 className="object-contain w-10 h-10 md:w-12 md:h-12" 
               />
               <span className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors ${isHeaderWhite ? 'text-[#4F46E5]' : 'text-white drop-shadow-lg'}`}>
-                MovieHunt <span className="font-normal text-[#E50914]">Blog</span>
+                MovieHunt <span className="font-normal text-[#dc2625]">Blog</span>
               </span>
             </Link>
 
@@ -71,7 +71,7 @@ export default function Layout({ children }: LayoutProps) {
                   placeholder="Recherche..."
                   className="bg-transparent border-none outline-none text-sm w-full text-gray-800 placeholder-gray-500"
                 />
-                <button className="bg-[#E50914] hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center ml-2 transition-colors flex-shrink-0 shadow-md">
+                <button className="bg-[#dc2625] hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center ml-2 transition-colors flex-shrink-0 shadow-md">
                   <Search className="w-4 h-4" />
                 </button>
               </div>
@@ -81,7 +81,7 @@ export default function Layout({ children }: LayoutProps) {
             <nav className="hidden md:flex items-center gap-6 shrink-0">
               <Link
                 href="/"
-                className={`font-medium text-base transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] ${isHeaderWhite ? 'text-gray-900 hover:text-[#E50914] after:bg-[#E50914]' : 'text-white hover:text-white/80 drop-shadow-md after:bg-white'}`}
+                className={`font-medium text-base transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] ${isHeaderWhite ? 'text-gray-900 hover:text-[#dc2625] after:bg-[#dc2625]' : 'text-white hover:text-white/80 drop-shadow-md after:bg-white'}`}
               >
                 Accueil
               </Link>

@@ -77,14 +77,14 @@ export default function Home({
                         className="object-cover object-top group-hover:scale-105 transition-transform duration-500 rounded-[26px]"
                       />
                       {heroArticle.metadata?.score != null && (
-                        <div className="absolute top-3 right-3 bg-[#e93d40] rounded-[20px] px-4 py-2 flex items-center justify-center shadow-lg" style={{ zIndex: 10 }}>
+                        <div className="absolute top-3 right-3 bg-[#dc2625] rounded-[20px] px-4 py-2 flex items-center justify-center shadow-lg" style={{ zIndex: 10 }}>
                           <span className="text-white text-3xl font-extrabold">{heroArticle.metadata.score}</span>
                           <span className="text-white/80 text-lg font-bold ml-1">/10</span>
                         </div>
                       )}
                     </div>
                     <div className="p-6 pt-5 flex flex-col flex-1">
-                      <span className={`self-start text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-3 ${heroArticle.category === 'list' ? 'bg-[#FF7300]' : 'bg-[#e93d40]'}`}>
+                      <span className={`self-start text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-3 ${heroArticle.category === 'list' ? 'bg-[#FF7300]' : 'bg-[#dc2625]'}`}>
                         {heroArticle.category === 'review' ? 'Critique' : heroArticle.category === 'list' ? 'Liste' : 'Article'}
                       </span>
                       <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 leading-tight line-clamp-2">{heroArticle.title}</h3>
@@ -116,10 +116,10 @@ export default function Home({
                           <div className="flex items-start justify-between gap-3">
                             <h4 className="font-extrabold text-[19px] text-gray-900 line-clamp-3 leading-[1.2] tracking-tight flex-1">{article.title}</h4>
                             {article.metadata?.score != null && (
-                              <span className="bg-[#e93d40] text-white text-[15px] font-extrabold px-3 py-1.5 rounded-[14px] flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[11px] font-medium opacity-90">/10</span></span>
+                              <span className="bg-[#dc2625] text-white text-[15px] font-extrabold px-3 py-1.5 rounded-[14px] flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[11px] font-medium opacity-90">/10</span></span>
                             )}
                           </div>
-                          <span className={`inline-block self-start text-white text-[13px] font-bold px-3.5 py-1.5 rounded-full mt-auto tracking-wide ${article.category === 'list' ? 'bg-[#FF7300]' : 'bg-[#e93d40]'}`}>
+                          <span className={`inline-block self-start text-white text-[13px] font-bold px-3.5 py-1.5 rounded-full mt-auto tracking-wide ${article.category === 'list' ? 'bg-[#FF7300]' : 'bg-[#dc2625]'}`}>
                             {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
                           </span>
                         </div>
@@ -136,7 +136,7 @@ export default function Home({
       {/* ═══ CRITIQUES DE FILMS ═══ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-8">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-extrabold text-[#e93d40] tracking-tight">Critiques de films</h2>
+          <h2 className="text-3xl font-extrabold text-[#dc2625] tracking-tight">Critiques de films</h2>
           <div className="flex gap-2">
             <button
               onClick={() => { const el = document.getElementById('critiques-carousel'); if (el) el.scrollBy({ left: -300, behavior: 'smooth' }); }}
@@ -164,9 +164,9 @@ export default function Home({
                   <div className="relative h-[240px] rounded-[24px] overflow-hidden">
                     <Image src={critiques[0].coverImage || '/placeholder.jpg'} alt={critiques[0].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     {critiques[0].metadata?.score != null && (
-                      <div className="absolute top-2 right-2 bg-red-600/90 backdrop-blur-md rounded-full w-[52px] h-[52px] flex items-center justify-center shadow-lg border border-white/20">
+                      <div className="absolute top-2 right-2 bg-[#dc2625] rounded-[14px] px-2.5 py-1 flex items-center justify-center shadow-lg border border-white/20">
                         <span className="text-white text-lg font-bold">{critiques[0].metadata.score}</span>
-                        <span className="text-white/70 text-[10px] ml-0.5 mt-1">/10</span>
+                        <span className="text-white/70 text-[10px] ml-0.5 mt-0.5">/10</span>
                       </div>
                     )}
                   </div>
@@ -182,7 +182,7 @@ export default function Home({
             {/* CARD HAUT DROITE - Horizontale fond rouge */}
             {critiques[1] && (
               <Link href={`/article/${critiques[1].slug}`} className="flex-shrink-0 snap-start">
-                <div className="bg-[#e93d40] rounded-[32px] p-2 flex h-[180px] shadow-lg hover:-translate-y-1 transition-transform cursor-pointer group">
+                <div className="bg-[#dc2625] rounded-[32px] p-2 flex h-[180px] shadow-lg hover:-translate-y-1 transition-transform cursor-pointer group">
                   <div className="relative w-[50%] rounded-[24px] overflow-hidden">
                     <Image src={critiques[1].coverImage || '/placeholder.jpg'} alt={critiques[1].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     {critiques[1].metadata?.score != null && (
