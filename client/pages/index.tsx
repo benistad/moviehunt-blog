@@ -31,7 +31,7 @@ export default function Home({
   initialLists = [],
 }: Partial<HomeProps>) {
   const heroArticle = initialArticles[0];
-  const trendingArticles = initialArticles.slice(1, 4);
+  const trendingArticles = initialArticles.slice(1, 5); // 4 articles au lieu de 3
   const critiques = initialCritiques.slice(0, 6);
   const lists = initialLists.slice(0, 8);
 
@@ -62,12 +62,12 @@ export default function Home({
         )}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-10">
-          <div className="flex flex-col lg:flex-row gap-8 items-start">
+          <div className="flex flex-col lg:flex-row gap-8 items-stretch">
             {/* HERO CARD - Chevauchement */}
             {heroArticle && (
-              <div className="lg:w-[60%] mt-8">
-                <Link href={`/article/${heroArticle.slug}`}>
-                  <div className="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer group flex flex-col border border-gray-100">
+              <div className="lg:w-[60%] flex flex-col">
+                <Link href={`/article/${heroArticle.slug}`} className="flex-1">
+                  <div className="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer group flex flex-col h-full border border-gray-100">
                     <div className="relative h-[320px] sm:h-[380px] overflow-hidden rounded-t-3xl m-3 mb-0">
                       <Image
                         src={heroArticle.coverImage || '/placeholder.jpg'}
