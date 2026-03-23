@@ -61,7 +61,7 @@ export default function Home({
           </div>
         )}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-10">
           <div className="flex flex-col lg:flex-row gap-6 items-stretch">
             {/* HERO CARD - Chevauchement */}
             {heroArticle && (
