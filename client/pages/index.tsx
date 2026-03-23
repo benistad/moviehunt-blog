@@ -68,7 +68,7 @@ export default function Home({
               <div className="lg:w-[58%] flex flex-col">
                 <Link href={`/article/${heroArticle.slug}`} className="flex-1">
                   <div className="bg-white p-1.5 pb-0 rounded-[32px] shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer group flex flex-col h-full border border-gray-100">
-                    <div className="relative h-[320px] sm:h-[380px] overflow-hidden rounded-[26px] isolate">
+                    <div className="relative h-[320px] sm:h-[380px] overflow-hidden rounded-[26px] rounded-clip">
                       <Image
                         src={heroArticle.coverImage || '/placeholder.jpg'}
                         alt={heroArticle.title}
@@ -163,7 +163,7 @@ export default function Home({
             <div className="w-[300px] flex-shrink-0 snap-start">
               <Link href={`/article/${critiques[0].slug}`}>
                 <div className="bg-gradient-to-b from-red-500 via-purple-600 to-violet-700 rounded-[32px] p-2 flex flex-col h-[380px] shadow-lg hover:-translate-y-1 transition-transform cursor-pointer group relative">
-                  <div className="relative h-[240px] rounded-[24px] overflow-hidden isolate">
+                  <div className="relative h-[240px] rounded-[24px] overflow-hidden rounded-clip">
                     <Image src={critiques[0].coverImage || '/placeholder.jpg'} alt={critiques[0].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     {critiques[0].metadata?.score != null && (
                       <div className="absolute top-2 right-2 bg-[#dc2625] rounded-[14px] px-2.5 py-1 flex items-center justify-center shadow-lg border border-white/20">
@@ -185,7 +185,7 @@ export default function Home({
             {critiques[1] && (
               <Link href={`/article/${critiques[1].slug}`} className="flex-shrink-0 snap-start">
                 <div className="bg-[#dc2625] rounded-[32px] p-2 flex h-[180px] shadow-lg hover:-translate-y-1 transition-transform cursor-pointer group">
-                  <div className="relative w-[50%] rounded-[24px] overflow-hidden isolate">
+                  <div className="relative w-[50%] rounded-[24px] overflow-hidden rounded-clip">
                     <Image src={critiques[1].coverImage || '/placeholder.jpg'} alt={critiques[1].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     {critiques[1].metadata?.score != null && (
                       <div className="absolute top-2 right-2 bg-purple-700/90 backdrop-blur-md rounded-xl px-3 py-1.5 flex items-center justify-center shadow-lg border border-white/20">
@@ -206,7 +206,7 @@ export default function Home({
             <div className="flex gap-4 h-[180px]">
               {[critiques[2], critiques[3]].filter(Boolean).map((article) => (
                 <Link key={article!._id} href={`/article/${article!.slug}`} className="flex-1 snap-start">
-                  <div className="relative rounded-[32px] overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-full group bg-black isolate">
+                  <div className="relative rounded-[32px] overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-full group bg-black rounded-clip">
                     <Image src={article!.coverImage || '/placeholder.jpg'} alt={article!.title} fill className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                     {article!.metadata?.score != null && (
@@ -237,7 +237,7 @@ export default function Home({
             return (
               <div key={colIndex} className="flex flex-col gap-4 w-[350px] flex-shrink-0 snap-start">
                 <Link href={`/article/${article1.slug}`} className="flex-1">
-                  <div className="relative rounded-[32px] overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[180px] group bg-black isolate">
+                  <div className="relative rounded-[32px] overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[180px] group bg-black rounded-clip">
                     <Image src={article1.coverImage || '/placeholder.jpg'} alt={article1.title} fill className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                     {article1.metadata?.score != null && (
@@ -255,7 +255,7 @@ export default function Home({
 
                 {article2 ? (
                   <Link href={`/article/${article2.slug}`} className="flex-1">
-                    <div className="relative rounded-[32px] overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[180px] group bg-black isolate">
+                    <div className="relative rounded-[32px] overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[180px] group bg-black rounded-clip">
                       <Image src={article2.coverImage || '/placeholder.jpg'} alt={article2.title} fill className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                       {article2.metadata?.score != null && (
@@ -302,7 +302,7 @@ export default function Home({
           <style jsx>{`#lists-carousel::-webkit-scrollbar { display: none; }`}</style>
           {lists.map((article) => (
             <Link key={article._id} href={`/article/${article.slug}`} className="flex-shrink-0 snap-start">
-              <div className="relative rounded-[24px] overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-[280px] h-[280px] group bg-black isolate">
+              <div className="relative rounded-[24px] overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-[280px] h-[280px] group bg-black rounded-clip">
                 <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10 group-hover:from-black/95 transition-colors duration-300" />
                 <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">

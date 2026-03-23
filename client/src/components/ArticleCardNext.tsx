@@ -29,7 +29,7 @@ export default function ArticleCardNext({ article }: ArticleCardProps) {
     <Link href={`/article/${article.slug}`} className="group h-full">
       <article className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:scale-102 hover:shadow-xl h-full flex flex-col">
         {/* Image - Optimisée avec Next.js Image */}
-        <div className="relative h-56 overflow-hidden rounded-t-xl bg-gradient-to-br from-gray-100 to-gray-200">
+        <div className="relative h-56 overflow-hidden rounded-t-xl bg-gradient-to-br from-gray-100 to-gray-200 rounded-clip">
           {article.coverImage ? (
             <Image
               src={article.coverImage}

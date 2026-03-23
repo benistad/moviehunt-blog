@@ -9,6 +9,12 @@
 }
 
 @layer components {
+  /* Fix bug navigateur : scintillement des coins arrondis pendant les animations scale/translate */
+  .rounded-clip {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+  }
+
   .btn {
     @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
