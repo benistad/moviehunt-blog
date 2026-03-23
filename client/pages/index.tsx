@@ -84,7 +84,7 @@ export default function Home({
                       )}
                     </div>
                     <div className="p-6 pt-5 flex flex-col flex-1">
-                      <span className={`self-start text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-3 ${heroArticle.category === 'list' ? 'bg-[#FF5722]' : 'bg-[#e93d40]'}`}>
+                      <span className={`self-start text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-3 ${heroArticle.category === 'list' ? 'bg-[#FF5C00]' : 'bg-[#e93d40]'}`}>
                         {heroArticle.category === 'review' ? 'Critique' : heroArticle.category === 'list' ? 'Liste' : 'Article'}
                       </span>
                       <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 leading-tight line-clamp-2">{heroArticle.title}</h3>
@@ -119,7 +119,7 @@ export default function Home({
                               <span className="bg-[#e93d40] text-white text-[15px] font-extrabold px-3 py-1.5 rounded-[14px] flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[11px] font-medium opacity-90">/10</span></span>
                             )}
                           </div>
-                          <span className={`inline-block self-start text-white text-[13px] font-bold px-3.5 py-1.5 rounded-full mt-auto tracking-wide ${article.category === 'list' ? 'bg-[#FF5722]' : 'bg-[#e93d40]'}`}>
+                          <span className={`inline-block self-start text-white text-[13px] font-bold px-3.5 py-1.5 rounded-full mt-auto tracking-wide ${article.category === 'list' ? 'bg-[#FF5C00]' : 'bg-[#e93d40]'}`}>
                             {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
                           </span>
                         </div>
@@ -136,7 +136,7 @@ export default function Home({
       {/* ═══ CRITIQUES DE FILMS ═══ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-8">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Critiques de films</h2>
+          <h2 className="text-3xl font-extrabold text-[#e93d40] tracking-tight">Critiques de films</h2>
           <div className="flex gap-2">
             <button
               onClick={() => { const el = document.getElementById('critiques-carousel'); if (el) el.scrollBy({ left: -300, behavior: 'smooth' }); }}
@@ -280,17 +280,17 @@ export default function Home({
       {/* ═══ LISTES — Carousel ═══ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Listes</h2>
+          <h2 className="text-3xl font-extrabold text-[#FF5C00] tracking-tight">Listes</h2>
           <div className="flex gap-4">
             <button
               onClick={() => { const el = document.getElementById('lists-carousel'); if (el) el.scrollBy({ left: -260, behavior: 'smooth' }); }}
-              className="text-[#4F46E5] hover:text-[#E50914] transition-colors"
+              className="text-[#FF5C00] hover:text-[#FF5C00]/80 transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
             </button>
             <button
               onClick={() => { const el = document.getElementById('lists-carousel'); if (el) el.scrollBy({ left: 260, behavior: 'smooth' }); }}
-              className="text-[#4F46E5] hover:text-[#E50914] transition-colors"
+              className="text-[#FF5C00] hover:text-[#FF5C00]/80 transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
             </button>
