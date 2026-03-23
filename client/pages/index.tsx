@@ -105,21 +105,21 @@ export default function Home({
               
               <div className="relative z-10 flex flex-col h-full pt-2">
                 <h3 className="text-white text-2xl font-extrabold tracking-wider mb-4 px-2 drop-shadow-md">TRENDING</h3>
-                <div className="flex flex-col justify-between flex-1 gap-3">
+                <div className="flex flex-col justify-between flex-1 gap-4">
                   {trendingArticles.map((article) => (
                     <Link key={article._id} href={`/article/${article.slug}`}>
-                      <div className="flex items-center gap-4 bg-white rounded-[24px] p-2 shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[130px]">
-                        <div className="relative w-[114px] h-[114px] rounded-[20px] overflow-hidden flex-shrink-0 shadow-inner">
+                      <div className="flex items-center gap-5 bg-white rounded-[28px] p-2 shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[150px]">
+                        <div className="relative w-[134px] h-[134px] rounded-[24px] overflow-hidden flex-shrink-0 shadow-inner">
                           <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
                         </div>
-                        <div className="flex-1 min-w-0 pr-2 flex flex-col justify-between h-full py-2">
-                          <div className="flex items-start justify-between gap-2">
-                            <h4 className="font-extrabold text-base text-gray-900 line-clamp-3 leading-tight flex-1">{article.title}</h4>
+                        <div className="flex-1 min-w-0 pr-3 flex flex-col justify-between h-full py-3">
+                          <div className="flex items-start justify-between gap-3">
+                            <h4 className="font-extrabold text-lg text-gray-900 line-clamp-3 leading-tight flex-1">{article.title}</h4>
                             {article.metadata?.score != null && (
-                              <span className="bg-[#e93d40] text-white text-sm font-extrabold px-2.5 py-1 rounded-xl flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[9px] font-normal opacity-80">/10</span></span>
+                              <span className="bg-[#e93d40] text-white text-sm font-extrabold px-3 py-1.5 rounded-xl flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[10px] font-normal opacity-80">/10</span></span>
                             )}
                           </div>
-                          <span className="inline-block self-start bg-[#e93d40] text-white text-xs font-bold px-3 py-1 rounded-full mt-auto">
+                          <span className="inline-block self-start bg-[#e93d40] text-white text-[13px] font-bold px-4 py-1.5 rounded-full mt-auto">
                             {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
                           </span>
                         </div>
