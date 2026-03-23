@@ -199,7 +199,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
 
         {/* Article Content */}
         <div className="prose prose-lg max-w-none">
-          <div className="text-xl text-gray-700 font-medium mb-8 pb-8 border-b border-gray-200">
+          <div className="text-xl text-gray-700 font-medium mb-8 pb-8 border-b border-gray-200 line-clamp-2">
             {article.excerpt}
           </div>
 
