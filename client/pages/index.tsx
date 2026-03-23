@@ -84,7 +84,7 @@ export default function Home({
                       )}
                     </div>
                     <div className="p-6 pt-5 flex flex-col flex-1">
-                      <span className="self-start bg-[#e93d40] text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-3">
+                      <span className={`self-start text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-3 ${heroArticle.category === 'list' ? 'bg-[#FF5722]' : 'bg-[#e93d40]'}`}>
                         {heroArticle.category === 'review' ? 'Critique' : heroArticle.category === 'list' ? 'Liste' : 'Article'}
                       </span>
                       <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 leading-tight line-clamp-2">{heroArticle.title}</h3>
@@ -119,7 +119,7 @@ export default function Home({
                               <span className="bg-[#e93d40] text-white text-[15px] font-extrabold px-3 py-1.5 rounded-[14px] flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[11px] font-medium opacity-90">/10</span></span>
                             )}
                           </div>
-                          <span className="inline-block self-start bg-[#e93d40] text-white text-[13px] font-bold px-3.5 py-1.5 rounded-full mt-auto tracking-wide">
+                          <span className={`inline-block self-start text-white text-[13px] font-bold px-3.5 py-1.5 rounded-full mt-auto tracking-wide ${article.category === 'list' ? 'bg-[#FF5722]' : 'bg-[#e93d40]'}`}>
                             {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
                           </span>
                         </div>
