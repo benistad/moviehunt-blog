@@ -5,8 +5,8 @@ export default function Document() {
     <Html lang="fr">
       <Head>
         {/* Favicon */}
-        <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/logo-blog.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logo-blog.png" />
         
         {/* Preconnect pour les domaines externes */}
         <link rel="preconnect" href="https://image.tmdb.org" />
