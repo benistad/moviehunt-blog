@@ -68,7 +68,7 @@ export default function Home({
               <div className="lg:w-[60%] flex flex-col">
                 <Link href={`/article/${heroArticle.slug}`} className="flex-1">
                   <div className="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer group flex flex-col h-full border border-gray-100">
-                    <div className="relative h-[320px] sm:h-[380px] overflow-hidden rounded-t-3xl m-3 mb-0">
+                    <div className="relative h-[320px] sm:h-[380px] overflow-hidden rounded-t-3xl m-2 mb-0">
                       <Image
                         src={heroArticle.coverImage || '/placeholder.jpg'}
                         alt={heroArticle.title}
@@ -77,21 +77,20 @@ export default function Home({
                         className="object-cover object-top group-hover:scale-105 transition-transform duration-500 rounded-3xl"
                       />
                       {heroArticle.metadata?.score != null && (
-                        <div className="absolute top-4 right-4 bg-red-600 rounded-2xl px-4 py-2 flex items-center justify-center shadow-lg" style={{ zIndex: 10 }}>
+                        <div className="absolute top-4 right-4 bg-[#e93d40] rounded-2xl px-4 py-2 flex items-center justify-center shadow-lg" style={{ zIndex: 10 }}>
                           <span className="text-white text-3xl font-extrabold">{heroArticle.metadata.score}</span>
                           <span className="text-white/80 text-lg font-bold ml-1">/10</span>
                         </div>
                       )}
                     </div>
                     <div className="p-6 flex flex-col flex-1">
-                      <span className="self-start bg-red-500 text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-4">
+                      <span className="self-start bg-[#e93d40] text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-4">
                         {heroArticle.category === 'review' ? 'Critique' : heroArticle.category === 'list' ? 'Liste' : 'Article'}
                       </span>
                       <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2">{heroArticle.title}</h3>
                       <p className="text-gray-500 text-base leading-relaxed line-clamp-2 mb-6 flex-1">{heroArticle.excerpt}</p>
                       <span className="self-start inline-flex items-center bg-black text-white px-6 py-3 rounded-full text-sm font-bold shadow-md hover:bg-gray-800 transition-colors">
                         Lire l'article
-                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                       </span>
                     </div>
                   </div>
@@ -100,20 +99,20 @@ export default function Home({
             )}
 
             {/* TRENDING BOX - Glassmorphism avec liseré */}
-            <div className="lg:w-[40%] rounded-[32px] p-6 flex flex-col border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+            <div className="lg:w-[40%] rounded-[32px] p-4 flex flex-col border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl relative overflow-hidden group">
               {/* Effet de glow coloré derrière */}
               <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/30 via-transparent to-red-500/30 rounded-[32px] blur-xl z-0 pointer-events-none" />
               
-              <div className="relative z-10 flex flex-col h-full">
-                <h3 className="text-white text-2xl sm:text-3xl font-extrabold tracking-wider mb-5 drop-shadow-md">TRENDING</h3>
+              <div className="relative z-10 flex flex-col h-full pt-2">
+                <h3 className="text-white text-2xl font-extrabold tracking-wider mb-4 px-2 drop-shadow-md">TRENDING</h3>
                 <div className="flex flex-col justify-between flex-1 gap-3">
                   {trendingArticles.map((article) => (
                     <Link key={article._id} href={`/article/${article.slug}`}>
-                      <div className="flex items-center gap-4 bg-white rounded-[24px] p-3 shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[120px]">
-                        <div className="relative w-[100px] h-[100px] rounded-[18px] overflow-hidden flex-shrink-0 shadow-inner">
+                      <div className="flex items-center gap-4 bg-white rounded-[24px] p-2 shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-[130px]">
+                        <div className="relative w-[114px] h-[114px] rounded-[20px] overflow-hidden flex-shrink-0 shadow-inner">
                           <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
                         </div>
-                        <div className="flex-1 min-w-0 pr-1 flex flex-col justify-between h-full py-1">
+                        <div className="flex-1 min-w-0 pr-2 flex flex-col justify-between h-full py-2">
                           <div className="flex items-start justify-between gap-2">
                             <h4 className="font-extrabold text-base text-gray-900 line-clamp-3 leading-tight flex-1">{article.title}</h4>
                             {article.metadata?.score != null && (
