@@ -110,7 +110,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <Image src="/logo-blog.png" alt="MovieHunt Blog" width={40} height={40} className="object-contain" />
+                <Image src="/logo-blog-blanc.png" alt="MovieHunt Blog" width={40} height={40} className="object-contain" />
                 <span className="text-2xl font-bold tracking-tight">MovieHunt <span className="font-normal text-white/80">Blog</span></span>
               </div>
               <p className="text-purple-200 leading-relaxed">
