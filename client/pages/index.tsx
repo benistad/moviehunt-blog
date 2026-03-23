@@ -100,27 +100,27 @@ export default function Home({
             )}
 
             {/* TRENDING BOX - Glassmorphism avec liseré */}
-            <div className="lg:w-[40%] rounded-[32px] p-6 flex flex-col border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+            <div className="lg:w-[40%] rounded-[32px] p-6 sm:p-8 flex flex-col border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl relative overflow-hidden group">
               {/* Effet de glow coloré derrière */}
               <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/30 via-transparent to-red-500/30 rounded-[32px] blur-xl z-0 pointer-events-none" />
               
               <div className="relative z-10">
-                <h3 className="text-white text-2xl font-extrabold tracking-wider mb-6 drop-shadow-md">TRENDING</h3>
-                <div className="flex flex-col gap-4 flex-1">
+                <h3 className="text-white text-2xl sm:text-3xl font-extrabold tracking-wider mb-8 drop-shadow-md">TRENDING</h3>
+                <div className="flex flex-col gap-5 flex-1">
                   {trendingArticles.map((article) => (
                     <Link key={article._id} href={`/article/${article.slug}`}>
-                      <div className="flex items-center gap-4 bg-white rounded-2xl p-3 shadow-lg hover:-translate-y-1 transition-transform cursor-pointer">
-                        <div className="relative w-[100px] h-[100px] rounded-xl overflow-hidden flex-shrink-0 shadow-inner">
+                      <div className="flex items-center gap-5 bg-white rounded-[24px] p-4 shadow-lg hover:-translate-y-1 transition-transform cursor-pointer">
+                        <div className="relative w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] rounded-[20px] overflow-hidden flex-shrink-0 shadow-inner">
                           <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
                         </div>
-                        <div className="flex-1 min-w-0 pr-2">
-                          <div className="flex items-start justify-between gap-2 mb-2">
-                            <h4 className="font-bold text-sm text-gray-900 line-clamp-3 leading-tight flex-1">{article.title}</h4>
+                        <div className="flex-1 min-w-0 pr-1 flex flex-col justify-between py-1">
+                          <div className="flex items-start justify-between gap-3 mb-3">
+                            <h4 className="font-extrabold text-base sm:text-lg text-gray-900 line-clamp-3 leading-tight flex-1">{article.title}</h4>
                             {article.metadata?.score != null && (
-                              <span className="bg-red-600 text-white text-[11px] font-extrabold px-2 py-1 rounded-lg flex-shrink-0 shadow-sm">{article.metadata.score}/10</span>
+                              <span className="bg-[#e93d40] text-white text-sm sm:text-base font-extrabold px-3 py-1.5 rounded-xl flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[10px] font-normal opacity-80">/10</span></span>
                             )}
                           </div>
-                          <span className="inline-block bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full">
+                          <span className="inline-block self-start bg-[#e93d40] text-white text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full">
                             {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
                           </span>
                         </div>
