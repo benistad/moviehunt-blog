@@ -203,11 +203,10 @@ export default function ArticlePage({ article }: ArticlePageProps) {
             {article.excerpt}
           </div>
 
-          <div className="markdown-content">
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {article.content}
-            </ReactMarkdown>
-          </div>
+          <div 
+            className="markdown-content"
+            dangerouslySetInnerHTML={{ __html: article.content }}
+          />
         </div>
 
         {/* Movie Metadata */}
