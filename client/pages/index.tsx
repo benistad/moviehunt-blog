@@ -43,8 +43,22 @@ export default function Home({
         url="/"
       />
 
-      {/* ═══ ARTICLE PRINCIPAL + TRENDING ═══ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-10">
+      {/* ═══ ARTICLE PRINCIPAL + TRENDING — avec image arrière-plan ═══ */}
+      <section className="relative overflow-hidden">
+        {/* Image d'arrière-plan du dernier article */}
+        {heroArticle?.coverImage && (
+          <div className="absolute inset-0">
+            <Image
+              src={heroArticle.coverImage}
+              alt=""
+              fill
+              priority
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-white/60 backdrop-blur-sm" />
+          </div>
+        )}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-10">
           <div className="flex flex-col lg:flex-row gap-5">
             {heroArticle && (
               <div className="lg:w-[58%]">
@@ -106,7 +120,8 @@ export default function Home({
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* ═══ CRITIQUES DE FILMS ═══ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
