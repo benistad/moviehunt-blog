@@ -44,10 +44,10 @@ export default function Home({
       />
 
       {/* ═══ ARTICLE PRINCIPAL + TRENDING — avec image arrière-plan ═══ */}
-      <section className="relative overflow-hidden">
-        {/* Image d'arrière-plan du dernier article */}
+      <section className="relative w-full">
+        {/* Image d'arrière-plan du dernier article prenant tout le haut (sous le header) */}
         {heroArticle?.coverImage && (
-          <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 right-0 h-[600px] z-0">
             <Image
               src={heroArticle.coverImage}
               alt=""
@@ -55,38 +55,43 @@ export default function Home({
               priority
               className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-white/60 backdrop-blur-sm" />
+            {/* Overlay dégradé vers le blanc en bas */}
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-gray-50 to-transparent" />
           </div>
         )}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-10">
-          <div className="flex flex-col lg:flex-row gap-5">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-10">
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* HERO CARD - Chevauchement */}
             {heroArticle && (
-              <div className="lg:w-[58%]">
+              <div className="lg:w-[60%] mt-8">
                 <Link href={`/article/${heroArticle.slug}`}>
-                  <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer group h-full flex flex-col border border-gray-100">
-                    <div className="relative h-[260px] sm:h-[280px] overflow-hidden rounded-2xl m-3 mb-0">
+                  <div className="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer group flex flex-col border border-gray-100">
+                    <div className="relative h-[320px] sm:h-[380px] overflow-hidden rounded-t-3xl m-3 mb-0">
                       <Image
                         src={heroArticle.coverImage || '/placeholder.jpg'}
                         alt={heroArticle.title}
                         fill
-                        sizes="(max-width: 1024px) 100vw, 58vw"
-                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 1024px) 100vw, 60vw"
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-500 rounded-3xl"
                       />
                       {heroArticle.metadata?.score != null && (
-                        <div className="absolute top-3 right-3 bg-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg" style={{ zIndex: 10 }}>
-                          <span className="text-red-500 text-xl font-extrabold">{heroArticle.metadata.score}</span>
-                          <span className="text-gray-400 text-xs font-semibold">/10</span>
+                        <div className="absolute top-4 right-4 bg-red-600 rounded-2xl px-4 py-2 flex items-center justify-center shadow-lg" style={{ zIndex: 10 }}>
+                          <span className="text-white text-3xl font-extrabold">{heroArticle.metadata.score}</span>
+                          <span className="text-white/80 text-lg font-bold ml-1">/10</span>
                         </div>
                       )}
                     </div>
-                    <div className="p-5 flex flex-col flex-1">
-                      <span className="self-start bg-red-500 text-white text-[11px] font-bold px-3 py-1 rounded-full mb-2">
+                    <div className="p-6 flex flex-col flex-1">
+                      <span className="self-start bg-red-500 text-white text-[12px] font-bold px-4 py-1.5 rounded-full mb-4">
                         {heroArticle.category === 'review' ? 'Critique' : heroArticle.category === 'list' ? 'Liste' : 'Article'}
                       </span>
-                      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1 leading-snug line-clamp-2">{heroArticle.title}</h3>
-                      <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">{heroArticle.excerpt}</p>
-                      <span className="self-start inline-flex items-center border-2 border-gray-900 text-gray-900 px-5 py-2 rounded-full text-sm font-semibold group-hover:bg-gray-900 group-hover:text-white transition-colors">
-                        Lire l&apos;article
+                      <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2">{heroArticle.title}</h3>
+                      <p className="text-gray-500 text-base leading-relaxed line-clamp-2 mb-6 flex-1">{heroArticle.excerpt}</p>
+                      <span className="self-start inline-flex items-center bg-black text-white px-6 py-3 rounded-full text-sm font-bold shadow-md hover:bg-gray-800 transition-colors">
+                        Lire l'article
+                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                       </span>
                     </div>
                   </div>
@@ -94,29 +99,35 @@ export default function Home({
               </div>
             )}
 
-            <div className="lg:w-[42%] rounded-2xl p-5 flex flex-col border border-gray-200 bg-white/50 backdrop-blur-sm">
-              <h3 className="text-gray-900 text-xl font-extrabold tracking-wider uppercase mb-4">Trending</h3>
-              <div className="flex flex-col gap-3 flex-1">
-                {trendingArticles.map((article) => (
-                  <Link key={article._id} href={`/article/${article.slug}`}>
-                    <div className="flex items-center gap-4 bg-white rounded-2xl p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                      <div className="relative w-[90px] h-[90px] rounded-xl overflow-hidden flex-shrink-0">
-                        <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-2 mb-1.5">
-                          <h4 className="font-bold text-sm text-gray-900 line-clamp-3 leading-snug flex-1">{article.title}</h4>
-                          {article.metadata?.score != null && (
-                            <span className="bg-red-50 text-red-600 text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0">{article.metadata.score}/10</span>
-                          )}
+            {/* TRENDING BOX - Glassmorphism avec liseré */}
+            <div className="lg:w-[40%] rounded-[32px] p-6 flex flex-col border border-white/20 bg-white/10 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+              {/* Effet de glow coloré derrière */}
+              <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/30 via-transparent to-red-500/30 rounded-[32px] blur-xl z-0 pointer-events-none" />
+              
+              <div className="relative z-10">
+                <h3 className="text-white text-2xl font-extrabold tracking-wider mb-6 drop-shadow-md">TRENDING</h3>
+                <div className="flex flex-col gap-4 flex-1">
+                  {trendingArticles.map((article) => (
+                    <Link key={article._id} href={`/article/${article.slug}`}>
+                      <div className="flex items-center gap-4 bg-white rounded-2xl p-3 shadow-lg hover:-translate-y-1 transition-transform cursor-pointer">
+                        <div className="relative w-[100px] h-[100px] rounded-xl overflow-hidden flex-shrink-0 shadow-inner">
+                          <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
                         </div>
-                        <span className="inline-block bg-red-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">
-                          {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
-                        </span>
+                        <div className="flex-1 min-w-0 pr-2">
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <h4 className="font-bold text-sm text-gray-900 line-clamp-3 leading-tight flex-1">{article.title}</h4>
+                            {article.metadata?.score != null && (
+                              <span className="bg-red-600 text-white text-[11px] font-extrabold px-2 py-1 rounded-lg flex-shrink-0 shadow-sm">{article.metadata.score}/10</span>
+                            )}
+                          </div>
+                          <span className="inline-block bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full">
+                            {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

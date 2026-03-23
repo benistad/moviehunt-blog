@@ -41,45 +41,45 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Header - Redesign */}
-      <header className="bg-gradient-to-r from-purple-700 via-purple-600 to-purple-700 sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      {/* Header - Redesign transparent sur hero */}
+      <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-black/80 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Logo + Nom */}
-            <Link href="/" className="flex items-center space-x-2 group">
-              <div className="relative w-8 h-8">
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="relative w-10 h-10 drop-shadow-md">
                 <Image 
                   src="/logo.png" 
                   alt="MovieHunt Blog" 
-                  width={32}
-                  height={32}
+                  width={40}
+                  height={40}
                   className="object-contain" 
                 />
               </div>
-              <span className="text-2xl font-extrabold text-white">
-                MovieHunt <span className="font-normal">Blog</span>
+              <span className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg tracking-tight">
+                MovieHunt <span className="font-normal text-white/90">Blog</span>
               </span>
             </Link>
 
-            {/* Barre de recherche + Navigation */}
-            <div className="flex items-center space-x-6">
+            {/* Barre de recherche + Navigation en dessous */}
+            <div className="flex flex-col items-end gap-2 w-full md:w-auto">
               {/* Barre de recherche */}
-              <div className="hidden md:flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 w-64 border border-white/30">
+              <div className="flex items-center bg-white rounded-full px-4 py-1.5 w-full md:w-72 shadow-lg">
                 <input
                   type="text"
                   placeholder="Recherche..."
-                  className="bg-transparent border-none outline-none text-sm w-full text-white placeholder-white/70"
+                  className="bg-transparent border-none outline-none text-sm w-full text-gray-800 placeholder-gray-500"
                 />
-                <button className="bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 ml-2 transition-colors">
-                  <Search className="w-4 h-4" />
+                <button className="bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center ml-2 transition-colors flex-shrink-0 shadow-md border border-white/20">
+                  <Search className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              {/* Navigation */}
-              <nav className="hidden md:flex items-center space-x-6">
+              {/* Navigation sous la barre de recherche */}
+              <nav className="flex items-center justify-end space-x-6 w-full pr-2">
                 <Link
                   href="/"
-                  className="text-white/90 hover:text-white font-medium text-sm transition-colors"
+                  className="text-white font-medium text-sm hover:text-white/80 transition-colors drop-shadow-md relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white"
                 >
                   Accueil
                 </Link>
@@ -87,7 +87,7 @@ export default function Layout({ children }: LayoutProps) {
                   href="https://www.moviehunt.fr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/90 hover:text-white font-medium text-sm transition-colors"
+                  className="text-white/80 font-medium text-sm hover:text-white transition-colors drop-shadow-md"
                 >
                   MovieHunt
                 </a>
