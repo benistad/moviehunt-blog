@@ -40,7 +40,7 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-red-50 via-white to-orange-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header - Redesign */}
       <header className="bg-white sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

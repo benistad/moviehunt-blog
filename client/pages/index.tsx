@@ -33,8 +33,8 @@ export default function Home({
 }: Partial<HomeProps>) {
   const heroArticle = initialArticles[0];
   const trendingArticles = initialArticles.slice(1, 4);
-  const critiques = initialCritiques.slice(0, 5);
-  const lists = initialLists.slice(0, 4);
+  const critiques = initialCritiques.slice(0, 6);
+  const lists = initialLists.slice(0, 8);
 
   return (
     <>
@@ -44,149 +44,187 @@ export default function Home({
         url="/"
       />
 
-      {/* Hero Section avec image de fond */}
-      <section 
-        className="relative h-[500px] bg-cover bg-center"
-        style={{
-          backgroundImage: heroArticle?.coverImage 
-            ? `url(${heroArticle.coverImage})` 
-            : 'url(/placeholder-hero.jpg)',
-        }}
-      >
-        {/* Overlay sombre */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70"></div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full items-end pb-8">
-            {/* Hero Card - Article principal */}
-            {heroArticle && (
-              <div className="lg:col-span-2">
-                <Link href={`/article/${heroArticle.slug}`}>
-                  <div className="bg-white rounded-3xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
-                    {/* Badge catégorie */}
-                    <span className="inline-block bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
-                      {heroArticle.category === 'review' ? 'Critique' : 'Liste'}
-                    </span>
-
-                    {/* Note */}
-                    {heroArticle.metadata?.score && (
-                      <div className="absolute top-6 right-6 bg-red-500 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-                        <span className="text-2xl font-bold">{heroArticle.metadata.score}</span>
-                        <span className="text-xs">/10</span>
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* Hero Card - Article principal (3/5) */}
+          {heroArticle && (
+            <div className="lg:col-span-3">
+              <Link href={`/article/${heroArticle.slug}`}>
+                <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group">
+                  {/* Image dans la card */}
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={heroArticle.coverImage || '/placeholder.jpg'}
+                      alt={heroArticle.title}
+                      fill
+                      priority
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    {/* Note badge - cercle blanc sur l'image */}
+                    {heroArticle.metadata?.score != null && (
+                      <div className="absolute top-4 right-4 bg-white rounded-full w-16 h-16 flex items-center justify-baseline shadow-lg">
+                        <span className="text-red-500 text-2xl font-extrabold ml-3">{heroArticle.metadata.score}</span>
+                        <span className="text-gray-500 text-sm font-medium">/10</span>
                       </div>
                     )}
+                  </div>
+
+                  {/* Contenu sous l'image */}
+                  <div className="p-5">
+                    {/* Badge catégorie */}
+                    <span className="inline-block bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
+                      {heroArticle.category === 'review' ? 'Critique' : heroArticle.category === 'list' ? 'Liste' : 'Article'}
+                    </span>
 
                     {/* Titre */}
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 line-clamp-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 line-clamp-2">
                       {heroArticle.title}
                     </h2>
 
                     {/* Excerpt */}
-                    <p className="text-gray-600 mb-4 line-clamp-2">
+                    <p className="text-gray-500 text-sm mb-4 line-clamp-2">
                       {heroArticle.excerpt}
                     </p>
 
-                    {/* Bouton */}
-                    <button className="bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors inline-flex items-center">
-                      Lire l'article
-                      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
+                    {/* Bouton outline */}
+                    <span className="inline-flex items-center border-2 border-gray-900 text-gray-900 px-5 py-2 rounded-full font-semibold text-sm hover:bg-gray-900 hover:text-white transition-colors">
+                      Lire l&apos;article
+                    </span>
                   </div>
-                </Link>
-              </div>
-            )}
+                </div>
+              </Link>
+            </div>
+          )}
 
-            {/* Trending Sidebar */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-xl">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                <span className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm mr-2">
-                  TRENDING
-                </span>
-              </h3>
-              <div className="space-y-3">
-                {trendingArticles.map((article, index) => (
-                  <Link key={article._id} href={`/article/${article.slug}`}>
-                    <div className="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group">
-                      {/* Image */}
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
-                          src={article.coverImage || '/placeholder.jpg'}
-                          alt={article.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
-                        {/* Badge note */}
-                        {article.metadata?.score && (
-                          <div className="absolute top-1 right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded">
-                            {article.metadata.score}/10
-                          </div>
-                        )}
-                      </div>
+          {/* Trending Sidebar (2/5) - fond dégradé rose/violet */}
+          <div className="lg:col-span-2 bg-gradient-to-br from-pink-500 via-red-400 to-purple-500 rounded-3xl p-5 shadow-lg">
+            <h3 className="text-xl font-bold text-white mb-5 tracking-wide">TRENDING</h3>
+            <div className="space-y-4">
+              {trendingArticles.map((article) => (
+                <Link key={article._id} href={`/article/${article.slug}`}>
+                  <div className="flex items-start space-x-3 bg-white/15 backdrop-blur-sm rounded-2xl p-3 hover:bg-white/25 transition-colors cursor-pointer group">
+                    {/* Image */}
+                    <div className="relative w-20 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                      <Image
+                        src={article.coverImage || '/placeholder.jpg'}
+                        alt={article.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
 
-                      {/* Texte */}
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 line-clamp-2 group-hover:text-red-500 transition-colors">
+                    {/* Texte + note */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between">
+                        <h4 className="font-semibold text-sm text-white line-clamp-2 flex-1 mr-2">
                           {article.title}
                         </h4>
-                        <span className="inline-block bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded mt-1">
-                          {article.category === 'review' ? 'Critique' : 'Liste'}
-                        </span>
+                        {/* Badge note */}
+                        {article.metadata?.score != null && (
+                          <span className="bg-white/90 text-red-500 text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0">
+                            {article.metadata.score}/10
+                          </span>
+                        )}
                       </div>
+                      <span className="inline-block bg-red-500 text-white text-xs px-2 py-0.5 rounded-full mt-1.5">
+                        {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
+                      </span>
                     </div>
-                  </Link>
-                ))}
-              </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Critiques de films */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">Critiques de films</h2>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Critiques de films</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {critiques.map((article, index) => (
-            <Link key={article._id} href={`/article/${article.slug}`}>
-              <div 
-                className={`relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer h-64 ${
-                  index === 0 ? 'md:col-span-2 md:row-span-2 h-auto' : ''
-                }`}
-              >
-                {/* Image de fond */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={article.coverImage || '/placeholder.jpg'}
-                    alt={article.title}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                </div>
-
-                {/* Note */}
-                {article.metadata?.score && (
-                  <div className="absolute top-4 right-4 bg-red-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg z-10">
-                    <div className="text-center">
-                      <span className="text-xl font-bold">{article.metadata.score}</span>
-                      <span className="text-xs block">/10</span>
-                    </div>
+        {/* Première ligne : 1 grande à gauche + 2 empilées à droite */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {/* Grande card à gauche */}
+          {critiques[0] && (
+            <Link href={`/article/${critiques[0].slug}`} className="md:row-span-2">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-full min-h-[320px] group">
+                <Image
+                  src={critiques[0].coverImage || '/placeholder.jpg'}
+                  alt={critiques[0].title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                {critiques[0].metadata?.score != null && (
+                  <div className="absolute top-3 right-3 bg-white rounded-full w-12 h-12 flex items-center justify-baseline shadow-lg z-10">
+                    <span className="text-red-500 text-lg font-extrabold ml-2">{critiques[0].metadata.score}</span>
+                    <span className="text-gray-400 text-xs">/10</span>
                   </div>
                 )}
-
-                {/* Contenu */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
-                  <span className="inline-block bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-2">
+                <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+                  <h3 className="font-bold text-white text-xl line-clamp-2">
+                    {critiques[0].title}
+                  </h3>
+                </div>
+              </div>
+            </Link>
+          )}
+          {/* 2 cards empilées à droite */}
+          {critiques.slice(1, 3).map((article) => (
+            <Link key={article._id} href={`/article/${article.slug}`}>
+              <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-40 group">
+                <Image
+                  src={article.coverImage || '/placeholder.jpg'}
+                  alt={article.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                {article.metadata?.score != null && (
+                  <div className="absolute top-3 right-3 bg-white rounded-full w-10 h-10 flex items-center justify-baseline shadow z-10">
+                    <span className="text-red-500 text-sm font-extrabold ml-1.5">{article.metadata.score}</span>
+                    <span className="text-gray-400 text-[10px]">/10</span>
+                  </div>
+                )}
+                <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+                  <span className="inline-block bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">
                     Critique
                   </span>
-                  <h3 className={`font-bold text-white mb-2 ${index === 0 ? 'text-2xl' : 'text-lg'} line-clamp-2`}>
+                  <h3 className="font-bold text-white text-sm line-clamp-2">
                     {article.title}
                   </h3>
-                  {index === 0 && (
-                    <p className="text-gray-200 text-sm line-clamp-2">{article.excerpt}</p>
-                  )}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Deuxième ligne : 3 cards égales */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {critiques.slice(3, 6).map((article) => (
+            <Link key={article._id} href={`/article/${article.slug}`}>
+              <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-48 group">
+                <Image
+                  src={article.coverImage || '/placeholder.jpg'}
+                  alt={article.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                {article.metadata?.score != null && (
+                  <div className="absolute top-3 right-3 bg-white rounded-full w-10 h-10 flex items-center justify-baseline shadow z-10">
+                    <span className="text-red-500 text-sm font-extrabold ml-1.5">{article.metadata.score}</span>
+                    <span className="text-gray-400 text-[10px]">/10</span>
+                  </div>
+                )}
+                <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+                  <span className="inline-block bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">
+                    Critique
+                  </span>
+                  <h3 className="font-bold text-white text-sm line-clamp-2">
+                    {article.title}
+                  </h3>
                 </div>
               </div>
             </Link>
@@ -194,42 +232,50 @@ export default function Home({
         </div>
       </section>
 
-      {/* Listes */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Listes</h2>
+      {/* Listes - Carousel horizontal */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">Listes</h2>
           <div className="flex space-x-2">
-            <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button 
+              onClick={() => {
+                const el = document.getElementById('lists-carousel');
+                if (el) el.scrollBy({ left: -300, behavior: 'smooth' });
+              }}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <button className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button 
+              onClick={() => {
+                const el = document.getElementById('lists-carousel');
+                if (el) el.scrollBy({ left: 300, behavior: 'smooth' });
+              }}
+              className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Carousel scrollable */}
+        <div id="lists-carousel" className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {lists.map((article) => (
-            <Link key={article._id} href={`/article/${article.slug}`}>
-              <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer h-64">
-                {/* Image de fond */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={article.coverImage || '/placeholder.jpg'}
-                    alt={article.title}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                </div>
-
-                {/* Contenu */}
+            <Link key={article._id} href={`/article/${article.slug}`} className="flex-shrink-0 snap-start">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer w-56 h-72 group">
+                <Image
+                  src={article.coverImage || '/placeholder.jpg'}
+                  alt={article.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-                  <h3 className="font-bold text-white text-lg line-clamp-3">
+                  <h3 className="font-bold text-white text-base line-clamp-3 leading-snug">
                     {article.title}
                   </h3>
                 </div>
