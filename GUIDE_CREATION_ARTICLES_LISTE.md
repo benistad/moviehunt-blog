@@ -128,11 +128,12 @@ cp "/chemin/source/visuel.png" "client/public/nom-article.png"
 
 **⚠️ Important : Format de l'image de couverture**
 
-L'image de couverture s'affiche avec `object-contain` pour utiliser toute la hauteur de l'image :
-- La hauteur de l'image est toujours affichée en entier (pas de rognage vertical)
-- Les côtés peuvent être rognés si l'image est plus large que le format 16:9
+L'image de couverture s'affiche avec `object-cover` pour remplir tout le cadre sans marges :
+- L'image remplit complètement le conteneur (pas de marges sur les côtés)
+- L'image peut être rognée en haut/bas ou sur les côtés selon son ratio
 - L'image est centrée dans le conteneur (`object-center`)
 - Format recommandé : 16:9 (1920x1080) pour un affichage optimal sans rognage
+- **Règle importante** : L'image doit remplir tout le cadre, pas de marges visibles
 
 ### Étape 4 : Création de l'Article dans Supabase
 

@@ -134,7 +134,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
               <img
                 src={article.coverImage}
                 alt={article.title}
-                className="w-full h-full object-contain object-center"
+                className="w-full h-full object-cover object-center"
               />
             ) : (
               // Image externe - utiliser Next.js Image
@@ -144,7 +144,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 1200px"
-                className="object-contain object-center"
+                className="object-cover object-center"
                 quality={60}
                 placeholder="blur"
                 blurDataURL={blurDataURL}
