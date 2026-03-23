@@ -52,7 +52,7 @@ export default function Layout({ children }: LayoutProps) {
             {/* Logo + Nom */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               <Image 
-                src="/logo.png" 
+                src="/logo-blog.png" 
                 alt="MovieHunt" 
                 width={48}
                 height={48}
@@ -110,10 +110,8 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <Image src="/logo.png" alt="MovieHunt Blog" width={40} height={40} className="object-contain" />
-                <span className="text-xl font-bold text-white">
-                  MovieHunt Blog
-                </span>
+                <Image src="/logo-blog.png" alt="MovieHunt Blog" width={40} height={40} className="object-contain" />
+                <span className="text-2xl font-bold tracking-tight">MovieHunt <span className="font-normal text-white/80">Blog</span></span>
               </div>
               <p className="text-purple-200 leading-relaxed">
                 Découvrez des critiques et analyses de films sélectionnés par MovieHunt. Des pépites cinématographiques et des recommandations de qualité.
