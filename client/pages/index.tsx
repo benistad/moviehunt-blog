@@ -113,13 +113,13 @@ export default function Home({
                           <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
                         </div>
                         <div className="flex-1 min-w-0 pr-3 flex flex-col justify-between h-full py-2">
-                          <div className="flex items-start justify-between gap-2">
-                            <h4 className="font-extrabold text-[17px] text-gray-900 line-clamp-3 leading-[1.15] flex-1">{article.title}</h4>
+                          <div className="flex items-start justify-between gap-3">
+                            <h4 className="font-extrabold text-[19px] text-gray-900 line-clamp-3 leading-[1.2] tracking-tight flex-1">{article.title}</h4>
                             {article.metadata?.score != null && (
-                              <span className="bg-[#e93d40] text-white text-sm font-extrabold px-2.5 py-1 rounded-xl flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[10px] font-normal opacity-80">/10</span></span>
+                              <span className="bg-[#e93d40] text-white text-[15px] font-extrabold px-3 py-1.5 rounded-[14px] flex-shrink-0 shadow-sm">{article.metadata.score}<span className="text-[11px] font-medium opacity-90">/10</span></span>
                             )}
                           </div>
-                          <span className="inline-block self-start bg-[#e93d40] text-white text-xs font-bold px-3 py-1.5 rounded-full mt-auto">
+                          <span className="inline-block self-start bg-[#e93d40] text-white text-[13px] font-bold px-3.5 py-1.5 rounded-full mt-auto tracking-wide">
                             {article.category === 'review' ? 'Critique' : article.category === 'list' ? 'Liste' : 'Article'}
                           </span>
                         </div>
