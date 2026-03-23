@@ -43,35 +43,26 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header - Redesign transparent sur hero */}
       <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-black/80 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             {/* Logo + Nom */}
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative w-10 h-10 drop-shadow-md">
-                <Image 
-                  src="/logo.png" 
-                  alt="MovieHunt Blog" 
-                  width={40}
-                  height={40}
-                  className="object-contain" 
-                />
-              </div>
-              <span className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg tracking-tight">
+              <span className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg tracking-tight">
                 MovieHunt <span className="font-normal text-white/90">Blog</span>
               </span>
             </Link>
 
             {/* Barre de recherche + Navigation en dessous */}
-            <div className="flex flex-col items-end gap-2 w-full md:w-auto">
+            <div className="flex flex-col items-end gap-3 w-full md:w-auto">
               {/* Barre de recherche */}
-              <div className="flex items-center bg-white rounded-full px-4 py-1.5 w-full md:w-72 shadow-lg">
+              <div className="flex items-center bg-white rounded-full px-5 py-2 w-full md:w-80 shadow-lg border border-white/50">
                 <input
                   type="text"
                   placeholder="Recherche..."
                   className="bg-transparent border-none outline-none text-sm w-full text-gray-800 placeholder-gray-500"
                 />
-                <button className="bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center ml-2 transition-colors flex-shrink-0 shadow-md border border-white/20">
-                  <Search className="w-3.5 h-3.5" />
+                <button className="bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center ml-2 transition-colors flex-shrink-0 shadow-md">
+                  <Search className="w-4 h-4" />
                 </button>
               </div>
 
