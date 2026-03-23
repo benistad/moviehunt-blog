@@ -135,93 +135,94 @@ export default function Home({
       </section>
 
       {/* ═══ CRITIQUES DE FILMS ═══ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Critiques de films</h2>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-8">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Critiques de films</h2>
+          <div className="flex gap-2">
+            <button
+              onClick={() => { const el = document.getElementById('critiques-carousel'); if (el) el.scrollBy({ left: -300, behavior: 'smooth' }); }}
+              className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
+              <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button
+              onClick={() => { const el = document.getElementById('critiques-carousel'); if (el) el.scrollBy({ left: 300, behavior: 'smooth' }); }}
+              className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
+              <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
 
-        {/* Row 1 : grande card gauche (2 rows) + 2 cards droite */}
-        <div className="flex flex-col md:flex-row gap-3 mb-3">
-          {/* Grande card gauche */}
+        <div id="critiques-carousel" className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <style jsx>{`#critiques-carousel::-webkit-scrollbar { display: none; }`}</style>
+          
+          {/* GRANDE CARD GAUCHE - Fond violet */}
           {critiques[0] && (
-            <div className="md:w-[35%] flex-shrink-0">
+            <div className="w-[300px] flex-shrink-0 snap-start">
               <Link href={`/article/${critiques[0].slug}`}>
-                <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer h-[320px] group">
-                  <Image src={critiques[0].coverImage || '/placeholder.jpg'} alt={critiques[0].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  {critiques[0].metadata?.score != null && (
-                    <div className="absolute top-3 right-3 bg-white rounded-full w-11 h-11 flex items-center justify-center shadow z-10">
-                      <span className="text-red-500 text-sm font-extrabold">{critiques[0].metadata.score}</span>
-                      <span className="text-gray-400 text-[10px]">/10</span>
-                    </div>
-                  )}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-                    <h3 className="font-bold text-white text-lg line-clamp-3 leading-snug">{critiques[0].title}</h3>
+                <div className="bg-gradient-to-b from-red-500 via-purple-600 to-violet-700 rounded-[32px] p-2 flex flex-col h-[380px] shadow-lg hover:-translate-y-1 transition-transform cursor-pointer group relative">
+                  <div className="relative h-[240px] rounded-[24px] overflow-hidden">
+                    <Image src={critiques[0].coverImage || '/placeholder.jpg'} alt={critiques[0].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {critiques[0].metadata?.score != null && (
+                      <div className="absolute top-2 right-2 bg-red-600/90 backdrop-blur-md rounded-full w-[52px] h-[52px] flex items-center justify-center shadow-lg border border-white/20">
+                        <span className="text-white text-lg font-bold">{critiques[0].metadata.score}</span>
+                        <span className="text-white/70 text-[10px] ml-0.5 mt-1">/10</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-3 flex flex-col justify-center flex-1">
+                    <h3 className="font-bold text-white text-lg line-clamp-3 leading-snug drop-shadow-md">{critiques[0].title}</h3>
                   </div>
                 </div>
               </Link>
             </div>
           )}
 
-          {/* 2 cards droite empilées */}
-          <div className="flex-1 flex flex-col gap-3">
-            {/* Card image avec score */}
+          <div className="flex flex-col gap-4 flex-1 min-w-[500px]">
+            {/* CARD HAUT DROITE - Horizontale fond rouge */}
             {critiques[1] && (
-              <Link href={`/article/${critiques[1].slug}`}>
-                <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer h-[155px] group">
-                  <Image src={critiques[1].coverImage || '/placeholder.jpg'} alt={critiques[1].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  {critiques[1].metadata?.score != null && (
-                    <div className="absolute top-2 right-2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow z-10">
-                      <span className="text-red-500 text-xs font-extrabold">{critiques[1].metadata.score}</span>
-                      <span className="text-gray-400 text-[9px]">/10</span>
-                    </div>
-                  )}
-                </div>
-              </Link>
-            )}
-
-            {/* Card horizontale : image gauche + texte droite */}
-            {critiques[2] && (
-              <Link href={`/article/${critiques[2].slug}`}>
-                <div className="flex bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer h-[155px] group">
-                  <div className="relative w-[45%] flex-shrink-0">
-                    <Image src={critiques[2].coverImage || '/placeholder.jpg'} alt={critiques[2].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                    {critiques[2].metadata?.score != null && (
-                      <div className="absolute top-2 right-2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow z-10">
-                        <span className="text-red-500 text-xs font-extrabold">{critiques[2].metadata.score}</span>
-                        <span className="text-gray-400 text-[9px]">/10</span>
+              <Link href={`/article/${critiques[1].slug}`} className="flex-shrink-0 snap-start">
+                <div className="bg-[#e93d40] rounded-[32px] p-2 flex h-[180px] shadow-lg hover:-translate-y-1 transition-transform cursor-pointer group">
+                  <div className="relative w-[50%] rounded-[24px] overflow-hidden">
+                    <Image src={critiques[1].coverImage || '/placeholder.jpg'} alt={critiques[1].title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {critiques[1].metadata?.score != null && (
+                      <div className="absolute top-2 right-2 bg-purple-700/90 backdrop-blur-md rounded-xl px-3 py-1.5 flex items-center justify-center shadow-lg border border-white/20">
+                        <span className="text-white text-base font-bold">{critiques[1].metadata.score}</span>
+                        <span className="text-white/70 text-[10px] ml-0.5 mt-0.5">/10</span>
                       </div>
                     )}
                   </div>
-                  <div className="flex-1 p-3 flex flex-col justify-between">
-                    <h3 className="font-bold text-gray-900 text-sm line-clamp-3 leading-snug">{critiques[2].title}</h3>
-                    <span className="self-start bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Critique</span>
+                  <div className="w-[50%] p-4 flex flex-col justify-center">
+                    <h3 className="font-bold text-white text-xl line-clamp-3 leading-tight mb-3 drop-shadow-md">{critiques[1].title}</h3>
+                    <span className="self-start bg-purple-700 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Critique</span>
                   </div>
                 </div>
               </Link>
             )}
-          </div>
-        </div>
 
-        {/* Row 2 : 3 cards égales pleine largeur */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {[critiques[3], critiques[4], critiques[5]].filter(Boolean).map((article) => (
-            <Link key={article!._id} href={`/article/${article!.slug}`}>
-              <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer h-[180px] group">
-                <Image src={article!.coverImage || '/placeholder.jpg'} alt={article!.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                {article!.metadata?.score != null && (
-                  <div className="absolute top-2 right-2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow z-10">
-                    <span className="text-red-500 text-xs font-extrabold">{article!.metadata.score}</span>
-                    <span className="text-gray-400 text-[9px]">/10</span>
+            {/* CARDS BAS DROITE - 2 petites cards */}
+            <div className="flex gap-4 h-[180px]">
+              {[critiques[2], critiques[3]].filter(Boolean).map((article) => (
+                <Link key={article!._id} href={`/article/${article!.slug}`} className="flex-1 snap-start">
+                  <div className="relative rounded-[32px] overflow-hidden shadow-lg hover:-translate-y-1 transition-transform cursor-pointer h-full group bg-black">
+                    <Image src={article!.coverImage || '/placeholder.jpg'} alt={article!.title} fill className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                    {article!.metadata?.score != null && (
+                      <div className="absolute top-3 right-3 bg-red-600/90 backdrop-blur-md rounded-xl px-3 py-1.5 flex items-center justify-center shadow-lg border border-white/20 z-10">
+                        <span className="text-white text-base font-bold">{article!.metadata.score}</span>
+                        <span className="text-white/70 text-[10px] ml-0.5 mt-0.5">/10</span>
+                      </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+                      <h3 className="font-bold text-white text-sm line-clamp-2 leading-tight mb-2 drop-shadow-md">{article!.title}</h3>
+                      <span className="inline-block bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Critique</span>
+                    </div>
                   </div>
-                )}
-                <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-                  <span className="inline-block bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-1">Critique</span>
-                  <h3 className="font-bold text-white text-sm line-clamp-2 leading-tight">{article!.title}</h3>
-                </div>
-              </div>
-            </Link>
-          ))}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
