@@ -32,7 +32,7 @@ export default function Home({
 }: Partial<HomeProps>) {
   const heroArticle = initialArticles[0];
   const trendingArticles = initialArticles.slice(1, 5); // 4 articles au lieu de 3
-  const critiques = initialCritiques.slice(0, 6);
+  const critiques = initialCritiques; // Prendre toutes les critiques disponibles
   const lists = initialLists.slice(0, 8);
 
   return (
@@ -223,6 +223,28 @@ export default function Home({
               ))}
             </div>
           </div>
+
+          {/* Reste des critiques pour permettre le scroll */}
+          {critiques.slice(4).map((article) => (
+            <div key={article._id} className="w-[300px] flex-shrink-0 snap-start">
+              <Link href={`/article/${article.slug}`}>
+                <div className="bg-black rounded-[32px] p-2 flex flex-col h-[380px] shadow-lg hover:-translate-y-1 transition-transform cursor-pointer group relative overflow-hidden">
+                  <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                  {article.metadata?.score != null && (
+                    <div className="absolute top-4 right-4 bg-red-600/90 backdrop-blur-md rounded-full w-[52px] h-[52px] flex items-center justify-center shadow-lg border border-white/20 z-10">
+                      <span className="text-white text-lg font-bold">{article.metadata.score}</span>
+                      <span className="text-white/70 text-[10px] ml-0.5 mt-1">/10</span>
+                    </div>
+                  )}
+                  <div className="absolute bottom-0 left-0 right-0 p-5 z-10 flex flex-col justify-end">
+                    <span className="self-start bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 shadow-sm">Critique</span>
+                    <h3 className="font-bold text-white text-xl line-clamp-3 leading-snug drop-shadow-md">{article.title}</h3>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
       </section>
 
