@@ -103,8 +103,8 @@ export default function Home({
               {/* Effet de glow coloré derrière */}
               <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/30 via-transparent to-red-500/30 rounded-[32px] blur-xl z-0 pointer-events-none" />
               
-              <div className="relative z-10 flex flex-col h-full pt-3 px-1 pb-1">
-                <h3 className="text-white text-2xl font-extrabold tracking-wider mb-4 px-2 drop-shadow-md">TRENDING</h3>
+              <div className="relative z-10 flex flex-col h-full pt-1 px-1 pb-1">
+                <h3 className="text-white text-[22px] font-extrabold tracking-wider mb-2.5 px-2 drop-shadow-md">TRENDING</h3>
                 <div className="flex flex-col justify-between flex-1 gap-2">
                   {trendingArticles.map((article) => (
                     <Link key={article._id} href={`/article/${article.slug}`}>
