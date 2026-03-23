@@ -54,7 +54,7 @@ export default function Home({
               <Link href={`/article/${heroArticle.slug}`}>
                 <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer group h-full flex flex-col">
                   {/* Image dans la card */}
-                  <div className="relative h-[260px] sm:h-[300px] overflow-hidden">
+                  <div className="relative h-[260px] sm:h-[280px] overflow-hidden rounded-2xl m-3 mb-0">
                     <Image
                       src={heroArticle.coverImage || '/placeholder.jpg'}
                       alt={heroArticle.title}
@@ -64,7 +64,7 @@ export default function Home({
                       className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                     {heroArticle.metadata?.score != null && (
-                      <div className="absolute top-4 right-4 bg-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg z-10">
+                      <div className="absolute top-3 right-3 bg-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg" style={{ zIndex: 10 }}>
                         <span className="text-red-500 text-xl font-extrabold">{heroArticle.metadata.score}</span>
                         <span className="text-gray-400 text-xs font-semibold">/10</span>
                       </div>
@@ -87,13 +87,13 @@ export default function Home({
           )}
 
           {/* Trending (droite ~42%) */}
-          <div className="lg:w-[42%] bg-gradient-to-br from-pink-500 via-red-400 to-purple-600 rounded-2xl p-5 flex flex-col">
+          <div className="lg:w-[42%] bg-gradient-to-br from-pink-500 via-red-400 to-purple-600 rounded-2xl p-5 flex flex-col min-h-[480px]">
             <h3 className="text-white text-lg font-extrabold tracking-wider uppercase mb-4">Trending</h3>
-            <div className="flex flex-col gap-3 flex-1 justify-around">
+            <div className="flex flex-col gap-4 flex-1 justify-center">
               {trendingArticles.map((article) => (
                 <Link key={article._id} href={`/article/${article.slug}`}>
                   <div className="flex items-center gap-3 bg-white/20 rounded-xl p-2.5 hover:bg-white/30 transition-colors cursor-pointer">
-                    <div className="relative w-[76px] h-[58px] rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="relative w-[80px] h-[60px] rounded-lg overflow-hidden flex-shrink-0">
                       <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -247,11 +247,11 @@ export default function Home({
           <style jsx>{`#lists-carousel::-webkit-scrollbar { display: none; }`}</style>
           {lists.map((article) => (
             <Link key={article._id} href={`/article/${article.slug}`} className="flex-shrink-0 snap-start">
-              <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-44 h-60 group">
+              <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer w-52 h-80 group">
                 <Image src={article.coverImage || '/placeholder.jpg'} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 z-10">
-                  <h3 className="font-bold text-white text-[14px] line-clamp-3 leading-snug">{article.title}</h3>
+                  <h3 className="font-bold text-white text-base line-clamp-4 leading-snug">{article.title}</h3>
                 </div>
               </div>
             </Link>
