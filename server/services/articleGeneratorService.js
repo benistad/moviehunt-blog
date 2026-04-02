@@ -72,8 +72,9 @@ class ArticleGeneratorService {
           };
           
           // Utiliser les images TMDB si disponibles
-          if (tmdbData.backdropUrl) {
-            scrapedData.images = [tmdbData.backdropUrl, tmdbData.posterUrl, ...scrapedData.images];
+          const tmdbImages = [tmdbData.backdropUrl, tmdbData.posterUrl].filter(Boolean);
+          if (tmdbImages.length > 0) {
+            scrapedData.images = [...tmdbImages, ...(scrapedData.images || [])];
           }
           
           // Enrichir le casting
@@ -214,6 +215,41 @@ class ArticleGeneratorService {
 
       // Scraper à nouveau l'URL
       const scrapedData = await scraperService.scrapeUrl(article.sourceUrl);
+
+      // Enrichir avec TMDB (même pipeline que generateFromUrl)
+      const movieTitle = scrapedData.metadata?.movieTitle || scrapedData.title;
+      const movieYear = scrapedData.metadata?.releaseYear;
+
+      if (movieTitle) {
+        const tmdbData = await tmdbService.enrichMovieData(movieTitle, movieYear);
+
+        if (tmdbData) {
+          console.log(`✅ Données TMDB récupérées pour la régénération de "${movieTitle}"`);
+
+          scrapedData.metadata = {
+            ...scrapedData.metadata,
+            tmdbSynopsis: tmdbData.synopsis,
+            tmdbRating: tmdbData.voteAverage,
+            runtime: tmdbData.runtime,
+            budget: tmdbData.budget,
+            revenue: tmdbData.revenue,
+            tagline: tmdbData.tagline,
+          };
+
+          const tmdbImages = [tmdbData.backdropUrl, tmdbData.posterUrl].filter(Boolean);
+          if (tmdbImages.length > 0) {
+            scrapedData.images = [...tmdbImages, ...(scrapedData.images || [])];
+          }
+
+          if (tmdbData.cast && tmdbData.cast.length > 0) {
+            scrapedData.metadata.actors = tmdbData.cast.map(c => c.name);
+          }
+
+          if (tmdbData.director) {
+            scrapedData.metadata.director = tmdbData.director.name;
+          }
+        }
+      }
 
       // Générer un nouveau contenu
       const generatedArticle = await aiService.generateArticle(scrapedData, article.sourceUrl);
