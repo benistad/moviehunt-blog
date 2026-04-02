@@ -232,7 +232,8 @@ ${sourceUrl}
    ${scrapedData.images && scrapedData.images.length > 0 ? `
    - INTÈGRE une image TMDB au début avec cette syntaxe HTML CKEditor :
      <figure class="image image-style-align-center">
-       <img src="/api/tmdb/proxy-image?url=${encodeURIComponent(scrapedData.images[0])}" alt="${scrapedData.title}" />
+       <img src="/api/tmdb/proxy-image?url=${encodeURIComponent(scrapedData.images[0])}" alt="${scrapedData.title} (${year}) - affiche du film" title="${scrapedData.title} : critique et avis" />
+       <figcaption>${scrapedData.title} (${year}) — ${genres}</figcaption>
      </figure>
    ` : ''}
    
@@ -242,7 +243,8 @@ ${sourceUrl}
    ${scrapedData.images && scrapedData.images.length > 1 ? `
    - Tu PEUX ajouter une image TMDB ici si pertinent avec cette syntaxe HTML CKEditor :
      <figure class="image image-style-align-center">
-       <img src="/api/tmdb/proxy-image?url=${encodeURIComponent(scrapedData.images[1])}" alt="Scène de ${scrapedData.title}" />
+       <img src="/api/tmdb/proxy-image?url=${encodeURIComponent(scrapedData.images[1])}" alt="Scène du film ${scrapedData.title} - ${genres}" title="${scrapedData.title} : une scène du film" />
+       <figcaption>Extrait de ${scrapedData.title} (${year})</figcaption>
      </figure>
    ` : ''}
    
@@ -289,10 +291,18 @@ ${sourceUrl}
 
 4. **Tags** : Génère 6-8 tags pertinents (genres, thèmes, acteurs principaux)
 
-5. **SEO** :
-   - Meta-titre : 50-60 caractères, optimisé pour le référencement
-   - Meta-description : 150-160 caractères, incitative au clic
-   - Keywords : 8-12 mots-clés stratégiques (voir section SEO ci-dessous)
+5. **SEO — INSTRUCTIONS COMPLÈTES** :
+   a) Meta-titre (50-60 caractères) : inclure le titre du film + l'année + un mot-clé fort ("critique", "avis", "review")
+      Exemple : "${scrapedData.title} (${year}) : notre critique"
+   b) Meta-description (150-160 caractères) : accrocheuse, contient le titre, l'année, les genres et incite au clic. Pas de spoiler.
+   c) Keywords (8-12 mots-clés) : mélange de mots-clés courts (titre du film) ET longue traîne ("critique ${scrapedData.title}", "${scrapedData.title} vaut-il le détour", "${scrapedData.title} avis", "film ${genres} ${year}")
+   d) Structure des titres (H1/H2/H3) : le titre H1 implicite est le titre de l'article. Les H2 de sections doivent contenir des mots-clés naturels liés au film. Évite les H2 génériques sans rapport avec le film.
+   e) Images SEO : TOUTES les images DOIVENT avoir :
+      - Un attribut alt descriptif et unique (titre du film + contexte de l'image, ex: "${scrapedData.title} - scène d'action", "affiche officielle de ${scrapedData.title}")
+      - Un attribut title avec le nom du film et un contexte différent de l'alt
+      - Une balise <figcaption> descriptive sous chaque image
+   f) Maillage interne : si tu mentionnes des films du même réalisateur ou du même genre, formule-le de façon à inviter le lecteur à explorer le blog
+   g) Lisibilité SEO : paragraphes courts (3-4 phrases max), utilise <strong> pour les mots-clés importants dans le texte (pas plus de 2-3 fois), évite le bourrage de mots-clés
 
 ═══════════════════════════════════════════════════════════════
 📋 FORMAT DE RÉPONSE (RESPECTE EXACTEMENT CE FORMAT)
