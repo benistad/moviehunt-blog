@@ -566,10 +566,29 @@ Contenu: ${content.substring(0, 500)}`,
   /**
    * Génère un article à partir d'un prompt libre
    */
-  async generateArticleFromPrompt(prompt) {
+  async generateArticleFromPrompt(prompt, tmdbImagesMap = {}) {
     try {
       console.log(`🤖 Génération d'article depuis un prompt...`);
-      console.log(`📝 Prompt: ${prompt}`);
+      console.log(`📝 Prompt: ${prompt.substring(0, 200)}...`);
+
+      // Construire la section images TMDB si disponibles
+      const hasTmdbImages = Object.keys(tmdbImagesMap).length > 0;
+      const tmdbImagesSection = hasTmdbImages ? `
+
+═══════════════════════════════════════════════════════════════
+🎬 IMAGES TMDB DISPONIBLES PAR FILM — UTILISATION OBLIGATOIRE
+═══════════════════════════════════════════════════════════════
+Pour chaque film listé ci-dessous, intègre OBLIGATOIREMENT son image dans sa section de l'article.
+Syntaxe HTML à utiliser :
+<figure class="image image-style-align-center">
+  <img src="[URL_IMAGE]" alt="[TITRE_FILM] - affiche du film" title="[TITRE_FILM] : à voir absolument" />
+  <figcaption>[TITRE_FILM] ([ANNEE]) — [GENRES]</figcaption>
+</figure>
+
+${Object.entries(tmdbImagesMap).map(([title, data]) =>
+  `Film: ${title}\n  Image backdrop: ${data.backdrop || 'Non disponible'}\n  Image poster: ${data.poster || 'Non disponible'}\n  Année: ${data.year || ''}\n  Genres: ${data.genres || ''}`
+).join('\n\n')}
+` : '';
 
       const completion = await openai.chat.completions.create({
         model: 'gpt-4o',
@@ -577,48 +596,59 @@ Contenu: ${content.substring(0, 500)}`,
         messages: [
           {
             role: 'system',
-            content: `Tu es un rédacteur expert en cinéma et critique de films. 
-            Tu écris des articles de blog engageants, informatifs et optimisés pour le SEO.
-            Ton style est professionnel mais accessible, avec une touche d'enthousiasme pour le cinéma.
-            Tu structures tes articles avec des titres, sous-titres et paragraphes bien organisés.
-            
+            content: `Tu es un rédacteur expert en cinéma et critique de films pour le blog MovieHunt.
+
+            📰 LIGNE ÉDITORIALE DE MOVIEHUNT — À RESPECTER ABSOLUMENT :
+            MovieHunt est un blog de cinéma tenu par des passionnés, qui s'adresse à des spectateurs curieux et exigeants.
+            La ligne éditoriale est : directe, honnête, passionnée, accessible sans être populiste, cinéphile sans être élitiste.
+            - On parle au lecteur comme à un ami qui aime le cinéma, pas comme à un élève
+            - On assume nos avis, on ne se réfugie pas derrière des formulations floues
+            - Le registre est familier-cultivé : ni trop académique, ni trop décontracté
+            - On écrit en français courant, fluide, sans jargon inutile ni formules creuses
+            - Chaque article a sa propre personnalité mais reste reconnaissable comme un article MovieHunt
+
             IMPORTANT: Tu génères du contenu en HTML pur pour un éditeur WYSIWYG (CKEditor 5).
             Utilise UNIQUEMENT ces balises HTML:
-            - <h1>, <h2>, <h3>, <h4> pour les titres
+            - <h2>, <h3> pour les titres de sections
             - <p> pour les paragraphes (OBLIGATOIRE pour chaque paragraphe)
-            - <strong> pour le gras, <em> pour l'italique, <u> pour le souligné
+            - <strong> pour le gras, <em> pour l'italique
             - <ul> et <li> pour les listes à puces
             - <ol> et <li> pour les listes numérotées
-            - <a href="..."> pour les liens
+            - <figure class="image image-style-align-center">, <img>, <figcaption> pour les images
             - <blockquote> pour les citations
-            
+
             N'utilise JAMAIS la syntaxe Markdown (##, **, *, etc.).
-            Chaque paragraphe DOIT être entouré de balises <p></p>.`,
+            Chaque paragraphe DOIT être entouré de balises <p></p>.
+
+            ⚡ PRIORITÉ : La structure, le plan et les instructions de mise en page présents dans le prompt utilisateur sont ABSOLUMENT PRIORITAIRES sur toutes les instructions ci-dessus. Suis-les à la lettre.`,
           },
           {
             role: 'user',
-            content: `${prompt}
+            content: `${prompt}${tmdbImagesSection}
 
 ═══════════════════════════════════════════════════════════════
 📝 INSTRUCTIONS DE RÉDACTION
 ═══════════════════════════════════════════════════════════════
 
-1. **Titre accrocheur** : Crée un titre captivant qui donne envie de lire (max 80 caractères)
+1. **Titre accrocheur** : Reprends ou améliore le titre fourni dans le prompt (max 80 caractères)
 
-2. **Extrait/Résumé** : Rédige un résumé percutant de 150-200 caractères qui résume l'essence de l'article
+2. **Extrait/Résumé** : Rédige un résumé percutant de 150-200 caractères dans le ton MovieHunt
 
-3. **Article complet** (800-1200 mots) structuré en HTML PUR avec:
-   - Une introduction engageante (2-3 paragraphes)
-   - Des sections bien organisées avec des <h2>
-   - Des paragraphes dans des balises <p>
-   - Une conclusion percutante
-   
-4. **Tags** : Génère 6-8 tags pertinents (genres, thèmes, acteurs, etc.)
+3. **Article complet** structuré en HTML PUR :
+   - Respecte EXACTEMENT la structure et le plan détaillé dans le prompt ci-dessus
+   - Si le prompt demande une liste de films : chaque film = une section <h3> avec un paragraphe éditorial dans le ton MovieHunt
+   - Si des images TMDB sont disponibles (section ci-dessus) : intègre OBLIGATOIREMENT l'image de chaque film dans sa section
+   - Utilise <strong> sur les titres de films dans le texte pour le SEO
+   - Paragraphes courts et dynamiques (3-4 phrases max)
 
-5. **SEO** :
-   - Meta-titre : 50-60 caractères, optimisé pour le référencement
-   - Meta-description : 150-160 caractères, incitative au clic
-   - Keywords : 8-12 mots-clés stratégiques
+4. **Tags** : 6-8 tags pertinents (genres, thèmes, titres de films clés)
+
+5. **SEO — INSTRUCTIONS COMPLÈTES** :
+   a) Meta-titre (50-60 caractères) : titre de l'article + mot-clé fort
+   b) Meta-description (150-160 caractères) : accrocheuse avec les mots-clés principaux, incite au clic
+   c) Keywords (8-12) : titres des films + longue traîne
+   d) Images SEO : chaque <img> DOIT avoir un alt descriptif unique et un title différent
+   e) H2/H3 : doivent contenir des mots-clés naturels liés aux films
 
 ═══════════════════════════════════════════════════════════════
 📋 FORMAT DE RÉPONSE (RESPECTE EXACTEMENT CE FORMAT)
@@ -651,7 +681,7 @@ CONTENU:
           },
         ],
         temperature: 0.7,
-        max_tokens: 2500,
+        max_tokens: 4000,
       });
 
       const generatedContent = completion.choices[0].message.content;

@@ -152,6 +152,7 @@ router.post('/generate', urlValidation, async (req, res, next) => {
 router.post('/generate-from-prompt', async (req, res, next) => {
   try {
     const { prompt } = req.body;
+    const tmdbService = require('../services/tmdbService');
 
     if (!prompt || prompt.trim().length === 0) {
       return res.status(400).json({
@@ -160,10 +161,51 @@ router.post('/generate-from-prompt', async (req, res, next) => {
       });
     }
 
-    console.log(`📝 Génération d'article depuis prompt: "${prompt}"`);
+    console.log(`📝 Génération d'article depuis prompt: "${prompt.substring(0, 100)}..."`);
 
-    // Générer l'article avec l'IA
-    const generatedArticle = await aiService.generateArticleFromPrompt(prompt);
+    // Extraire les titres de films du prompt avec une regex simple
+    // Cherche les patterns : "Titre (année)", numérotés "1. Titre", ou après des emojis
+    const filmTitlePatterns = [
+      /(?:^|\n)\s*(?:\d+\.\s+|[🎬🔥🧠😱🧩🌀💥😨🕵️⭐]+\s+)([A-ZÀ-Ÿa-zà-ÿ][^(\n]+?)(?:\s*\((\d{4})\))?(?:\n|$)/gm,
+    ];
+
+    const extractedFilms = new Map();
+    for (const pattern of filmTitlePatterns) {
+      let match;
+      while ((match = pattern.exec(prompt)) !== null) {
+        const title = match[1].trim().replace(/\*+/g, '');
+        const year = match[2] || null;
+        if (title.length > 2 && title.length < 80) {
+          extractedFilms.set(title, year);
+        }
+      }
+    }
+
+    console.log(`🎬 Films détectés dans le prompt: ${[...extractedFilms.keys()].join(', ')}`);
+
+    // Appeler TMDB pour chaque film détecté
+    const tmdbImagesMap = {};
+    for (const [title, year] of extractedFilms.entries()) {
+      try {
+        const tmdbData = await tmdbService.enrichMovieData(title, year);
+        if (tmdbData) {
+          tmdbImagesMap[title] = {
+            backdrop: tmdbData.backdropUrl || null,
+            poster: tmdbData.posterUrl || null,
+            year: tmdbData.year || year,
+            genres: tmdbData.genres?.join(', ') || '',
+          };
+          console.log(`✅ TMDB trouvé pour "${title}"`);
+        }
+      } catch (err) {
+        console.warn(`⚠️ TMDB non trouvé pour "${title}": ${err.message}`);
+      }
+    }
+
+    console.log(`🖼️ Images TMDB récupérées pour ${Object.keys(tmdbImagesMap).length} films`);
+
+    // Générer l'article avec l'IA en injectant les images TMDB
+    const generatedArticle = await aiService.generateArticleFromPrompt(prompt, tmdbImagesMap);
 
     // Créer un slug à partir du titre
     const slug = generatedArticle.title
