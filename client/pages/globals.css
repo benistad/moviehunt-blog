@@ -83,6 +83,29 @@ img {
   animation-delay: 4s;
 }
 
+/* Carousel de films dans les articles */
+.film-carousel {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 10px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.film-carousel img {
+  display: block !important;
+  height: 280px !important;
+  width: auto !important;
+  flex-shrink: 0 !important;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
 /* Smooth transitions */
 .smooth-transition {
   transition: opacity 0.2s ease-in-out;
