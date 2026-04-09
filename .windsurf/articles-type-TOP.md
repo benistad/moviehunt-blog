@@ -89,6 +89,54 @@ Chaque article de type TOP est généré via un script Node.js dans `server/scri
 
 ---
 
+## Objectif principal : trafic organique MAXIMUM
+
+**Ces articles sont conçus avant tout pour ranker sur Google.** Chaque décision éditoriale doit servir le SEO. Voici les règles impératives :
+
+### Volume de contenu — OBLIGATOIRE
+- **Minimum 1 800 mots** de texte (hors balises HTML)
+- **Idéal : 2 000-2 500 mots** — les articles en top 3 Google sur les requêtes compétitives ("films comme X", "meilleurs films Y") dépassent systématiquement 1 800 mots
+- Si l'article est trop court après génération, étoffer via :
+  - Une section "Pourquoi ces films ?" plus développée (points communs, analyse du genre)
+  - Une section "Comment choisir selon ton humeur ?" avec tableau ou liste détaillée
+  - Une FAQ plus longue (5-6 questions au lieu de 3-4)
+  - Une introduction plus développée avec contexte du film de référence
+
+### Structure SEO impérative
+- **H1** (titre de l'article) : mot-clé principal en début de titre
+- **H2** pour chaque film : inclure le titre + l'année (ex: `Source Code (2011) : ...`)
+- **H2 thématiques** après les films : "Pourquoi ces films ?", "Comment choisir ?", "FAQ"
+- **H3** dans la FAQ : chaque question est un H3 = autant de featured snippets potentiels
+- **Mot-clé principal** répété naturellement dans l'intro, dans au moins 2 H2, et dans la conclusion
+- **Variantes sémantiques** disséminées dans le texte : synonymes, reformulations, titres de films
+
+### FAQ — arme principale pour le trafic
+- **Minimum 5 questions** (pas 3) — chaque H3 de FAQ est une chance de featured snippet
+- Questions au format "People Also Ask" de Google :
+  - "Quels films ressemblent à [X] ?"
+  - "Quel est le meilleur film comme [X] ?"
+  - "Film [X] disponible sur Netflix ?"
+  - "Film [genre] à voir absolument ?"
+  - "[Film spécifique] vaut-il le coup ?"
+- Réponses courtes et directes (2-3 phrases max par réponse)
+
+### Longue traîne — maximiser les entrées
+- Chaque titre de film dans l'article est une requête potentielle
+- Mentionner les plateformes (Netflix, Prime, Disney+) quand c'est pertinent → requêtes "film X sur Netflix"
+- Mentionner les genres et sous-genres → requêtes "thriller boucle temporelle", "film SF mind-bending"
+- Inclure des comparaisons explicites → "si tu as aimé X, tu aimeras Y"
+
+### Maillage sémantique
+- Répéter le mot-clé principal (ou ses variantes) dans :
+  - L'intro (2x)
+  - Au moins 2 sous-titres H2
+  - La conclusion
+  - La metaDescription
+  - L'excerpt
+- Ne pas sur-optimiser : 1 occurrence par section suffit, le texte doit rester naturel
+
+---
+
 ## Règles SEO
 
 ### Titre de l'article
