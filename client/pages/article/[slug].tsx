@@ -128,26 +128,28 @@ export default function ArticlePage({ article }: ArticlePageProps) {
 
         {/* Cover Image - Optimisée avec Next.js Image */}
         {article.coverImage && (
-          <div className="aspect-video w-full overflow-hidden rounded-xl mb-8 bg-gray-200 relative">
+          <div className="w-full rounded-xl mb-8 bg-gray-200 relative overflow-hidden">
             {article.coverImage.startsWith('/') ? (
               // Image locale - utiliser img tag
               <img
                 src={article.coverImage}
                 alt={article.title}
-                className="w-full h-full object-cover object-center"
+                className="w-full h-auto"
               />
             ) : (
               // Image externe - utiliser Next.js Image
               <Image
                 src={article.coverImage}
                 alt={article.title}
-                fill
+                width={1200}
+                height={675}
                 priority
                 sizes="(max-width: 768px) 100vw, 1200px"
-                className="object-cover object-center"
+                className="w-full h-auto"
                 quality={60}
                 placeholder="blur"
                 blurDataURL={blurDataURL}
+                style={{ height: 'auto' }}
               />
             )}
             {article.metadata?.score && (
