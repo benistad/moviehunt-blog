@@ -81,9 +81,21 @@ export default function Layout({ children }: LayoutProps) {
             <nav className="hidden md:flex items-center gap-6 shrink-0">
               <Link
                 href="/"
-                className={`font-medium text-base transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] ${isHeaderWhite ? 'text-gray-900 hover:text-[#dc2625] after:bg-[#dc2625]' : 'text-white hover:text-white/80 drop-shadow-md after:bg-white'}`}
+                className={`font-medium text-base transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] ${isActive('/') ? (isHeaderWhite ? 'after:scale-x-100' : 'after:scale-x-100') : 'after:scale-x-0 hover:after:scale-x-100'} after:transition-transform ${isHeaderWhite ? 'text-gray-900 hover:text-[#dc2625] after:bg-[#dc2625]' : 'text-white hover:text-white/80 drop-shadow-md after:bg-white'}`}
               >
                 Accueil
+              </Link>
+              <Link
+                href="/critiques"
+                className={`font-medium text-base transition-colors ${isHeaderWhite ? 'text-gray-900 hover:text-[#dc2625]' : 'text-white/80 hover:text-white drop-shadow-md'} ${isActive('/critiques') ? 'border-b-2 border-indigo-600' : ''}`}
+              >
+                Critiques
+              </Link>
+              <Link
+                href="/listes"
+                className={`font-medium text-base transition-colors ${isHeaderWhite ? 'text-gray-900 hover:text-[#dc2625]' : 'text-white/80 hover:text-white drop-shadow-md'} ${isActive('/listes') ? 'border-b-2 border-orange-500' : ''}`}
+              >
+                Listes
               </Link>
               <a
                 href="https://www.moviehunt.fr"
@@ -137,13 +149,13 @@ export default function Layout({ children }: LayoutProps) {
                   </a>
                 </li>
                 <li>
-                  <Link href="/" className="text-purple-200 hover:text-white transition-colors">
-                    Blog
+                  <Link href="/critiques" className="text-purple-200 hover:text-white transition-colors">
+                    Critiques de films
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-purple-200 hover:text-white transition-colors">
-                    Recherche
+                  <Link href="/listes" className="text-purple-200 hover:text-white transition-colors">
+                    Listes de films
                   </Link>
                 </li>
               </ul>
