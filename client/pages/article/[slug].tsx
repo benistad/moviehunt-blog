@@ -321,7 +321,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         article: response.data.data,
       },
-      revalidate: 3600, // Régénérer toutes les heures (ISR)
+      revalidate: 60, // Régénérer toutes les minutes (ISR)
     };
   } catch (error: any) {
     console.error('[ISR] Error fetching article:', error.message);
