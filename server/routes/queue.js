@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { UrlQueue } = require('../models');
 const articleGeneratorService = require('../services/articleGeneratorService');
+const requireAuth = require('../middleware/requireAuth');
 
 /**
  * GET /api/queue
@@ -30,7 +31,7 @@ router.get('/', async (req, res, next) => {
  * POST /api/queue/process
  * Traite les URLs en attente
  */
-router.post('/process', async (req, res, next) => {
+router.post('/process', requireAuth, async (req, res, next) => {
   try {
     const limit = parseInt(req.body.limit) || 5;
     const results = await articleGeneratorService.processQueue(limit);
@@ -49,7 +50,7 @@ router.post('/process', async (req, res, next) => {
  * POST /api/queue/retry
  * Réessaye les URLs en échec
  */
-router.post('/retry', async (req, res, next) => {
+router.post('/retry', requireAuth, async (req, res, next) => {
   try {
     await articleGeneratorService.retryFailed();
 
@@ -66,7 +67,7 @@ router.post('/retry', async (req, res, next) => {
  * DELETE /api/queue/:id
  * Supprime une entrée de la queue
  */
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requireAuth, async (req, res, next) => {
   try {
     const queueItem = await UrlQueue.findByIdAndDelete(req.params.id);
 

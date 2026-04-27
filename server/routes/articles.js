@@ -8,6 +8,7 @@ const {
   articleIdValidation,
   articleUpdateValidation,
 } = require('../middleware/validator');
+const requireAuth = require('../middleware/requireAuth');
 
 /**
  * GET /api/articles
@@ -129,7 +130,7 @@ router.get('/slug/:slug', async (req, res, next) => {
  * POST /api/articles/generate
  * Génère un nouvel article depuis une URL
  */
-router.post('/generate', urlValidation, async (req, res, next) => {
+router.post('/generate', requireAuth, urlValidation, async (req, res, next) => {
   try {
     const { url, customInstructions } = req.body;
 
@@ -149,7 +150,7 @@ router.post('/generate', urlValidation, async (req, res, next) => {
  * POST /api/articles/generate-from-prompt
  * Génère un nouvel article depuis un prompt libre
  */
-router.post('/generate-from-prompt', async (req, res, next) => {
+router.post('/generate-from-prompt', requireAuth, async (req, res, next) => {
   try {
     const { prompt } = req.body;
     const tmdbService = require('../services/tmdbService');
@@ -249,7 +250,7 @@ router.post('/generate-from-prompt', async (req, res, next) => {
  * POST /api/articles/:id/regenerate
  * Régénère un article existant
  */
-router.post('/:id/regenerate', articleIdValidation, async (req, res, next) => {
+router.post('/:id/regenerate', requireAuth, articleIdValidation, async (req, res, next) => {
   try {
     const article = await articleGeneratorService.regenerateArticle(req.params.id);
 
@@ -267,7 +268,7 @@ router.post('/:id/regenerate', articleIdValidation, async (req, res, next) => {
  * PUT /api/articles/:id
  * Met à jour un article
  */
-router.put('/:id', [...articleIdValidation, ...articleUpdateValidation], async (req, res, next) => {
+router.put('/:id', requireAuth, [...articleIdValidation, ...articleUpdateValidation], async (req, res, next) => {
   try {
     const updates = req.body;
     const article = await Article.findByIdAndUpdate(
@@ -297,7 +298,7 @@ router.put('/:id', [...articleIdValidation, ...articleUpdateValidation], async (
  * POST /api/articles/:id/publish
  * Publie un article (passe de draft à published)
  */
-router.post('/:id/publish', articleIdValidation, async (req, res, next) => {
+router.post('/:id/publish', requireAuth, articleIdValidation, async (req, res, next) => {
   try {
     const article = await Article.findByIdAndUpdate(
       req.params.id,
@@ -329,7 +330,7 @@ router.post('/:id/publish', articleIdValidation, async (req, res, next) => {
  * DELETE /api/articles/:id
  * Supprime un article
  */
-router.delete('/:id', articleIdValidation, async (req, res, next) => {
+router.delete('/:id', requireAuth, articleIdValidation, async (req, res, next) => {
   try {
     const article = await Article.findByIdAndDelete(req.params.id);
 

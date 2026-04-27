@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../utils/env';
+import { supabase } from '../config/supabase';
 
 const API_BASE_URL = API_URL;
 
@@ -9,6 +10,26 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+// Intercepteur de requête : injecte le JWT Supabase si l'utilisateur est authentifié
+api.interceptors.request.use(
+  async (config) => {
+    try {
+      if (supabase) {
+        const { data } = await supabase.auth.getSession();
+        const token = data?.session?.access_token;
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      }
+    } catch (err) {
+      // Pas bloquant : la route sera rejetée côté serveur si auth requise
+      console.warn('Impossible de récupérer le token Supabase:', err?.message);
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 // Intercepteur pour gérer les erreurs
 api.interceptors.response.use(

@@ -16,6 +16,16 @@ const { urlValidation } = require('../middleware/validator');
  */
 router.post('/moviehunt', urlValidation, async (req, res, next) => {
   try {
+    // Vérification du secret partagé pour empêcher tout déclenchement non autorisé
+    const expected = process.env.WEBHOOK_SECRET;
+    const provided = req.headers['x-webhook-secret'];
+    if (!expected || provided !== expected) {
+      return res.status(401).json({
+        success: false,
+        error: 'Webhook non autorisé',
+      });
+    }
+
     const { url, event } = req.body;
 
     console.log(`🔔 Webhook reçu: ${event} - ${url}`);

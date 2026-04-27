@@ -3,6 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 const { Article, UrlQueue } = require('../models');
 const articleGeneratorService = require('../services/articleGeneratorService');
+const requireAuth = require('../middleware/requireAuth');
 
 /**
  * GET /api/import/films/available
@@ -29,7 +30,7 @@ router.get('/films/available', async (req, res, next) => {
  * POST /api/import/films/bulk
  * Importe plusieurs films en une seule fois
  */
-router.post('/films/bulk', async (req, res, next) => {
+router.post('/films/bulk', requireAuth, async (req, res, next) => {
   try {
     const { slugs, limit } = req.body;
     
@@ -93,7 +94,7 @@ router.post('/films/bulk', async (req, res, next) => {
  * Importe TOUS les films disponibles sur MovieHunt
  * ATTENTION: Peut prendre beaucoup de temps
  */
-router.post('/films/all', async (req, res, next) => {
+router.post('/films/all', requireAuth, async (req, res, next) => {
   try {
     const allFilms = await scraperService.getAllFilms();
     
@@ -135,7 +136,7 @@ router.post('/films/all', async (req, res, next) => {
  * POST /api/import/film/:slug
  * Importe un film spécifique par son slug
  */
-router.post('/film/:slug', async (req, res, next) => {
+router.post('/film/:slug', requireAuth, async (req, res, next) => {
   try {
     const { slug } = req.params;
     const { generateNow } = req.body;

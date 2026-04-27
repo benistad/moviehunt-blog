@@ -43,12 +43,28 @@ app.use(helmet());
 app.use(compression());
 app.use(morgan('dev'));
 
-// Configuration CORS - Autoriser toutes les origines en production
+// Configuration CORS - Restreindre aux origines connues
+const allowedOrigins = [
+  'https://www.moviehunt-blog.fr',
+  'https://moviehunt-blog.fr',
+  'http://localhost:3000',
+  'http://localhost:3001',
+];
+// Autoriser les previews Vercel via une regex (*.vercel.app)
+const allowedOriginRegex = /^https:\/\/[a-z0-9-]+\.vercel\.app$/;
+
 app.use(cors({
-  origin: true, // Autoriser toutes les origines
-  credentials: true,
+  origin: (origin, cb) => {
+    // Requêtes server-to-server (sans header Origin) : autorisées
+    if (!origin) return cb(null, true);
+    if (allowedOrigins.includes(origin) || allowedOriginRegex.test(origin)) {
+      return cb(null, true);
+    }
+    return cb(new Error(`Origin non autorisée: ${origin}`));
+  },
+  credentials: false, // Auth via Bearer token, pas de cookies
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Webhook-Secret'],
 }));
 
 // Limite de taille des requêtes (Vercel a une limite stricte de 4.5MB)
