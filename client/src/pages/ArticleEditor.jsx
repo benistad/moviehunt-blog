@@ -3,11 +3,13 @@ import { useRouter } from 'next/router';
 import { ArrowLeft, Save, Eye, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { articlesAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContextNext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import CKEditorComponent from '../components/CKEditorWrapper';
 
 export default function ArticleEditor() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
   const { id } = router.query;
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,9 +25,17 @@ export default function ArticleEditor() {
   const [category, setCategory] = useState('review'); // Par défaut : Critiques de films
   const [slug, setSlug] = useState('');
 
+  // Guard d'authentification : redirection vers /login si non connecté
   useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace('/login');
+    }
+  }, [authLoading, user, router]);
+
+  useEffect(() => {
+    if (!user || !id) return;
     fetchArticle();
-  }, [id]);
+  }, [id, user]);
 
   const fetchArticle = async () => {
     try {
@@ -103,6 +113,10 @@ export default function ArticleEditor() {
     }
   };
 
+
+  if (authLoading || !user) {
+    return <LoadingSpinner text="Vérification de l'authentification..." />;
+  }
 
   if (loading) {
     return <LoadingSpinner text="Chargement de l'article..." />;

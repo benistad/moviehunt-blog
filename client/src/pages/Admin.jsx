@@ -23,7 +23,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function Admin() {
   const router = useRouter();
-  const { signOut, user } = useAuth();
+  const { signOut, user, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState('generate');
   const [url, setUrl] = useState('');
   const [customInstructions, setCustomInstructions] = useState('');
@@ -36,12 +36,32 @@ export default function Admin() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Guard d'authentification : redirection vers /login si non connecté
   useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace('/login');
+    }
+  }, [authLoading, user, router]);
+
+  useEffect(() => {
+    if (!user) return;
     fetchStats();
     fetchArticles();
     fetchDrafts();
     fetchQueue();
-  }, []);
+  }, [user]);
+
+  // Tant qu'on vérifie l'auth ou que l'utilisateur n'est pas connecté, on n'affiche rien
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Vérification de l'authentification...</p>
+        </div>
+      </div>
+    );
+  }
 
   const fetchStats = async () => {
     try {
