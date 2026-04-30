@@ -74,7 +74,7 @@ export default function Admin() {
 
   const fetchArticles = async () => {
     try {
-      const response = await articlesAPI.getAll({ limit: 20, status: 'published' });
+      const response = await articlesAPI.getAll({ limit: 200, status: 'published' });
       setArticles(response.data.data.articles);
     } catch (error) {
       toast.error('Erreur de chargement des articles');
@@ -574,7 +574,7 @@ export default function Admin() {
       {activeTab === 'articles' && (
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Articles récents</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Tous les articles publiés ({articles.length})</h2>
             <button onClick={fetchArticles} className="btn-secondary">
               <RefreshCw className="w-5 h-5 inline mr-2" />
               Actualiser

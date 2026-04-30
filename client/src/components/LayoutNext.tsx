@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import { useEffect, ReactNode, useState } from 'react';
 
 interface LayoutProps {
@@ -11,6 +11,8 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [headerSearch, setHeaderSearch] = useState('');
 
   // Raccourci clavier Ctrl+Shift+A pour accéder à l'admin
   useEffect(() => {
@@ -42,6 +44,14 @@ export default function Layout({ children }: LayoutProps) {
   const isHomePage = router.pathname === '/';
   const isHeaderWhite = isScrolled || !isHomePage;
 
+  const handleHeaderSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (headerSearch.trim()) {
+      setMobileMenuOpen(false);
+      router.push(`/recherche?q=${encodeURIComponent(headerSearch.trim())}`);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header - Transparent au top sur l'accueil, Blanc translucide au scroll ou sur autres pages */}
@@ -64,18 +74,32 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
 
             {/* Barre de recherche centrale */}
-            <div className="hidden lg:flex flex-1 justify-center max-w-md mx-4">
+            <form onSubmit={handleHeaderSearch} className="hidden lg:flex flex-1 justify-center max-w-md mx-4">
               <div className={`flex items-center rounded-full px-5 py-2 w-full transition-all ${isHeaderWhite ? 'bg-gray-100 border border-transparent shadow-inner focus-within:bg-white focus-within:border-gray-300 focus-within:shadow-md' : 'bg-white shadow-lg border border-white/50'}`}>
                 <input
                   type="text"
                   placeholder="Recherche..."
+                  value={headerSearch}
+                  onChange={(e) => setHeaderSearch(e.target.value)}
                   className="bg-transparent border-none outline-none text-sm w-full text-gray-800 placeholder-gray-500"
                 />
-                <button className="bg-[#dc2625] hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center ml-2 transition-colors flex-shrink-0 shadow-md">
+                <button type="submit" className="bg-[#dc2625] hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center ml-2 transition-colors flex-shrink-0 shadow-md">
                   <Search className="w-4 h-4" />
                 </button>
               </div>
-            </div>
+            </form>
+
+            {/* Hamburger mobile */}
+            <button
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-full transition-colors shrink-0"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menu"
+            >
+              {mobileMenuOpen
+                ? <X className={`w-6 h-6 ${isHeaderWhite ? 'text-gray-900' : 'text-white'}`} />
+                : <Menu className={`w-6 h-6 ${isHeaderWhite ? 'text-gray-900' : 'text-white'}`} />
+              }
+            </button>
 
             {/* Navigation droite */}
             <nav className="hidden md:flex items-center gap-6 shrink-0">
@@ -110,6 +134,30 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
       </header>
+
+      {/* Menu mobile déroulant */}
+      {mobileMenuOpen && (
+        <div className="fixed top-[72px] left-0 right-0 z-40 bg-white shadow-lg border-t border-gray-100 md:hidden">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+            <form onSubmit={handleHeaderSearch} className="flex items-center gap-2 mb-3">
+              <input
+                type="text"
+                placeholder="Recherche..."
+                value={headerSearch}
+                onChange={(e) => setHeaderSearch(e.target.value)}
+                className="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm outline-none focus:border-[#dc2625]"
+              />
+              <button type="submit" className="bg-[#dc2625] text-white rounded-full w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <Search className="w-4 h-4" />
+              </button>
+            </form>
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 rounded-lg text-gray-800 font-medium hover:bg-gray-50 transition-colors">Accueil</Link>
+            <Link href="/critiques" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 rounded-lg text-gray-800 font-medium hover:bg-gray-50 transition-colors">Critiques</Link>
+            <Link href="/listes" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 rounded-lg text-gray-800 font-medium hover:bg-gray-50 transition-colors">Listes</Link>
+            <a href="https://www.moviehunt.fr" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2.5 rounded-lg text-gray-500 font-medium hover:bg-gray-50 transition-colors">MovieHunt ↗</a>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className={`flex-1 ${!isHomePage ? 'pt-[100px]' : ''}`}>
