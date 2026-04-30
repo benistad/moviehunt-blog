@@ -31,7 +31,7 @@ router.get('/', async (req, res, next) => {
 
     // Recherche textuelle si fournie
     if (search) {
-      query.$text = { $search: search };
+      query.search = search;
     }
 
     const skip = (page - 1) * limit;

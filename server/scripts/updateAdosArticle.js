@@ -1,4 +1,6 @@
+/* eslint-disable */
 require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
+const axios = require('axios');
 const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
@@ -6,51 +8,105 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+const TMDB_API_KEY = process.env.TMDB_API_KEY || 'adaae6de59a1a0ef031be9c4b22907b0';
+const TMDB_BASE = 'https://api.themoviedb.org/3';
+const TMDB_IMG = 'https://image.tmdb.org/t/p/w342';
+
 const SLUG = 'idee-de-film-pour-ado-10-films-incontournables';
 
-/* ── Descriptions extraites du contenu existant ───────────────────────── */
+/* ── Films à rechercher sur TMDB ─────────────────────────────────────── */
+const FILMS_DATA = [
+  {
+    key: "trumanShow", tmdbQuery: "The Truman Show", year: 1998,
+    displayTitle: "The Truman Show (1998)", platform: "Netflix",
+    desc: "Un homme m\u00e8ne une vie parfaite\u2026 jusqu\u2019\u00e0 ce qu\u2019il d\u00e9couvre qu\u2019il vit dans un immense plateau t\u00e9l\u00e9. <strong>The Truman Show</strong> questionne notre rapport \u00e0 l\u2019image et \u00e0 la libert\u00e9. Jim Carrey y livre une performance magistrale.",
+    why: "Un film que tout ado devrait voir au moins une fois pour r\u00e9fl\u00e9chir \u00e0 ce qu\u2019est vivre vraiment.",
+  },
+  {
+    key: "readyPlayerOne", tmdbQuery: "Ready Player One", year: 2018,
+    displayTitle: "Ready Player One (2018)", platform: "Disney+ (Star)",
+    desc: "Bienvenue dans l\u2019OASIS, un monde virtuel o\u00f9 tout est possible. Spielberg signe une aventure \u00e9pique bourr\u00e9e de r\u00e9f\u00e9rences \u00e0 la pop culture. Les effets visuels sont spectaculaires.",
+    why: "Le film parfait pour les ados gamers ou r\u00eaveurs.",
+  },
+  {
+    key: "cerclePiotes", tmdbQuery: "Dead Poets Society", year: 1989,
+    displayTitle: "Le Cercle des po\u00e8tes disparus (1989)", platform: "Prime Video",
+    desc: "Un professeur hors du commun enseigne \u00e0 ses \u00e9l\u00e8ves \u00e0 penser par eux-m\u00eames. Robin Williams y est inoubliable dans le r\u00f4le du professeur Keating.",
+    why: "Un classique bouleversant qui continue d\u2019inspirer des g\u00e9n\u00e9rations. <em>Carpe Diem\u00a0!</em>",
+  },
+  {
+    key: "meanGirls", tmdbQuery: "Mean Girls", year: 2004,
+    displayTitle: "Mean Girls (2004)", platform: "Netflix",
+    desc: "Au lyc\u00e9e, les Plastics dictent la loi. <strong>Mean Girls</strong> reste la com\u00e9die culte sur les clans et la recherche d\u2019identit\u00e9. Derri\u00e8re l\u2019humour, une vraie satire des codes adolescents.",
+    why: "Indispensable pour une soir\u00e9e fun. Les r\u00e9pliques sont devenues iconiques.",
+  },
+  {
+    key: "mondeCharlie", tmdbQuery: "The Perks of Being a Wallflower", year: 2012,
+    displayTitle: "Le Monde de Charlie (2012)", platform: "Netflix",
+    desc: "Un adolescent timide tente de trouver sa place apr\u00e8s un pass\u00e9 difficile. Port\u00e9 par Logan Lerman, Emma Watson et Ezra Miller, ce film parle de solitude et de renaissance.",
+    why: "Un film qui touche droit au c\u0153ur. Parfait pour ceux qui se sentent diff\u00e9rents.",
+  },
+  {
+    key: "hungerGames", tmdbQuery: "The Hunger Games", year: 2012,
+    displayTitle: "Hunger Games (2012)", platform: "Netflix",
+    desc: "Katniss Everdeen, h\u00e9ro\u00efne courageuse d\u2019un monde o\u00f9 les adolescents s\u2019affrontent pour survivre. <strong>Hunger Games</strong> aborde la r\u00e9sistance et la soif de libert\u00e9. Jennifer Lawrence est parfaite.",
+    why: "Une saga forte et inspirante avec une h\u00e9ro\u00efne f\u00e9minine puissante.",
+  },
+  {
+    key: "wayWayBack", tmdbQuery: "The Way Way Back", year: 2013,
+    displayTitle: "The Way Way Back (2013)", platform: "Prime Video",
+    desc: "Un adolescent mal dans sa peau passe l\u2019\u00e9t\u00e9 dans une station baln\u00e9aire o\u00f9 il trouve un job inattendu dans un parc aquatique. Steve Carell et Sam Rockwell sont excellents.",
+    why: "Dr\u00f4le, touchant et sinc\u00e8re\u00a0: un vrai bijou de cin\u00e9ma ind\u00e9pendant.",
+  },
+  {
+    key: "singStreet", tmdbQuery: "Sing Street", year: 2016,
+    displayTitle: "Sing Street (2016)", platform: "Netflix",
+    desc: "Dans le Dublin des ann\u00e9es 80, un ado monte un groupe pour impressionner une fille. Un film musical plein d\u2019\u00e9nergie et d\u2019\u00e9motion, avec une bande-son irr\u00e9sistible.",
+    why: "Parfait pour ceux qui r\u00eavent de libert\u00e9 et de cr\u00e9ation.",
+  },
+  {
+    key: "spectacularNow", tmdbQuery: "The Spectacular Now", year: 2013,
+    displayTitle: "The Spectacular Now (2013)", platform: "Prime Video",
+    desc: "Deux adolescents que tout oppose apprennent \u00e0 se conna\u00eetre. Ce drame doux-amer aborde la transition vers l\u2019\u00e2ge adulte avec une justesse rare.",
+    why: "Un film sensible sur les doutes et les premiers choix de vie.",
+  },
+  {
+    key: "chronicle", tmdbQuery: "Chronicle", year: 2012,
+    displayTitle: "Chronicle (2012)", platform: "Prime Video",
+    desc: "Trois lyc\u00e9ens obtiennent des super-pouvoirs et d\u00e9couvrent que tout pouvoir a un prix. Un film nerveux entre science-fiction et drame psychologique, tourn\u00e9 en found footage.",
+    why: "Une approche r\u00e9aliste et sombre des super-h\u00e9ros. Le format found footage rend l\u2019histoire immersive.",
+  },
+];
 
-const FILMS = {
-  trumanShow: `<h3>The Truman Show (1998)</h3>
-<p>Un homme mène une vie parfaite… jusqu'à ce qu'il découvre qu'il vit dans un immense plateau télé. À la fois drôle, troublant et visionnaire, <strong>The Truman Show</strong> questionne notre rapport à l'image et à la liberté. Jim Carrey y livre une performance magistrale, loin de ses rôles comiques habituels.</p>
-<p><strong>Pourquoi le voir ?</strong> Un film que tout ado devrait voir au moins une fois pour réfléchir à ce qu'est vivre vraiment. Disponible sur <strong>Netflix</strong>.</p>`,
+/* ── Appel TMDB pour un film ────────────────────────────────────────── */
+async function fetchPoster(film) {
+  try {
+    const res = await axios.get(`${TMDB_BASE}/search/movie`, {
+      params: { api_key: TMDB_API_KEY, query: film.tmdbQuery, year: film.year, language: 'fr-FR' },
+    });
+    const result = res.data.results[0];
+    if (result?.poster_path) {
+      console.log(`  🎬 ${film.displayTitle} → ${result.poster_path}`);
+      return `${TMDB_IMG}${result.poster_path}`;
+    }
+  } catch (e) { console.warn(`  ⚠️  TMDB error for ${film.tmdbQuery}:`, e.message); }
+  return null;
+}
 
-  readyPlayerOne: `<h3>Ready Player One (2018)</h3>
-<p>Bienvenue dans l'OASIS, un monde virtuel où tout est possible. Spielberg signe une aventure épique bourrée de références à la pop culture. Les effets visuels sont spectaculaires et l'histoire pose des questions pertinentes sur notre rapport au virtuel.</p>
-<p><strong>Pourquoi le voir ?</strong> Le film parfait pour les ados gamers ou rêveurs. Disponible sur <strong>Disney+ (Star)</strong>.</p>`,
-
-  cerclePiotes: `<h3>Le Cercle des poètes disparus (1989)</h3>
-<p>Un professeur hors du commun enseigne à ses élèves à penser par eux-mêmes. Derrière les blazers et les vers de poésie se cache une réflexion puissante sur la pression scolaire, la liberté et la passion. Robin Williams y est inoubliable dans le rôle du professeur Keating.</p>
-<p><strong>Pourquoi le voir ?</strong> Un classique bouleversant qui continue d'inspirer des générations. <em>Carpe Diem !</em> Disponible sur <strong>Prime Video</strong>.</p>`,
-
-  meanGirls: `<h3>Mean Girls (2004)</h3>
-<p>Au lycée, les apparences règnent… et les "Plastics" dictent la loi. <strong>Mean Girls</strong> reste la comédie culte sur les clans, la popularité et la recherche d'identité. Derrière l'humour, une vraie satire des codes adolescents.</p>
-<p><strong>Pourquoi le voir ?</strong> Indispensable pour une soirée fun mais pas si légère qu'elle en a l'air. Les répliques sont devenues iconiques. Disponible sur <strong>Netflix</strong>.</p>`,
-
-  mondeCharlie: `<h3>Le Monde de Charlie (2012)</h3>
-<p>Un adolescent timide tente de trouver sa place après un passé difficile. Porté par Logan Lerman, Emma Watson et Ezra Miller, ce film parle de solitude, d'amitié et de renaissance avec une sincérité rare.</p>
-<p><strong>Pourquoi le voir ?</strong> Un film qui touche droit au cœur. Parfait pour ceux qui se sentent différents ou en décalage. Disponible sur <strong>Netflix</strong>.</p>`,
-
-  hungerGames: `<h3>Hunger Games (2012)</h3>
-<p>Katniss Everdeen, héroïne courageuse d'un monde où les adolescents s'affrontent pour survivre. Derrière l'action spectaculaire, <strong>Hunger Games</strong> aborde la résistance, la manipulation médiatique et la soif de liberté. Jennifer Lawrence est parfaite dans ce rôle.</p>
-<p><strong>Pourquoi le voir ?</strong> Une saga forte et inspirante avec une héroïne féminine puissante. Disponible sur <strong>Netflix</strong>.</p>`,
-
-  wayWayBack: `<h3>The Way Way Back (2013)</h3>
-<p>Un adolescent mal dans sa peau passe l'été dans une station balnéaire où il trouve un job inattendu dans un parc aquatique. Steve Carell et Sam Rockwell sont excellents.</p>
-<p><strong>Pourquoi le voir ?</strong> Drôle, touchant et sincère : un vrai petit bijou de cinéma indépendant. Disponible sur <strong>Prime Video</strong>.</p>`,
-
-  singStreet: `<h3>Sing Street (2016)</h3>
-<p>Dans le Dublin des années 80, un ado monte un groupe pour impressionner une fille. Un film musical plein d'énergie et d'émotion, avec une bande-son irrésistible.</p>
-<p><strong>Pourquoi le voir ?</strong> Parfait pour ceux qui rêvent de liberté et de création. Les chansons sont addictives et l'histoire est touchante. Disponible sur <strong>Netflix</strong>.</p>`,
-
-  spectacularNow: `<h3>The Spectacular Now (2013)</h3>
-<p>Deux adolescents que tout oppose apprennent à se connaître. Ce drame doux-amer aborde la transition vers l'âge adulte avec une justesse rare. Miles Teller et Shailene Woodley sont remarquables.</p>
-<p><strong>Pourquoi le voir ?</strong> Un film sensible sur les doutes et les premiers choix de vie. Disponible sur <strong>Prime Video</strong>.</p>`,
-
-  chronicle: `<h3>Chronicle (2012)</h3>
-<p>Trois lycéens obtiennent des super-pouvoirs et découvrent que tout pouvoir a un prix. Un film nerveux et original tourné comme un found footage, entre science-fiction et drame psychologique.</p>
-<p><strong>Pourquoi le voir ?</strong> Une approche réaliste et sombre des super-héros. Le format found footage rend l'histoire encore plus immersive. Disponible sur <strong>Prime Video</strong>.</p>`,
-};
+/* ── Génère une carte film avec affiche ─────────────────────────────── */
+function filmCard(film, posterUrl) {
+  const img = posterUrl
+    ? `<img src="${posterUrl}" alt="Affiche ${film.displayTitle}" style="width:90px;min-width:90px;height:135px;object-fit:cover;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.18);flex-shrink:0;" />`
+    : '';
+  return `<div style="display:flex;gap:16px;align-items:flex-start;margin:20px 0;padding:16px;background:#f9fafb;border-radius:12px;border-left:4px solid #dc2626;">
+  ${img}
+  <div style="flex:1;">
+    <h3 style="margin:0 0 8px;">${film.displayTitle}</h3>
+    <p style="margin:0 0 8px;">${film.desc}</p>
+    <p style="margin:0;font-size:0.9em;"><strong>Pourquoi le voir ?</strong> ${film.why} Disponible sur <strong>${film.platform}</strong>.</p>
+  </div>
+</div>`;
+}
 
 async function run() {
   const { data: article, error } = await supabase
@@ -61,6 +117,24 @@ async function run() {
 
   if (error || !article) { console.error('❌', error?.message); process.exit(1); }
   console.log(`✅ Article : "${article.title}"`);
+
+  /* ── Récupérer les affiches TMDB ─────────────────────────────────────── */
+  console.log('\n🎬 Récupération des affiches TMDB...');
+  const posters = {};
+  for (const film of FILMS_DATA) {
+    posters[film.key] = await fetchPoster(film);
+    await new Promise(r => setTimeout(r, 250)); // pause anti-rate-limit
+  }
+
+  /* ── Shortcuts ───────────────────────────────────────────────────────── */
+  const f = (key) => {
+    const film = FILMS_DATA.find(d => d.key === key);
+    return filmCard(film, posters[key]);
+  };
+  const ref = (key) => {
+    const film = FILMS_DATA.find(d => d.key === key);
+    return `<strong>${film.displayTitle}</strong>`;
+  };
 
   /* ── Nouveau contenu HTML ────────────────────────────────────────────── */
   const newContent = `<h2>Quel film regarder avec un ado ce soir ?</h2>
@@ -75,43 +149,43 @@ async function run() {
 
 <h2>Films pour ados de 12-13 ans</h2>
 <p>À 12-13 ans, les adolescents sont prêts pour des films plus complexes émotionnellement, mais apprécient encore l'aventure et l'humour. Voici nos recommandations pour cet âge charnière.</p>
-${FILMS.readyPlayerOne}
-${FILMS.meanGirls}
-${FILMS.hungerGames}
-${FILMS.wayWayBack}
+${f('readyPlayerOne')}
+${f('meanGirls')}
+${f('hungerGames')}
+${f('wayWayBack')}
 
 <h2>Films pour ados de 14-15 ans</h2>
 <p>Dès 14-15 ans, les ados peuvent aborder des films au ton plus mature, avec des thèmes comme l'identité, la pression sociale ou l'amitié mise à l'épreuve. Ces films leur parlent directement.</p>
-${FILMS.trumanShow}
-${FILMS.cerclePiotes}
-${FILMS.mondeCharlie}
-${FILMS.spectacularNow}
-<p>Si vous cherchez un film à voir avec votre ado de 15 ans, <strong>Le Monde de Charlie</strong> et <strong>The Truman Show</strong> sont deux valeurs sûres qui plaisent aussi bien aux parents qu'aux adolescents.</p>
+${f('trumanShow')}
+${f('cerclePiotes')}
+${f('mondeCharlie')}
+${f('spectacularNow')}
+<p>Si vous cherchez un film à voir avec votre ado de 15 ans, ${ref('mondeCharlie')} et ${ref('trumanShow')} sont deux valeurs sûres qui plaisent aussi bien aux parents qu'aux adolescents.</p>
 
 <h2>Films d'action pour ados</h2>
-<p>Le film d'action reste l'un des genres préférés des adolescents, garçons et filles confondus. Pour éviter les films trop violents ou trop puérils, voici notre sélection d'action calibrée pour un public ado.</p>
-${FILMS.readyPlayerOne}
-${FILMS.hungerGames}
-${FILMS.chronicle}
+<p>Le film d'action reste l'un des genres préférés des adolescents, garçons et filles confondus. Pour éviter les films trop violents ou trop puérils, voici notre sélection calibrée pour un public ado.</p>
+${f('readyPlayerOne')}
+${f('hungerGames')}
+${f('chronicle')}
 
 <h2>Films drôles pour ados</h2>
-<p>Pour une soirée détendue, rien ne vaut une bonne comédie. Ces films drôles pour ados fonctionnent aussi bien entre amis qu'en famille — et les parents risquent de rire autant que les ados.</p>
-${FILMS.meanGirls}
-${FILMS.wayWayBack}
-${FILMS.singStreet}
+<p>Pour une soirée détendue, rien ne vaut une bonne comédie. Ces films drôles pour ados fonctionnent aussi bien entre amis qu'en famille.</p>
+${f('meanGirls')}
+${f('wayWayBack')}
+${f('singStreet')}
 
 <h2>Films cultes à faire découvrir à un ado</h2>
-<p>Certains films ont marqué des générations et méritent d'être (re)découverts. Ces films cultes pour ados sont des références incontournables — parfaits pour initier un adolescent au cinéma qui a compté.</p>
-${FILMS.trumanShow}
-${FILMS.cerclePiotes}
-${FILMS.meanGirls}
+<p>Certains films ont marqué des générations et méritent d'être (re)découverts. Ces références incontournables sont parfaites pour initier un adolescent au cinéma qui a compté.</p>
+${f('trumanShow')}
+${f('cerclePiotes')}
+${f('meanGirls')}
 
 <h2>Films pour fille ado</h2>
-<p>Les films pensés pour un public adolescent féminin ne se limitent pas aux romances. Voici une sélection qui mêle aventure, émotions et personnages féminins forts — des films que les filles ados adorent et que les parents apprécient aussi.</p>
-${FILMS.hungerGames}
-${FILMS.meanGirls}
-${FILMS.mondeCharlie}
-${FILMS.singStreet}
+<p>Une sélection qui mêle aventure, émotions et personnages féminins forts — des films que les filles ados adorent et que les parents apprécient aussi.</p>
+${f('hungerGames')}
+${f('meanGirls')}
+${f('mondeCharlie')}
+${f('singStreet')}
 
 <h2>Questions fréquentes sur les films pour ados</h2>
 <p><strong>Quel film regarder avec un ado ?</strong><br>

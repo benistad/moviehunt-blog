@@ -55,6 +55,13 @@ class ArticleQuery {
       supabaseQuery = supabaseQuery.contains('tags', [this.query.tags]);
     }
 
+    if (this.query.search) {
+      const term = this.query.search.replace(/[%_]/g, '\\$&'); // échapper les caractères spéciaux
+      supabaseQuery = supabaseQuery.or(
+        `title.ilike.%${term}%,excerpt.ilike.%${term}%,tags.cs.{${term}}`
+      );
+    }
+
     // Tri
     supabaseQuery = supabaseQuery.order(this.sortField, { ascending: this.sortOrder === 'asc' });
 
