@@ -1,4 +1,5 @@
-const openai = require('../config/openai');
+const anthropic = require('../config/anthropic');
+const MODEL = 'claude-sonnet-4-5';
 
 class AIService {
   /**
@@ -7,7 +8,7 @@ class AIService {
    */
   async generateArticle(scrapedData, sourceUrl, customInstructions = '') {
     try {
-      console.log(`🤖 Génération d'article avec GPT-4o...`);
+      console.log(`🤖 Génération d'article avec Claude ${MODEL}...`);
       console.log(`📊 Données du film:`, {
         titre: scrapedData.title,
         score: scrapedData.metadata?.score,
@@ -21,13 +22,7 @@ class AIService {
       const prompt = this.buildPrompt(scrapedData, sourceUrl, customInstructions);
       console.log(`📝 Longueur du prompt: ${prompt.length} caractères`);
 
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        temperature: 0.8,
-        messages: [
-          {
-            role: 'system',
-            content: `Tu es un rédacteur expert en cinéma et critique de films. 
+      const _systemPrompt = `Tu es un rédacteur expert en cinéma et critique de films. 
             Tu écris des articles de blog engageants, informatifs et optimisés pour le SEO.
             Ton style est professionnel mais accessible, avec une touche d'enthousiasme pour le cinéma.
             Tu structures tes articles avec des titres, sous-titres et paragraphes bien organisés.
@@ -69,19 +64,18 @@ class AIService {
             N'utilise JAMAIS la syntaxe Markdown (##, **, *, etc.).
             Chaque paragraphe DOIT être entouré de balises <p></p>.
 
-            ⚡ PRIORITÉ DES INSTRUCTIONS : Si des instructions spécifiques sont fournies dans le prompt utilisateur (section "RECOMMANDATIONS PARTICULIÈRES"), elles sont ABSOLUMENT PRIORITAIRES sur toutes les instructions de mise en page et de structure ci-dessus. Tu dois les suivre à la lettre, même si elles contredisent les instructions de base.`,
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
+            ⚡ PRIORITÉ DES INSTRUCTIONS : Si des instructions spécifiques sont fournies dans le prompt utilisateur (section "RECOMMANDATIONS PARTICULIÈRES"), elles sont ABSOLUMENT PRIORITAIRES sur toutes les instructions de mise en page et de structure ci-dessus. Tu dois les suivre à la lettre, même si elles contredisent les instructions de base.`;
+
+      const completion = await anthropic.messages.create({
+        model: MODEL,
+        max_tokens: 4000,
         temperature: 0.7,
-        max_tokens: 2000,
+        system: _systemPrompt,
+        messages: [{ role: 'user', content: prompt }],
       });
 
-      const generatedContent = completion.choices[0].message.content;
-      console.log(`📄 Réponse GPT reçue: ${generatedContent.length} caractères`);
+      const generatedContent = completion.content[0].text;
+      console.log(`📄 Réponse Claude reçue: ${generatedContent.length} caractères`);
       
       // Parser le contenu généré pour extraire les différentes parties
       const article = this.parseGeneratedContent(generatedContent, scrapedData);
@@ -503,29 +497,20 @@ CONTENU:
    */
   async improveArticle(currentContent, instructions) {
     try {
-      console.log(`🤖 Amélioration de l'article...`);
+      console.log(`🤖 Amélioration de l'article avec Claude ${MODEL}...`);
 
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        temperature: 0.8,
-        messages: [
-          {
-            role: 'system',
-            content: 'Tu es un éditeur expert qui améliore les articles de blog.',
-          },
-          {
-            role: 'user',
-            content: `Améliore cet article selon ces instructions: ${instructions}
-
-Article actuel:
-${currentContent}`,
-          },
-        ],
+      const completion = await anthropic.messages.create({
+        model: MODEL,
+        max_tokens: 4000,
         temperature: 0.7,
-        max_tokens: 2000,
+        system: 'Tu es un éditeur expert qui améliore les articles de blog.',
+        messages: [{
+          role: 'user',
+          content: `Améliore cet article selon ces instructions: ${instructions}\n\nArticle actuel:\n${currentContent}`,
+        }],
       });
 
-      return completion.choices[0].message.content;
+      return completion.content[0].text;
     } catch (error) {
       console.error(`❌ Erreur d'amélioration: ${error.message}`);
       throw new Error(`Échec de l'amélioration: ${error.message}`);
@@ -537,25 +522,18 @@ ${currentContent}`,
    */
   async generateTags(title, content) {
     try {
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'Tu génères des tags pertinents pour des articles de blog sur le cinéma.',
-          },
-          {
-            role: 'user',
-            content: `Génère 5-8 tags pertinents pour cet article (séparés par des virgules):
-Titre: ${title}
-Contenu: ${content.substring(0, 500)}`,
-          },
-        ],
+      const completion = await anthropic.messages.create({
+        model: MODEL,
+        max_tokens: 200,
         temperature: 0.5,
-        max_tokens: 100,
+        system: 'Tu génères des tags pertinents pour des articles de blog sur le cinéma.',
+        messages: [{
+          role: 'user',
+          content: `Génère 5-8 tags pertinents pour cet article (séparés par des virgules):\nTitre: ${title}\nContenu: ${content.substring(0, 500)}`,
+        }],
       });
 
-      const tagsString = completion.choices[0].message.content;
+      const tagsString = completion.content[0].text;
       return tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
     } catch (error) {
       console.error(`❌ Erreur de génération de tags: ${error.message}`);
@@ -568,7 +546,7 @@ Contenu: ${content.substring(0, 500)}`,
    */
   async generateArticleFromPrompt(prompt, tmdbImagesMap = {}) {
     try {
-      console.log(`🤖 Génération d'article depuis un prompt...`);
+      console.log(`🤖 Génération d'article depuis un prompt avec Claude ${MODEL}...`);
       console.log(`📝 Prompt: ${prompt.substring(0, 200)}...`);
 
       // Construire la section images TMDB si disponibles
@@ -590,13 +568,7 @@ ${Object.entries(tmdbImagesMap).map(([title, data]) =>
 ).join('\n\n')}
 ` : '';
 
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        temperature: 0.8,
-        messages: [
-          {
-            role: 'system',
-            content: `Tu es un rédacteur expert en cinéma et critique de films pour le blog MovieHunt.
+      const _promptSystem = `Tu es un rédacteur expert en cinéma et critique de films pour le blog MovieHunt.
 
             📰 LIGNE ÉDITORIALE DE MOVIEHUNT — À RESPECTER ABSOLUMENT :
             MovieHunt est un blog de cinéma tenu par des passionnés, qui s'adresse à des spectateurs curieux et exigeants.
@@ -620,11 +592,14 @@ ${Object.entries(tmdbImagesMap).map(([title, data]) =>
             N'utilise JAMAIS la syntaxe Markdown (##, **, *, etc.).
             Chaque paragraphe DOIT être entouré de balises <p></p>.
 
-            ⚡ PRIORITÉ : La structure, le plan et les instructions de mise en page présents dans le prompt utilisateur sont ABSOLUMENT PRIORITAIRES sur toutes les instructions ci-dessus. Suis-les à la lettre.`,
-          },
-          {
-            role: 'user',
-            content: `${prompt}${tmdbImagesSection}
+            ⚡ PRIORITÉ : La structure, le plan et les instructions de mise en page présents dans le prompt utilisateur sont ABSOLUMENT PRIORITAIRES sur toutes les instructions ci-dessus. Suis-les à la lettre.`;
+
+      const completion = await anthropic.messages.create({
+        model: MODEL,
+        max_tokens: 6000,
+        temperature: 0.7,
+        system: _promptSystem,
+        messages: [{ role: 'user', content: `${prompt}${tmdbImagesSection}
 
 ═══════════════════════════════════════════════════════════════
 📝 INSTRUCTIONS DE RÉDACTION
@@ -677,15 +652,11 @@ KEYWORDS: films halloween, films d'horreur, halloween 2024, meilleurs films horr
 
 CONTENU:
 <h2>Introduction</h2>
-<p>Votre contenu HTML ici...</p>`,
-          },
-        ],
-        temperature: 0.7,
-        max_tokens: 4000,
+<p>Votre contenu HTML ici...</p>` }],
       });
 
-      const generatedContent = completion.choices[0].message.content;
-      console.log(`📄 Réponse GPT reçue: ${generatedContent.length} caractères`);
+      const generatedContent = completion.content[0].text;
+      console.log(`📄 Réponse Claude reçue: ${generatedContent.length} caractères`);
       
       // Parser le contenu généré
       const article = this.parseGeneratedContentFromPrompt(generatedContent);
