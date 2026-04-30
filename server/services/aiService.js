@@ -73,7 +73,7 @@ class AIService {
             1. [Angle fort] comme vous ne l'avez jamais vu → développe l'accroche principale, la raison SEO
             2. C'est quoi [Titre du film] ? → synopsis reformulé + contexte + note + plateforme dispo en France
             3. Pourquoi c'est une vraie pépite → développe chaque point fort en 3-5 phrases (pas de liste sèche)
-            4. Ce qu'on a moins aimé → 2-3 points négatifs honnêtes (renforce la crédibilité)
+            4. Ce qu'on a moins aimé → UNIQUEMENT si des points négatifs sont explicitement fournis dans les données. ❌ NE JAMAIS INVENTER cette section. Si elle est absente des données, ne pas l'inclure du tout.
             5. Le staff remarquable → réalisateur, acteurs, directeur photo si pertinent
             6. Verdict → 3-4 phrases max, répond à "est-ce que je dois regarder ?", rappelle la plateforme
 

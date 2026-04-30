@@ -58,22 +58,6 @@ La grande ironie de Longlegs : Cage livre une performance retenue dans un rôle 
 
 ---
 
-## Ce qu'on a moins aimé
-
-### Un final qui ne tient pas toutes ses promesses
-
-C'est le point faible du film. Après deux actes parfaitement maîtrisés, le dénouement déçoit légèrement. La tension soigneusement construite se relâche un peu trop vite, et certains fils narratifs restent mal noués. On ressort avec le sentiment que le film valait peut-être mieux que sa conclusion.
-
-### Un rythme exigeant
-
-Longlegs est lent — assumément. C'est une force pour qui cherche une expérience immersive, mais une vraie barrière pour ceux qui attendent un thriller rythmé. Les vingt premières minutes demandent de la patience.
-
-### Maika Monroe sous-exploitée
-
-Son personnage est central mais paradoxalement peu fouillé. Ses dons inexpliqués, son rapport au tueur — autant de pistes ouvertes qui restent trop vagues. Dommage, car l'actrice a clairement le niveau pour aller plus loin.
-
----
-
 ## Le staff derrière le film
 
 [TMDB_IMAGE : photo de profil d'Osgood Perkins — utiliser l'endpoint /person/{person_id}/images via TMDB]
