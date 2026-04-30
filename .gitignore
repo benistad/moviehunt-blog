@@ -29,3 +29,8 @@ Thumbs.db
 # Misc
 coverage/
 .cache/
+
+# Fichiers de test / scripts temporaires à la racine
+*.json
+create_article.js
+test_tmdb.js
