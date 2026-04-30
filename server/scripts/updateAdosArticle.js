@@ -226,25 +226,73 @@ ${f('meanGirls')}
 ${f('mondeCharlie')}
 ${f('singStreet')}
 
-<h2>Questions fréquentes sur les films pour ados</h2>
-<p><strong>Quel film regarder avec un ado ?</strong><br>
-Tout dépend de l'âge et des goûts. Pour un ado de 12-13 ans, <strong>Ready Player One</strong> est une valeur sûre. Pour un ado de 14-15 ans, <strong>The Truman Show</strong> est souvent très apprécié.</p>
-<p><strong>Quel film d'action choisir pour un ado ?</strong><br>
-<strong>Ready Player One</strong> et <strong>Hunger Games</strong> sont nos deux recommandations prioritaires : suffisamment rythmés pour captiver, sans violence excessive.</p>
-<p><strong>Quels films cultes faire découvrir à un adolescent ?</strong><br>
-Parmi les incontournables : <strong>The Truman Show</strong>, <strong>Le Cercle des poètes disparus</strong> et <strong>Mean Girls</strong>. Ces films ont marqué des générations et restent accessibles aujourd'hui.</p>
-<p><strong>Quel film pour une fille ado ?</strong><br>
-<strong>Hunger Games</strong> et <strong>Le Monde de Charlie</strong> sont deux excellentes options avec des personnages féminins forts et des histoires qui parlent aux adolescentes.</p>
-<p><strong>Quel film regarder avec un ado de 15 ans ?</strong><br>
-<strong>The Truman Show</strong> est une recommandation phare : suffisamment mature pour intéresser un ado de cet âge, sans contenu inapproprié.</p>
-<p><strong>Quel film pour un ado de 12 ans ?</strong><br>
-<strong>Ready Player One</strong> est une valeur sûre pour un ado de 12 ans : une aventure épique et rythmée, avec des références à la pop culture.</p>
-<p><strong>Quel film pour un ado de 13 ans ?</strong><br>
-<strong>Mean Girls</strong> est une comédie culte qui plaît aux ados de 13 ans : une histoire drôle et touchante sur les clans et la recherche d'identité.</p>
-<p><strong>Quel film pour un ado de 14 ans ?</strong><br>
-<strong>The Truman Show</strong> est une recommandation phare pour un ado de 14 ans : un film qui questionne notre rapport à l'image et à la liberté.</p>
-<p><strong>Quel film pour un ado de 15 ans ?</strong><br>
-<strong>The Truman Show</strong> est une recommandation phare pour un ado de 15 ans : un film qui aborde des thèmes matures avec justesse et sensibilité.</p>
+<h2>Questions fr\u00e9quentes sur les films pour ados</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:16px;">
+
+<details style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #dc2626;border-radius:0 10px 10px 0;overflow:hidden;">
+<summary style="padding:14px 18px;font-weight:600;font-size:0.97em;cursor:pointer;color:#111827;list-style:none;display:flex;align-items:center;gap:10px;">
+<span style="color:#dc2626;font-size:1.1em;flex-shrink:0;">?</span> Quel film regarder avec un ado ?
+</summary>
+<p style="margin:0;padding:4px 18px 14px 42px;color:#374151;font-size:0.92em;line-height:1.65;">
+Pour un ado de 12-13&nbsp;ans, <strong>Ready Player One</strong> (Disney+) est une valeur s\u00fbre. Pour un ado de 14-15&nbsp;ans, <strong>The Truman Show</strong> (Netflix) est souvent tr\u00e8s appr\u00e9ci\u00e9 pour sa profondeur.
+</p>
+</details>
+
+<details style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #dc2626;border-radius:0 10px 10px 0;overflow:hidden;">
+<summary style="padding:14px 18px;font-weight:600;font-size:0.97em;cursor:pointer;color:#111827;list-style:none;display:flex;align-items:center;gap:10px;">
+<span style="color:#dc2626;font-size:1.1em;flex-shrink:0;">?</span> Quel film d&rsquo;action choisir pour un ado ?
+</summary>
+<p style="margin:0;padding:4px 18px 14px 42px;color:#374151;font-size:0.92em;line-height:1.65;">
+<strong>Ready Player One</strong> et <strong>Hunger Games</strong> sont nos deux recommandations prioritaires&nbsp;: suffisamment rythm\u00e9s pour captiver, sans violence excessive.
+</p>
+</details>
+
+<details style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #dc2626;border-radius:0 10px 10px 0;overflow:hidden;">
+<summary style="padding:14px 18px;font-weight:600;font-size:0.97em;cursor:pointer;color:#111827;list-style:none;display:flex;align-items:center;gap:10px;">
+<span style="color:#dc2626;font-size:1.1em;flex-shrink:0;">?</span> Quels films cultes faire d\u00e9couvrir \u00e0 un adolescent ?
+</summary>
+<p style="margin:0;padding:4px 18px 14px 42px;color:#374151;font-size:0.92em;line-height:1.65;">
+Parmi les incontournables&nbsp;: <strong>The Truman Show</strong>, <strong>Le Cercle des po\u00e8tes disparus</strong> et <strong>Mean Girls</strong>. Ces films ont marqu\u00e9 des g\u00e9n\u00e9rations et restent accessibles aujourd&rsquo;hui.
+</p>
+</details>
+
+<details style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #dc2626;border-radius:0 10px 10px 0;overflow:hidden;">
+<summary style="padding:14px 18px;font-weight:600;font-size:0.97em;cursor:pointer;color:#111827;list-style:none;display:flex;align-items:center;gap:10px;">
+<span style="color:#dc2626;font-size:1.1em;flex-shrink:0;">?</span> Quel film pour une fille ado ?
+</summary>
+<p style="margin:0;padding:4px 18px 14px 42px;color:#374151;font-size:0.92em;line-height:1.65;">
+<strong>Hunger Games</strong> et <strong>Le Monde de Charlie</strong> sont deux excellentes options avec des personnages f\u00e9minins forts et des histoires qui parlent aux adolescentes.
+</p>
+</details>
+
+<details style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #dc2626;border-radius:0 10px 10px 0;overflow:hidden;">
+<summary style="padding:14px 18px;font-weight:600;font-size:0.97em;cursor:pointer;color:#111827;list-style:none;display:flex;align-items:center;gap:10px;">
+<span style="color:#dc2626;font-size:1.1em;flex-shrink:0;">?</span> Quel film pour un ado de 12&nbsp;ans ?
+</summary>
+<p style="margin:0;padding:4px 18px 14px 42px;color:#374151;font-size:0.92em;line-height:1.65;">
+<strong>Ready Player One</strong> est une valeur s\u00fbre&nbsp;: une aventure \u00e9pique et rythm\u00e9e, bourr\u00e9e de r\u00e9f\u00e9rences \u00e0 la pop culture, accessible d\u00e8s 12&nbsp;ans.
+</p>
+</details>
+
+<details style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #dc2626;border-radius:0 10px 10px 0;overflow:hidden;">
+<summary style="padding:14px 18px;font-weight:600;font-size:0.97em;cursor:pointer;color:#111827;list-style:none;display:flex;align-items:center;gap:10px;">
+<span style="color:#dc2626;font-size:1.1em;flex-shrink:0;">?</span> Quel film pour un ado de 13&nbsp;ans ?
+</summary>
+<p style="margin:0;padding:4px 18px 14px 42px;color:#374151;font-size:0.92em;line-height:1.65;">
+<strong>Mean Girls</strong> est une com\u00e9die culte id\u00e9ale&nbsp;: dr\u00f4le, touchante, et qui aborde les dynamiques sociales du lyc\u00e9e avec finesse.
+</p>
+</details>
+
+<details style="background:#fff;border:1px solid #e5e7eb;border-left:4px solid #dc2626;border-radius:0 10px 10px 0;overflow:hidden;">
+<summary style="padding:14px 18px;font-weight:600;font-size:0.97em;cursor:pointer;color:#111827;list-style:none;display:flex;align-items:center;gap:10px;">
+<span style="color:#dc2626;font-size:1.1em;flex-shrink:0;">?</span> Quel film pour un ado de 14-15&nbsp;ans ?
+</summary>
+<p style="margin:0;padding:4px 18px 14px 42px;color:#374151;font-size:0.92em;line-height:1.65;">
+<strong>The Truman Show</strong> est la recommandation phare&nbsp;: suffisamment mature pour un ado de cet \u00e2ge, il questionne notre rapport \u00e0 l&rsquo;image et \u00e0 la libert\u00e9 sans contenu inappropri\u00e9.
+</p>
+</details>
+
+</div>
 
 <h2>Conclusion</h2>
 <p>Voilà notre sélection de films pour ados, avec des recommandations pour chaque âge et chaque goût. N'hésitez pas à nous suivre pour plus de conseils et de critiques de films !</p>
