@@ -1,12 +1,11 @@
 const Anthropic = require('@anthropic-ai/sdk');
 
 if (!process.env.ANTHROPIC_API_KEY) {
-  console.error('❌ ANTHROPIC_API_KEY manquante dans les variables d\'environnement');
-  process.exit(1);
+  console.warn('⚠️  ANTHROPIC_API_KEY manquante — la génération d\'articles IA sera désactivée.');
 }
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+const anthropic = process.env.ANTHROPIC_API_KEY
+  ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  : null;
 
 module.exports = anthropic;

@@ -8,6 +8,7 @@ class AIService {
    */
   async generateArticle(scrapedData, sourceUrl, customInstructions = '') {
     try {
+      if (!anthropic) throw new Error('ANTHROPIC_API_KEY non configurée — impossible de générer un article.');
       console.log(`🤖 Génération d'article avec Claude ${MODEL}...`);
       console.log(`📊 Données du film:`, {
         titre: scrapedData.title,
