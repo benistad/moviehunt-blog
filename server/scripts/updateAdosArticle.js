@@ -111,13 +111,23 @@ async function findInternalSlug(film) {
   return null;
 }
 
+/* ── Lightbox (injecté une seule fois dans le contenu) ──────────────── */
+const LIGHTBOX_HTML = `
+<div id="mh-lb" onclick="this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;cursor:pointer;align-items:center;justify-content:center;">
+  <img id="mh-lb-img" src="" alt="" style="max-width:90vw;max-height:90vh;border-radius:10px;box-shadow:0 8px 40px rgba(0,0,0,0.6);" />
+  <span style="position:absolute;top:20px;right:28px;color:#fff;font-size:2rem;font-weight:300;line-height:1;">&times;</span>
+</div>
+<script>
+function mhLightbox(src,alt){var el=document.getElementById('mh-lb');document.getElementById('mh-lb-img').src=src;document.getElementById('mh-lb-img').alt=alt||'';el.style.display='flex';}
+<\/script>`;
+
 /* ── Carte film HTML complète ─────────────────────────────────────────── */
 function filmCard(film, poster, internalSlug) {
+  const safeTitle = (film.displayTitle || '').replace(/"/g, '&quot;');
   const posterBlock = poster
-    ? `<a href="${poster.full}" target="_blank" rel="noopener" title="Agrandir l'affiche" style="flex-shrink:0;display:block;">
-  <img src="${poster.thumb}" alt="Affiche ${film.displayTitle}" loading="lazy"
-       style="width:90px;min-width:90px;height:135px;object-fit:cover;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.18);cursor:zoom-in;" />
-</a>`
+    ? `<img src="${poster.thumb}" alt="Affiche ${safeTitle}" loading="lazy"
+       onclick="mhLightbox('${poster.full}','Affiche ${safeTitle}')"
+       style="width:90px;min-width:90px;height:135px;object-fit:cover;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.18);cursor:zoom-in;flex-shrink:0;" />`
     : '';
   const titleTag = internalSlug
     ? `<a href="${internalSlug}" style="color:inherit;text-decoration:none;border-bottom:2px solid #dc2626;">${film.displayTitle}</a>`
@@ -164,8 +174,9 @@ async function run() {
   const f   = function(key) { var film = FILMS_DATA.find(function(d) { return d.key === key; }); return filmCard(film, posters[key], slugs[key]); };
   const ref = function(key) { var film = FILMS_DATA.find(function(d) { return d.key === key; }); return slugs[key] ? '<a href="' + slugs[key] + '" style="color:#dc2626;">' + film.displayTitle + '</a>' : '<strong>' + film.displayTitle + '</strong>'; };
 
-  /* ── Nouveau contenu HTML ────────────────────────────────────────────── */
-  const newContent = `<h2>Quel film regarder avec un ado ce soir ?</h2>
+  /* Nouveau contenu HTML */
+  const newContent = LIGHTBOX_HTML + `
+<h2>Quel film regarder avec un ado ce soir ?</h2>
 <p>Quel film regarder avec un ado ce soir ? Voici une sélection rapide :</p>
 <ol>
 <li><strong>The Truman Show</strong> — drame/réflexion, dès 13 ans, disponible sur Netflix</li>
