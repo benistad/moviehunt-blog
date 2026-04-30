@@ -88,9 +88,46 @@ export default function ArticleSchema({ article }) {
     }
   }
 
+  // Schema FAQ optionnel — alimenté par article.seo.faq = [{ question, answer }, ...]
+  const faqSchema = Array.isArray(article.seo?.faq) && article.seo.faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: article.seo.faq.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+          },
+        })),
+      }
+    : null;
+
+  // Schema ItemList optionnel — alimenté par article.seo.itemList = [{ name, url? }, ...]
+  const itemListSchema = Array.isArray(article.seo?.itemList) && article.seo.itemList.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: article.seo?.itemListName || article.title,
+        itemListElement: article.seo.itemList.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          ...(item.url ? { url: item.url } : {}),
+        })),
+      }
+    : null;
+
   return (
     <Head>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      {faqSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      )}
+      {itemListSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      )}
     </Head>
   );
 }
