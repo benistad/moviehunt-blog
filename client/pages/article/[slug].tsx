@@ -65,7 +65,12 @@ export default function ArticlePage({ article }: ArticlePageProps) {
   // Protection contre les erreurs de rendu
   try {
 
-  const formattedDate = format(new Date(article.publishedAt), 'dd MMMM yyyy', { locale: fr });
+  const publishedDate = new Date(article.publishedAt);
+  const updatedDate   = article.updatedAt ? new Date(article.updatedAt) : null;
+  const isUpdated     = updatedDate && (updatedDate.getTime() - publishedDate.getTime()) > 86400000;
+  const formattedDate = isUpdated
+    ? `Mis à jour le ${format(updatedDate, 'dd MMMM yyyy', { locale: fr })}`
+    : format(publishedDate, 'dd MMMM yyyy', { locale: fr });
 
   // Préparer les données SEO optimisées
   const seoKeywords = [
