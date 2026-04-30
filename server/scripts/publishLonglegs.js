@@ -114,7 +114,7 @@ async function run() {
   const directorPhoto = await fetchDirectorPhoto(movieId);
 
   var imageSlots = [
-    posters[0]   ? figure(imgUrl(posters[0].file_path, 'w780'),   'Longlegs (2024) \u2014 affiche officielle', 'Longlegs (2024) \u2014 Thriller occulte avec Nicolas Cage') : null,
+    figure('https://image.tmdb.org/t/p/original/Avtx5jsdPuDa091jvx2Lye3ygke.jpg', 'Longlegs (2024) \u2014 affiche officielle avec Nicolas Cage', 'Longlegs (2024) \u2014 Thriller occulte avec Nicolas Cage'),
     backdrops[1] ? figure(imgUrl(backdrops[1].file_path),          'Longlegs \u2014 atmosph\u00e8re du film d\'Osgood Perkins', 'Extrait de Longlegs (2024)') : (backdrops[0] ? figure(imgUrl(backdrops[0].file_path), 'Longlegs \u2014 sc\u00e8ne du film', 'Extrait de Longlegs (2024)') : null),
     backdrops[3] ? figure(imgUrl(backdrops[3].file_path),          'Nicolas Cage et Maika Monroe dans Longlegs (2024)', 'Nicolas Cage dans Longlegs \u2014 Netflix') : (backdrops[2] ? figure(imgUrl(backdrops[2].file_path), 'Longlegs \u2014 sc\u00e8ne', 'Extrait de Longlegs (2024)') : null),
     directorPhoto ? figure(directorPhoto, 'Osgood Perkins, r\u00e9alisateur de Longlegs (2024)', 'Osgood Perkins \u2014 r\u00e9alisateur et sc\u00e9nariste') : null,
@@ -136,7 +136,7 @@ async function run() {
   var TITLE   = 'Nicolas Cage m\u00e9connaissable : Longlegs, la p\u00e9pite horrifique que vous n\u2019avez pas vue sur Netflix';
   var EXCERPT = 'Nicolas Cage totalement transform\u00e9, une atmosph\u00e8re digne de True Detective et un thriller occulte sur Netflix. Longlegs (2024) est la p\u00e9pite que vous avez rat\u00e9e.';
   var TAGS    = ['Nicolas Cage', 'Longlegs', 'Netflix', 'thriller', 'horreur', 'p\u00e9pite', 'film m\u00e9connu', 'Osgood Perkins'];
-  var COVER   = posters[0] ? imgUrl(posters[0].file_path, 'w780') : null;
+  var COVER   = 'https://image.tmdb.org/t/p/original/6ToGkmqn0KG0UGGGUAC1Ww0e5CM.jpg';
 
   var SEO = {
     metaTitle:       'Nicolas Cage m\u00e9connaissable : Longlegs, la p\u00e9pite horrifique oubli\u00e9e sur Netflix',

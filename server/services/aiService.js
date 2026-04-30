@@ -83,6 +83,7 @@ class AIService {
             - Le lecteur cible : quelqu'un qui cherche quoi regarder ce soir, pas un cinéphile expert
             - Honnêteté assumée : les points négatifs renforcent la confiance
             - Mentionne toujours la plateforme de streaming disponible en France
+            - Image de une : toujours une image HORIZONTALE (backdrop TMDB, format paysage). Ne jamais utiliser un poster vertical comme image principale.
 
             IMPORTANT: Tu génères du contenu en HTML pur pour un éditeur WYSIWYG (CKEditor 5).
             Utilise UNIQUEMENT ces balises HTML:
