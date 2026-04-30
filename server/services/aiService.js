@@ -42,6 +42,7 @@ class AIService {
             - Les accroches : parfois une question rhétorique, une anecdote de tournage, une phrase choc, une mise en contexte historique ou une citation — toujours dans un registre cinéphile passionné
             - La longueur et le rythme des paragraphes : certains courts et percutants, d'autres plus développés
             - Les transitions entre sections : évite "En conclusion", "Pour résumer", "En somme" — trouve des formulations plus vivantes
+            - Vocabulaire interdit : "campe" (un acteur) → utiliser toujours "joue", "incarne", "interprète"
             - Les formulations de la note : ne cite jamais deux fois la note MovieHunt de la même façon
             - Les intitulés de sections : tu peux les varier ("Ce qu'on retient", "Là où ça pêche", "Pourquoi on l'a adoré", etc.) tant que c'est cohérent avec le ton général
             Objectif : chaque article a sa propre personnalité, mais reste reconnaissable comme un article MovieHunt.
