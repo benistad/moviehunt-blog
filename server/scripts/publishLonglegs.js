@@ -11,11 +11,22 @@ const supabase = createClient(
 );
 
 const TMDB_KEY = process.env.TMDB_API_KEY;
-const TMDB_MOVIE_ID = 920840;
+
+/* ── Recherche l'ID TMDB par titre ───────────────────────────────── */
+async function findTmdbId(title, year) {
+  const res = await axios.get('https://api.themoviedb.org/3/search/movie', {
+    params: { api_key: TMDB_KEY, query: title, year: year, language: 'fr-FR' },
+  });
+  const results = res.data.results || [];
+  if (!results.length) throw new Error(`Film "${title}" introuvable sur TMDB`);
+  const movie = results[0];
+  console.log(`  \u2705 TMDB ID trouv\u00e9: ${movie.id} — ${movie.title} (${movie.release_date})`);
+  return movie.id;
+}
 
 /* ── Récupère posters + backdrops ─────────────────────────────────── */
-async function fetchImages() {
-  const res = await axios.get(`https://api.themoviedb.org/3/movie/${TMDB_MOVIE_ID}/images`, {
+async function fetchImages(movieId) {
+  const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/images`, {
     params: { api_key: TMDB_KEY },
   });
   const posters   = res.data.posters   || [];
@@ -25,8 +36,8 @@ async function fetchImages() {
 }
 
 /* ── Récupère la photo du réalisateur ────────────────────────────── */
-async function fetchDirectorPhoto() {
-  const res = await axios.get(`https://api.themoviedb.org/3/movie/${TMDB_MOVIE_ID}/credits`, {
+async function fetchDirectorPhoto(movieId) {
+  const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
     params: { api_key: TMDB_KEY },
   });
   const director = (res.data.crew || []).find(function(p) { return p.job === 'Director'; });
@@ -98,8 +109,9 @@ function mdToHtml(md, imageSlots) {
 async function run() {
   console.log('\n\ud83c\udfac Publication de l\'article Longlegs...\n');
 
-  const { posters, backdrops } = await fetchImages();
-  const directorPhoto = await fetchDirectorPhoto();
+  const movieId = await findTmdbId('Longlegs', 2024);
+  const { posters, backdrops } = await fetchImages(movieId);
+  const directorPhoto = await fetchDirectorPhoto(movieId);
 
   var imageSlots = [
     posters[0]   ? figure(imgUrl(posters[0].file_path, 'w780'),   'Longlegs (2024) \u2014 affiche officielle', 'Longlegs (2024) \u2014 Thriller occulte avec Nicolas Cage') : null,
@@ -139,7 +151,7 @@ async function run() {
     director:    'Osgood Perkins',
     actors:      ['Nicolas Cage', 'Maika Monroe'],
     score:       7,
-    tmdbId:      TMDB_MOVIE_ID,
+    tmdbId:      movieId,
   };
 
   /* Vérifier si l'article existe déjà */
@@ -157,7 +169,7 @@ async function run() {
     var ins = await supabase.from('articles').insert({
       title: TITLE, slug: SLUG, content: htmlContent, excerpt: EXCERPT,
       cover_image: COVER, tags: TAGS, seo: SEO,
-      status: 'published', category: 'review', generated_by: 'manual',
+      source_url: '', status: 'published', category: 'review', generated_by: 'manual',
       metadata: METADATA,
       published_at: new Date().toISOString(),
       updated_at:   new Date().toISOString(),
