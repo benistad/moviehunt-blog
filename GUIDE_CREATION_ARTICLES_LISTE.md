@@ -130,12 +130,38 @@ Le contenu de l'article doit être en HTML avec cette structure pour chaque film
 - **Images 2-4** : backdrops du film (`backdrops` TMDB, taille `original`) — choisir des images visuellement différentes (pas deux scènes similaires)
 - **Si TMDB manque d'images** : la contrainte est relaxée, mettre ce qui est disponible
 
+**Filtre langue obligatoire sur les backdrops :**
+```javascript
+// Exclure les images avec texte en langue étrangère (espagnol, portugais, etc.)
+// Garder uniquement : sans texte (null), anglais (en) ou français (fr)
+const filtered = backdrops.filter(b =>
+  b.iso_639_1 === null || b.iso_639_1 === 'en' || b.iso_639_1 === 'fr'
+);
+```
+
+**Sélection des backdrops diversifiés via Claude Haiku :**
+
+Utiliser `claude-haiku-4-5` (⚠️ pas claude-3-5-haiku-20241022 qui donne 404) pour choisir visuellement les 3 images les plus différentes parmi 6 candidats :
+```javascript
+const response = await anthropic.messages.create({
+  model: 'claude-haiku-4-5',  // modèle validé
+  max_tokens: 100,
+  messages: [{ role: 'user', content: [
+    // Envoyer 6 images thumbnails (w300) + question
+    { type: 'image', source: { type: 'url', url: 'https://image.tmdb.org/t/p/w300/...' } },
+    { type: 'text', text: 'Pick the 3 image numbers most visually DIFFERENT from each other. Reply: 1,3,5' }
+  ]}],
+});
+```
+Fallback si erreur : prendre indices 0, ⌊N/2⌋, N-1 de la liste filtrée.
+
 **Points importants :**
 - Les styles sont **inline** (pas de classes CSS externes)
 - Hauteur fixe des images : `300px`
 - `scroll-snap-type: x mandatory` pour un défilement fluide
 - Attributs `loading="lazy"` et `decoding="async"` pour les performances
 - Alt de l'affiche : `"Affiche [Titre] ([Année])"` — alt des backdrops : `"[Titre] ([Année])"`
+- **Ne jamais faire de regex séquentiel** pour remplacer les carrousels — toujours reconstruire le contenu complet en une passe
 
 ### Étape 3 : Préparation du Visuel Principal
 
