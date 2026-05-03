@@ -113,20 +113,29 @@ Le contenu de l'article doit être en HTML avec cette structure pour chaque film
 </ul>
 
 <div class="film-carousel" style="display: flex; gap: 10px; overflow-x: auto; margin: 20px 0; padding: 10px 0; scroll-snap-type: x mandatory;">
-  <img src="https://image.tmdb.org/t/p/original/IMAGE1.jpg" alt="Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
-  <img src="https://image.tmdb.org/t/p/original/IMAGE2.jpg" alt="Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
-  <img src="https://image.tmdb.org/t/p/original/IMAGE3.jpg" alt="Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
+  <!-- Image 1 : OBLIGATOIREMENT l'affiche officielle du film (poster TMDB, taille w342 ou w500) -->
+  <img src="https://image.tmdb.org/t/p/w342/POSTER.jpg" alt="Affiche Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
+  <!-- Images 2, 3, 4 : backdrops (captures du film) — doivent être visuellement différentes -->
+  <img src="https://image.tmdb.org/t/p/original/BACKDROP1.jpg" alt="Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
+  <img src="https://image.tmdb.org/t/p/original/BACKDROP2.jpg" alt="Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
+  <img src="https://image.tmdb.org/t/p/original/BACKDROP3.jpg" alt="Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
 </div>
 
 <p><strong>Le pitch :</strong> Description du film...</p>
 <p><strong>Pourquoi il faut le voir :</strong> Raisons de regarder le film...</p>
 ```
 
+**Structure obligatoire du carrousel (4 images) :**
+- **Image 1** : affiche officielle du film (`poster_path` TMDB, taille `w342`)
+- **Images 2-4** : backdrops du film (`backdrops` TMDB, taille `original`) — choisir des images visuellement différentes (pas deux scènes similaires)
+- **Si TMDB manque d'images** : la contrainte est relaxée, mettre ce qui est disponible
+
 **Points importants :**
 - Les styles sont **inline** (pas de classes CSS externes)
 - Hauteur fixe des images : `300px`
 - `scroll-snap-type: x mandatory` pour un défilement fluide
 - Attributs `loading="lazy"` et `decoding="async"` pour les performances
+- Alt de l'affiche : `"Affiche [Titre] ([Année])"` — alt des backdrops : `"[Titre] ([Année])"`
 
 ### Étape 3 : Préparation du Visuel Principal
 
