@@ -95,6 +95,7 @@ img {
   padding: 10px 0;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
+  overflow-anchor: none; /* empêche le scroll anchoring de décaler la position lors du chargement des images */
 }
 
 .film-carousel img {

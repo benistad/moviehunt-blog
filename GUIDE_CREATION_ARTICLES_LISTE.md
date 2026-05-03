@@ -114,7 +114,8 @@ Le contenu de l'article doit être en HTML avec cette structure pour chaque film
 
 <div class="film-carousel" style="display: flex; gap: 10px; overflow-x: auto; margin: 6px 0 10px; padding: 2px 0; scroll-snap-type: x mandatory;">
   <!-- Image 1 : OBLIGATOIREMENT l'affiche officielle du film (poster TMDB, taille w342 ou w500) -->
-  <img src="https://image.tmdb.org/t/p/w342/POSTER.jpg" alt="Affiche Titre du Film (Année) — [mot-clé SEO principal de l'article]" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
+  <!-- ⚠️ loading="eager" sur la première image uniquement — évite le décalage de scroll anchoring -->
+  <img src="https://image.tmdb.org/t/p/w342/POSTER.jpg" alt="Affiche Titre du Film (Année) — [mot-clé SEO principal de l'article]" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="eager" decoding="async" />
   <!-- Images 2, 3, 4 : backdrops — alt = titre + mot-clé de la requête cible -->
   <img src="https://image.tmdb.org/t/p/original/BACKDROP1.jpg" alt="Titre du Film (Année) — [mot-clé SEO principal de l'article]" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
   <img src="https://image.tmdb.org/t/p/original/BACKDROP2.jpg" alt="Titre du Film (Année) — [mot-clé SEO principal de l'article]" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
@@ -159,7 +160,7 @@ Fallback si erreur : prendre indices 0, ⌊N/2⌋, N-1 de la liste filtrée.
 - Les styles sont **inline** (pas de classes CSS externes)
 - Hauteur fixe des images : `300px`
 - `scroll-snap-type: x mandatory` pour un défilement fluide
-- Attributs `loading="lazy"` et `decoding="async"` pour les performances
+- **Première image : `loading="eager"`** obligatoire (l'affiche/poster) — les backdrops suivants utilisent `loading="lazy"`. Si la première image est lazy, le scroll anchoring du navigateur décale la position du carousel lors du chargement.
 - **Alt SEO obligatoire** : `"Affiche [Titre] ([Année]) — [mot-clé principal article]"` pour le poster, `"[Titre] ([Année]) — [mot-clé principal article]"` pour les backdrops. Le mot-clé doit être la requête cible de l'article (ex: "film comme Shutter Island"). Chaque image est une opportunité de renforcer la pertinence SEO.
 - **Ne jamais faire de regex séquentiel** pour remplacer les carrousels — toujours reconstruire le contenu complet en une passe
 - **Classe obligatoire `film-carousel`** sur le `<div>` du carrousel (sans quoi le reset de position ne fonctionnera pas)

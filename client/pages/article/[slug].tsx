@@ -53,8 +53,15 @@ interface ArticlePageProps {
 
 export default function ArticlePage({ article }: ArticlePageProps) {
   useEffect(() => {
-    const carousels = document.querySelectorAll<HTMLElement>('.film-carousel');
-    carousels.forEach((c) => { c.scrollLeft = 0; });
+    const reset = () => {
+      document.querySelectorAll<HTMLElement>('.film-carousel').forEach((c) => {
+        c.scrollLeft = 0;
+      });
+    };
+    reset();
+    requestAnimationFrame(() => requestAnimationFrame(reset));
+    const t = setTimeout(reset, 500);
+    return () => clearTimeout(t);
   }, []);
 
   if (!article) {
