@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -51,6 +52,11 @@ interface ArticlePageProps {
 }
 
 export default function ArticlePage({ article }: ArticlePageProps) {
+  useEffect(() => {
+    const carousels = document.querySelectorAll<HTMLElement>('.film-carousel');
+    carousels.forEach((c) => { c.scrollLeft = 0; });
+  }, []);
+
   if (!article) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-12">

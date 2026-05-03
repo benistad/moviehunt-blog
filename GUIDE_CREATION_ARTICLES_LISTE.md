@@ -162,6 +162,8 @@ Fallback si erreur : prendre indices 0, ⌊N/2⌋, N-1 de la liste filtrée.
 - Attributs `loading="lazy"` et `decoding="async"` pour les performances
 - **Alt SEO obligatoire** : `"Affiche [Titre] ([Année]) — [mot-clé principal article]"` pour le poster, `"[Titre] ([Année]) — [mot-clé principal article]"` pour les backdrops. Le mot-clé doit être la requête cible de l'article (ex: "film comme Shutter Island"). Chaque image est une opportunité de renforcer la pertinence SEO.
 - **Ne jamais faire de regex séquentiel** pour remplacer les carrousels — toujours reconstruire le contenu complet en une passe
+- **Classe obligatoire `film-carousel`** sur le `<div>` du carrousel (sans quoi le reset de position ne fonctionnera pas)
+- **Position initiale** : le navigateur (notamment iOS Safari) peut mémoriser la position de scroll d'un élément `overflow-x: auto` et la restaurer à la navigation. La page article (`pages/article/[slug].tsx`) contient un `useEffect` qui remet automatiquement `scrollLeft = 0` sur tous les éléments `.film-carousel` au montage — **ne pas supprimer ce useEffect**.
 
 ### Étape 3 : Préparation du Visuel Principal
 
