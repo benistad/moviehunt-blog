@@ -54,15 +54,25 @@ interface ArticlePageProps {
 export default function ArticlePage({ article }: ArticlePageProps) {
   useEffect(() => {
     const carousels = document.querySelectorAll<HTMLElement>('.film-carousel');
-    const observers: ResizeObserver[] = [];
-    carousels.forEach((c) => {
-      c.scrollLeft = 0;
-      const ro = new ResizeObserver(() => { c.scrollLeft = 0; });
-      ro.observe(c);
-      observers.push(ro);
+    const cleanups: (() => void)[] = [];
+
+    carousels.forEach((carousel) => {
+      carousel.scrollLeft = 0;
+
+      const imgs = carousel.querySelectorAll<HTMLImageElement>('img');
+      imgs.forEach((img) => {
+        if (img.complete) return;
+        const handler = () => { carousel.scrollLeft = 0; };
+        img.addEventListener('load', handler, { once: true });
+        img.addEventListener('error', handler, { once: true });
+        cleanups.push(() => {
+          img.removeEventListener('load', handler);
+          img.removeEventListener('error', handler);
+        });
+      });
     });
-    const t = setTimeout(() => observers.forEach((ro) => ro.disconnect()), 4000);
-    return () => { clearTimeout(t); observers.forEach((ro) => ro.disconnect()); };
+
+    return () => cleanups.forEach((fn) => fn());
   }, []);
 
   if (!article) {
