@@ -2,6 +2,17 @@
 
 Ce guide documente le processus complet pour créer des articles de type "liste" avec des carrousels d'images de films provenant de l'API TMDB.
 
+## 🎯 Objectif Principal : Maximiser le Trafic Organique
+
+**Ces articles sont conçus avant tout pour générer du trafic SEO.** Chaque décision éditoriale doit être guidée par cette question : *est-ce que ça amène des visiteurs depuis Google ?*
+
+### Règles d'or pour le trafic organique :
+- **Cibler une requête à fort volume** : utilise Google Trends, Semrush ou simplement les suggestions Google pour valider que la requête principale est recherchée (ex: "films comme Shutter Island" → volume élevé).
+- **Titre H1 = requête principale** : le titre de l'article doit contenir exactement la requête cible.
+- **Couvrir les requêtes longue traîne** : utilise les sections H2 et la FAQ pour répondre à des variantes ("film avec twist comme Shutter Island", "film psychologique après Shutter Island", etc.).
+- **FAQ obligatoire** : minimum 3-4 questions qui couvrent les requêtes longue traîne liées. Format `<details>/<summary>` avec bordure rouge.
+- **Volume > Qualité** : un article de liste bien ciblé sur une requête à 10 000 recherches/mois vaut mieux qu'un chef-d'œuvre sur une requête à 50 recherches/mois.
+
 ## 📋 Vue d'ensemble
 
 Les articles de type "liste" sont des articles qui présentent plusieurs films avec :
@@ -185,7 +196,38 @@ async function createArticle() {
 createArticle();
 ```
 
-### Étape 5 : Déploiement
+### Étape 5 : Liens Internes (OBLIGATOIRE)
+
+Les liens internes sont essentiels pour le SEO et le temps passé sur le site. **Ne jamais publier un article sans au moins 2-3 liens internes.**
+
+#### Stratégie de maillage interne :
+1. **Dans le corps de l'article** : lier chaque film qui possède déjà une critique sur MovieHunt.
+2. **Dans la section "Que regarder après..."** : lier vers d'autres articles de liste pertinents.
+3. **En conclusion** : lier vers un article de liste généraliste (ex: "Quel film regarder ce soir").
+
+#### Comment trouver les articles à lier :
+```javascript
+// Chercher les articles liés dans Supabase
+const { data } = await supabase
+  .from('articles')
+  .select('slug, title')
+  .eq('status', 'published')
+  .ilike('title', '%mot-clé%');
+```
+
+#### Format des liens internes :
+```html
+<!-- Dans le texte -->
+<a href="/article/slug-article" style="color:#dc2626;font-weight:600;">Titre de l'article</a>
+
+<!-- En bloc à la fin de l'article -->
+<p>👉 À lire aussi : 
+  <a href="/article/slug-1" style="color:#dc2626;">Article 1</a>, 
+  <a href="/article/slug-2" style="color:#dc2626;">Article 2</a>
+</p>
+```
+
+### Étape 6 : Déploiement
 
 ```bash
 # Ajouter le visuel
@@ -267,13 +309,16 @@ Voir l'article "7 Films avec un Plot Twist Final Incroyable" :
 
 ## 🔄 Workflow Recommandé
 
-1. ✅ Lister les films avec titre et année
-2. ✅ Exécuter le script TMDB pour récupérer les images
-3. ✅ Rédiger le contenu HTML avec les carrousels
-4. ✅ Copier le visuel principal dans `client/public/`
-5. ✅ Créer l'article avec le script Supabase
-6. ✅ Commit et push le visuel
-7. ✅ Vérifier l'article en ligne après déploiement
+1. ✅ Valider la requête cible (volume de recherche suffisant)
+2. ✅ Lister les films avec titre et année
+3. ✅ Exécuter le script TMDB pour récupérer les images (3 backdrops par film)
+4. ✅ Rédiger le contenu HTML avec les carrousels
+5. ✅ Ajouter les liens internes (minimum 2-3)
+6. ✅ Ajouter la FAQ longue traîne (minimum 3 questions)
+7. ✅ Copier le visuel principal dans `client/public/` (format 16:9)
+8. ✅ Créer/mettre à jour l'article avec le script Supabase
+9. ✅ Commit et push
+10. ✅ Vérifier l'article en ligne après déploiement
 
 ## 💡 Conseils
 
@@ -282,3 +327,6 @@ Voir l'article "7 Films avec un Plot Twist Final Incroyable" :
 - **Utiliser** des noms de fichiers descriptifs pour les visuels
 - **Garder** une copie du script de création pour référence
 - **Attendre** 2-3 minutes après le push pour voir l'article en ligne (temps de déploiement Vercel)
+- **Liens internes** : toujours chercher dans Supabase les articles publiés liés avant de finaliser
+- **SEO** : le titre H1 doit contenir exactement la requête principale recherchée sur Google
+- **FAQ** : couvrir au minimum les variantes "film similaire à X", "film avec twist comme X", "film psychologique comme X"
