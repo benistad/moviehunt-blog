@@ -220,7 +220,7 @@ const { data } = await supabase
 Chaque titre `<h2>` d'un article de liste doit avoir un **trait rouge épais** en dessous. Utiliser le rouge MovieHunt : `#dc2626`.
 
 ```html
-<h2 style="border-bottom: 3px solid #dc2626; padding-bottom: 8px;">1. Titre du Film (Année)</h2>
+<h2 style="border-bottom: 6px solid #dc2626; padding-bottom: 8px;">1. Titre du Film (Année)</h2>
 ```
 
 Ce style s'applique à **tous les H2** de l'article (titres de films, sections SEO, FAQ, Conclusion). C'est un élément de charte graphique obligatoire pour les articles de type liste.
