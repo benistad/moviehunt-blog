@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { ArrowLeft, Save, Eye, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -15,6 +15,8 @@ export default function ArticleEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [preview, setPreview] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const hasFetchedRef = useRef(false);
 
   // États pour l'édition
   const [title, setTitle] = useState('');
@@ -34,8 +36,20 @@ export default function ArticleEditor() {
 
   useEffect(() => {
     if (!user || !id) return;
+    if (hasFetchedRef.current) return;
+    hasFetchedRef.current = true;
     fetchArticle();
   }, [id, user]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (!isDirty) return;
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [isDirty]);
 
   const fetchArticle = async () => {
     try {
@@ -71,7 +85,7 @@ export default function ArticleEditor() {
         category,
       });
       toast.success('Article sauvegardé');
-      fetchArticle();
+      setIsDirty(false);
     } catch (error) {
       toast.error('Erreur de sauvegarde');
     } finally {
@@ -107,6 +121,7 @@ export default function ArticleEditor() {
       }
       
       toast.success(isDraft ? 'Article publié !' : 'Modifications publiées !');
+      setIsDirty(false);
       router.push('/admin');
     } catch (error) {
       toast.error('Erreur de publication');
@@ -177,7 +192,7 @@ export default function ArticleEditor() {
             <input
               type="text"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => { setTitle(e.target.value); setIsDirty(true); }}
               className="input"
             />
           </div>
@@ -191,7 +206,7 @@ export default function ArticleEditor() {
               <input
                 type="text"
                 value={slug}
-                onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/--+/g, '-'))}
+                onChange={(e) => { setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/--+/g, '-')); setIsDirty(true); }}
                 placeholder="mon-article"
                 className="input flex-1"
               />
@@ -207,7 +222,7 @@ export default function ArticleEditor() {
             </label>
             <textarea
               value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
+              onChange={(e) => { setExcerpt(e.target.value); setIsDirty(true); }}
               rows={3}
               className="input"
             />
@@ -220,7 +235,7 @@ export default function ArticleEditor() {
             <input
               type="url"
               value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
+              onChange={(e) => { setCoverImage(e.target.value); setIsDirty(true); }}
               placeholder="https://image.tmdb.org/t/p/original/..."
               className="input mb-3"
             />
@@ -248,7 +263,7 @@ export default function ArticleEditor() {
             </label>
             <select
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => { setCategory(e.target.value); setIsDirty(true); }}
               className="input"
             >
               <option value="review">Critiques de films</option>
@@ -266,7 +281,7 @@ export default function ArticleEditor() {
             <input
               type="text"
               value={tags}
-              onChange={(e) => setTags(e.target.value)}
+              onChange={(e) => { setTags(e.target.value); setIsDirty(true); }}
               placeholder="Action, Drame, Thriller"
               className="input"
             />
@@ -278,7 +293,7 @@ export default function ArticleEditor() {
             </label>
             <CKEditorComponent
               content={content}
-              onChange={setContent}
+              onChange={(val) => { setContent(val); setIsDirty(true); }}
               movieTitle={article?.metadata?.movieTitle || title}
             />
           </div>
