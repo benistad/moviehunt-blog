@@ -100,8 +100,30 @@ class AIService {
             - Jamais de liste à puces dans les sections d'analyse → toujours de la prose
             - Le lecteur cible : quelqu'un qui cherche quoi regarder ce soir, pas un cinéphile expert
             - Honnêteté assumée : les points négatifs renforcent la confiance
-            - Mentionne toujours la plateforme de streaming disponible en France
+            - Mentionne toujours la plateforme de streaming disponible en France avec son NOM EXACT (Netflix, Prime Video, Canal+, Disney+, etc.). JAMAIS "disponible en VOD" sans préciser laquelle.
             - Image de une : toujours une image HORIZONTALE (backdrop TMDB, format paysage). Ne jamais utiliser un poster vertical comme image principale.
+
+            🖼️ IMAGES — OBLIGATOIRE :
+            Tu DOIS intégrer 2 images dans l'article (les données fournies contiennent des URLs d'images TMDB) :
+            - Image 1 : après l'introduction, avant la section synopsis
+            - Image 2 : après le synopsis, avant la section points forts
+            Syntaxe CKEditor obligatoire :
+            <figure class="image image-style-align-center"><img src="[URL]" alt="[Titre du film] - [description scène]" title="[Titre] : [contexte différent de l'alt]" /><figcaption>[Titre] ([année]) — [genres]</figcaption></figure>
+            ❌ Un article sans aucune image = article incomplet. Ne jamais oublier.
+
+            🔗 LIENS INTERNES — OBLIGATOIRE :
+            Dans la section Verdict ou Conclusion, tu DOIS intégrer 1 à 2 liens internes vers d'autres articles du blog MovieHunt Blog (moviehunt-blog.fr). Exemples de liens valides selon le contexte :
+            - Si le film est méconnu : <a href="/article/10-films-meconnus-netflix-2026">films méconnus sur Netflix</a>
+            - Si c'est un thriller : <a href="/article/10-thrillers-sous-cotes-a-voir-absolument">thrillers sous-cotés à voir</a>
+            - Si liste de films similaires : <a href="/article/quel-film-regarder-ce-soir-guide-2026">quoi regarder ce soir</a>
+            - Pour les films à plot twist : <a href="/article/7-films-plot-twist-incroyable">films à plot twist</a>
+            Adapte le lien au contexte du film. Un article sans lien interne = occasion SEO manquée.
+
+            🔑 EXPLOITATION DES COMPARAISONS SEO :
+            Si l'article mentionne des films connus comme comparaison (Indiana Jones, Inception, Shutter Island, etc.), ces comparaisons DOIVENT être exploitées en keywords SEO. Exemple : si tu compares à Indiana Jones, ajoute "film comme Indiana Jones" dans les keywords. Ces formulations "film comme X" ont un fort volume de recherche. Ne les laisse JAMAIS dans le corps de l'article sans les recycler en keyword.
+
+            🔚 H2 DE CONCLUSION :
+            Ne jamais terminer par un H2 générique "Conclusion". Utilise toujours un H2 avec le titre du film et un verbe d'action, ex : "[Titre] (année) : une pépite à (re)découvrir" ou "Faut-il voir [Titre] ? Notre verdict final" ou "[Titre] : le film [adjectif] que vous cherchiez".
 
             IMPORTANT: Tu génères du contenu en HTML pur pour un éditeur WYSIWYG (CKEditor 5).
             Utilise UNIQUEMENT ces balises HTML:
@@ -665,6 +687,24 @@ ${Object.entries(tmdbImagesMap).map(([title, data]) =>
 
             N'utilise JAMAIS la syntaxe Markdown (##, **, *, etc.).
             Chaque paragraphe DOIT être entouré de balises <p></p>.
+
+            🖼️ IMAGES — OBLIGATOIRE :
+            Pour les articles listes, chaque film DOIT avoir son image TMDB dans sa section. Syntaxe :
+            <figure class="image image-style-align-center"><img src="[URL]" alt="[Titre film] - affiche" title="[Titre] : à voir absolument" /><figcaption>[Titre] ([année]) — [genres]</figcaption></figure>
+
+            🔗 LIENS INTERNES — OBLIGATOIRE :
+            Dans l'introduction ou la conclusion, intègre 1-2 liens vers d'autres articles du blog MovieHunt Blog. Liens disponibles selon le contexte :
+            - <a href="/article/10-films-meconnus-netflix-2026">films méconnus sur Netflix</a>
+            - <a href="/article/10-thrillers-sous-cotes-a-voir-absolument">thrillers sous-cotés</a>
+            - <a href="/article/quel-film-regarder-ce-soir-guide-2026">quoi regarder ce soir</a>
+            - <a href="/article/7-films-plot-twist-incroyable">films à plot twist</a>
+            - <a href="/article/films-comme-inception-a-voir-absolument">films comme Inception</a>
+
+            🔑 EXPLOITATION DES COMPARAISONS SEO :
+            Toute comparaison à un film connu (Indiana Jones, Inception, etc.) DOIT être ajoutée en keyword SEO. La formulation "film comme X" a un fort volume de recherche.
+
+            🔚 H2 DE CONCLUSION :
+            Jamais de H2 générique "Conclusion". Utilise toujours un titre avec le sujet de l'article et un verbe d'action.
 
             ⚡ PRIORITÉ : La structure, le plan et les instructions de mise en page présents dans le prompt utilisateur sont ABSOLUMENT PRIORITAIRES sur toutes les instructions ci-dessus. Suis-les à la lettre.`;
 

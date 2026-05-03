@@ -99,6 +99,11 @@ const nextConfig = {
         destination: '/article/:slug',
         permanent: true,
       },
+      {
+        source: '/article/matthew-mcconaughey-et-penelope-cruz-dans-le-film-d-aventure-que-personne-ne-connait',
+        destination: '/article/sahara-film-aventure-mcconaughey-2005',
+        permanent: true,
+      },
     ];
   },
   
