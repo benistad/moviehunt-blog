@@ -37,7 +37,24 @@ class AIService {
             - Le registre est familier-cultivé : ni trop académique, ni trop décontracté
             - On écrit en français courant, fluide, sans jargon inutile ni formules creuses
 
-            🎨 VARIÉTÉ DE STYLE (dans le respect de la ligne éditoriale ci-dessus) :
+            � SYSTÈME DE NOTATION MOVIEHUNT — À MAÎTRISER ABSOLUMENT :
+            MovieHunt note sur 10 en évaluant 5 critères : Jeu d'acteur, Réalisation, Bande-son, Photographie, Scénario.
+            Barème exact (à utiliser pour calibrer ton discours) :
+            - 1/10 : Mauvais film. Rien à en tirer : scénario inexistant, réalisation bâclée, jeu décevant.
+            - 2/10 : Mauvais film. Globalement raté, mais un élément isolé tire son épingle du jeu (un acteur, une photo, une musique). Insuffisant pour sauver le film.
+            - 3/10 : Mauvais film. Plusieurs éléments réussis mais l'ensemble ne convainc pas, défauts trop importants.
+            - 4/10 : Film MOYEN (≠ mauvais). Se laisse regarder une fois. Divertissant sans être mémorable. Pas de regrets, mais on n'y reviendra pas.
+            - 5/10 : BON film. Qualité solide, agréable à suivre. Bonne soirée cinéma assurée.
+            - 6/10 : Bon film à revoir. Suffisamment riche pour plusieurs visionnages. On découvre de nouveaux détails à chaque fois.
+            - 7/10 : Très bon film. Maîtrise évidente, émotions fortes, qualité durable. Un film qui marque.
+            - 8/10 : Très bon film remarquable. Réalisation, jeu, scénario, photo, musique : tout (ou presque) est au niveau.
+            - 9/10 : Excellent film. Peu de défauts, beaucoup d'excellence. On le recommande autour de soi.
+            - 10/10 : Chef-d'œuvre. Rien à redire, tout est parfait. Score décerné avec la plus grande parcimonie.
+
+            ⚠️ IMPORTANT : 4/10 et 5/10 NE SONT PAS de mauvaises notes. Ne les présente JAMAIS négativement. 4 = "film moyen regardable", 5 = "bon film".
+            Quand tu cites la note dans l'article, tu PEUX rappeler brièvement ce qu'elle signifie selon ce barème.
+
+            �🎨 VARIÉTÉ DE STYLE (dans le respect de la ligne éditoriale ci-dessus) :
             Ne reproduis JAMAIS le même schéma d'écriture d'un article à l'autre. Varie :
             - Les accroches : parfois une question rhétorique, une anecdote de tournage, une phrase choc, une mise en contexte historique ou une citation — toujours dans un registre cinéphile passionné
             - La longueur et le rythme des paragraphes : certains courts et percutants, d'autres plus développés
@@ -185,14 +202,20 @@ Note MovieHunt: ${score}/10
 ${metadata.tmdbRating ? `Note TMDB: ${metadata.tmdbRating}/10` : ''}
 Film recommandé (Hunted): ${hunted}
 
-⚠️ IMPORTANT - TONALITÉ DE L'ARTICLE :
-La note de ${score}/10 doit GUIDER la tonalité générale de ton article :
-- Note 8-10/10 : Ton enthousiaste, très positif, recommandation forte
-- Note 6-7/10 : Ton équilibré, nuancé, recommandation modérée
-- Note 4-5/10 : Ton critique mais constructif, réserves importantes
-- Note 0-3/10 : Ton déçu mais professionnel, déconseillé
+⚠️ IMPORTANT - TONALITÉ DE L'ARTICLE selon le barème MovieHunt :
+La note de ${score}/10 signifie exactement ceci — adapte TOUT ton article à cette définition :
+${score >= 10 ? `- ${score}/10 = CHEF-D'ŒUVRE : Ton dithyrambique, recommandation absolue. Rien à redire. Superlatifs justifiés à tous les niveaux.` : ''}
+${score === 9 ? `- ${score}/10 = EXCELLENT FILM : Ton très enthousiaste. Peu de défauts, beaucoup d'excellence. On le recommande sans hésiter.` : ''}
+${score === 8 ? `- ${score}/10 = TRÈS BON FILM REMARQUABLE : Ton enthousiaste et précis. Réalisation, jeu, scénario, photo, musique : tout (ou presque) est au niveau.` : ''}
+${score === 7 ? `- ${score}/10 = TRÈS BON FILM : Ton chaleureux. Maîtrise évidente, émotions fortes, qualité durable. Film qui marque.` : ''}
+${score === 6 ? `- ${score}/10 = BON FILM À REVOIR : Ton positif et nuancé. Riche, mérite plusieurs visionnages.` : ''}
+${score === 5 ? `- ${score}/10 = BON FILM : Ton équilibré et bienveillant. Qualité solide, bonne soirée cinéma. NE PAS sous-estimer : c'est une bonne note.` : ''}
+${score === 4 ? `- ${score}/10 = FILM MOYEN (PAS mauvais) : Ton objectif, sans condescendance. Se laisse regarder une fois, pas mémorable. NE PAS traiter comme un mauvais film.` : ''}
+${score === 3 ? `- ${score}/10 = MAUVAIS FILM : Ton déçu mais professionnel. Plusieurs éléments réussis mais l'ensemble ne convainc pas.` : ''}
+${score === 2 ? `- ${score}/10 = MAUVAIS FILM : Ton déçu. Globalement raté, un élément isolé tire son épingle mais insuffisant.` : ''}
+${score <= 1 ? `- ${score}/10 = MAUVAIS FILM : Ton sévère mais factuel. Rien à en tirer, échoue sur tous les plans.` : ''}
 
-Adapte ton vocabulaire, tes superlatifs et ton enthousiasme à cette note !
+Adapte ton vocabulaire, tes superlatifs et ton enthousiasme à cette signification précise !
 
 ═══════════════════════════════════════════════════════════════
 ✨ POURQUOI VOIR CE FILM (Points forts à développer)
@@ -619,6 +642,16 @@ ${Object.entries(tmdbImagesMap).map(([title, data]) =>
             - Le registre est familier-cultivé : ni trop académique, ni trop décontracté
             - On écrit en français courant, fluide, sans jargon inutile ni formules creuses
             - Chaque article a sa propre personnalité mais reste reconnaissable comme un article MovieHunt
+
+            🎯 SYSTÈME DE NOTATION MOVIEHUNT :
+            MovieHunt note sur 10 selon 5 critères : Jeu d'acteur, Réalisation, Bande-son, Photographie, Scénario.
+            Barème (pour calibrer le discours de chaque film dans les articles listes) :
+            1/10 : Mauvais — rien à en tirer | 2/10 : Mauvais — un élément sauve | 3/10 : Mauvais — éléments réussis mais l'ensemble échoue
+            4/10 : Moyen — regardable une fois, pas mémorable (≠ mauvais) | 5/10 : Bon — qualité solide, bonne soirée cinéma
+            6/10 : Bon à revoir — riche, mérite plusieurs visionnages | 7/10 : Très bon — marque, émotions fortes
+            8/10 : Très bon remarquable — presque tout est au niveau | 9/10 : Excellent — peu de défauts, beaucoup d'excellence
+            10/10 : Chef-d'œuvre — tout est parfait, décerné avec parcimonie
+            ⚠️ 4/10 et 5/10 ne sont PAS de mauvaises notes. Ne les présente jamais négativement.
 
             IMPORTANT: Tu génères du contenu en HTML pur pour un éditeur WYSIWYG (CKEditor 5).
             Utilise UNIQUEMENT ces balises HTML:
