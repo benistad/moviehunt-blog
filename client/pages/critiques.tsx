@@ -145,7 +145,7 @@ export async function getStaticProps() {
         initialArticles: response.data.data.articles || [],
         totalPages: response.data.data.pagination?.pages || 1,
       },
-      revalidate: 60,
+      revalidate: 1800,
     };
   } catch (error) {
     console.error('Error in getStaticProps (critiques):', error);
@@ -154,7 +154,7 @@ export async function getStaticProps() {
         initialArticles: [],
         totalPages: 1,
       },
-      revalidate: 60,
+      revalidate: 1800,
     };
   }
 }

@@ -41,7 +41,7 @@ const PORT = process.env.PORT;
 // Middlewares
 app.use(helmet());
 app.use(compression());
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'production') app.use(morgan('dev'));
 
 // Configuration CORS - Restreindre aux origines connues
 const allowedOrigins = [

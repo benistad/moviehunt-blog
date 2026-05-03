@@ -344,7 +344,7 @@ export const getStaticProps: GetStaticProps = async () => {
         initialCritiques: critiquesResponse.data.data.articles || [],
         initialLists: listsResponse.data.data.articles || [],
       },
-      revalidate: 60,
+      revalidate: 1800,
     };
   } catch (error) {
     console.error('Error in getStaticProps:', error);
@@ -354,7 +354,7 @@ export const getStaticProps: GetStaticProps = async () => {
         initialCritiques: [],
         initialLists: [],
       },
-      revalidate: 60,
+      revalidate: 1800,
     };
   }
 };

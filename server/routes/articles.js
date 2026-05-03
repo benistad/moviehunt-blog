@@ -1,4 +1,17 @@
 const express = require('express');
+const axios = require('axios');
+
+async function triggerRevalidation(slug, category) {
+  const secret = process.env.REVALIDATION_SECRET;
+  const siteUrl = process.env.NEXT_SITE_URL || 'https://www.moviehunt-blog.fr';
+  if (!secret) return;
+  try {
+    await axios.post(`${siteUrl}/api/revalidate`, { secret, slug, type: category }, { timeout: 5000 });
+    console.log(`✅ Revalidation déclenchée: /article/${slug}`);
+  } catch (e) {
+    console.warn(`⚠️ Revalidation échouée pour ${slug}: ${e.message}`);
+  }
+}
 const router = express.Router();
 const { Article } = require('../models');
 const articleGeneratorService = require('../services/articleGeneratorService');
@@ -45,6 +58,7 @@ router.get('/', async (req, res, next) => {
       Article.countDocuments(query),
     ]);
 
+    res.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
     res.json({
       success: true,
       data: {
@@ -117,6 +131,7 @@ router.get('/slug/:slug', async (req, res, next) => {
       });
     }
 
+    res.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
     res.json({
       success: true,
       data: article,
@@ -289,6 +304,10 @@ router.put('/:id', requireAuth, [...articleIdValidation, ...articleUpdateValidat
       data: article,
       message: 'Article mis à jour avec succès',
     });
+
+    if (article.status === 'published') {
+      triggerRevalidation(article.slug, article.category).catch(() => {});
+    }
   } catch (error) {
     next(error);
   }
@@ -321,6 +340,8 @@ router.post('/:id/publish', requireAuth, articleIdValidation, async (req, res, n
       data: article,
       message: 'Article publié avec succès',
     });
+
+    triggerRevalidation(article.slug, article.category).catch(() => {});
   } catch (error) {
     next(error);
   }

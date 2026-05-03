@@ -39,8 +39,7 @@ export default function Listes({ initialArticles = [], totalPages: initialTotalP
           limit: 12,
           status: 'published',
           category: 'list',
-          _ts: Date.now(),
-        },
+          },
       });
       setArticles(response.data.data.articles || []);
       setTotalPages(response.data.data.pagination?.pages || 1);
@@ -146,7 +145,7 @@ export async function getStaticProps() {
         initialArticles: response.data.data.articles || [],
         totalPages: response.data.data.pagination?.pages || 1,
       },
-      revalidate: 60,
+      revalidate: 1800,
     };
   } catch (error) {
     console.error('Error in getStaticProps (listes):', error);
@@ -155,7 +154,7 @@ export async function getStaticProps() {
         initialArticles: [],
         totalPages: 1,
       },
-      revalidate: 60,
+      revalidate: 1800,
     };
   }
 }
