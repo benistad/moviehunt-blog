@@ -106,13 +106,13 @@ node test_tmdb.js
 Le contenu de l'article doit être en HTML avec cette structure pour chaque film :
 
 ```html
-<h2>1. Titre du Film (Année)</h2>
-<ul>
+<h2 style="border-bottom: 6px solid #dc2626; padding-bottom: 8px;">1. Titre du Film (Année)</h2>
+<ul style="margin: 6px 0 10px; padding-left: 20px;">
   <li><strong>Genre :</strong> Genre du film</li>
   <li><strong>Casting :</strong> Acteurs principaux</li>
 </ul>
 
-<div class="film-carousel" style="display: flex; gap: 10px; overflow-x: auto; margin: 20px 0; padding: 10px 0; scroll-snap-type: x mandatory;">
+<div class="film-carousel" style="display: flex; gap: 10px; overflow-x: auto; margin: 6px 0 10px; padding: 2px 0; scroll-snap-type: x mandatory;">
   <!-- Image 1 : OBLIGATOIREMENT l'affiche officielle du film (poster TMDB, taille w342 ou w500) -->
   <img src="https://image.tmdb.org/t/p/w342/POSTER.jpg" alt="Affiche Titre du Film (Année)" style="height: 300px; width: auto; border-radius: 8px; flex-shrink: 0; scroll-snap-align: start;" loading="lazy" decoding="async" />
   <!-- Images 2, 3, 4 : backdrops (captures du film) — doivent être visuellement différentes -->
