@@ -350,14 +350,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         article: response.data.data,
       },
-      revalidate: 3600, // Régénérer toutes les heures (ISR) — on-demand revalidation via /api/revalidate
+      revalidate: 60, // Régénérer toutes les 60s (ISR) — on-demand revalidation via /api/revalidate
     };
   } catch (error: any) {
     console.error('[ISR] Error fetching article:', error.message);
     console.error('[ISR] Error details:', error.response?.status, error.response?.data);
     return {
       notFound: true,
-      revalidate: 3600,
+      revalidate: 60,
     };
   }
 };
