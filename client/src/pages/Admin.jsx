@@ -14,7 +14,10 @@ import {
   Edit,
   FileText,
   LogOut,
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  TrendingDown,
+  Minus
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { articlesAPI, queueAPI } from '../services/api';
@@ -381,6 +384,17 @@ export default function Admin() {
             <Clock className="w-5 h-5 inline mr-2" />
             Queue ({queue.length})
           </button>
+          <button
+            onClick={() => setActiveTab('stats')}
+            className={`pb-4 px-1 border-b-2 font-medium transition-colors ${
+              activeTab === 'stats'
+                ? 'border-primary-600 text-primary-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            <TrendingUp className="w-5 h-5 inline mr-2" />
+            Statistiques
+          </button>
         </nav>
       </div>
 
@@ -640,6 +654,147 @@ export default function Admin() {
           )}
         </div>
       )}
+
+      {activeTab === 'stats' && (() => {
+        const now = new Date();
+        const months = [];
+        for (let i = 11; i >= 0; i--) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          months.push({
+            key: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,
+            label: d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }),
+            year: d.getFullYear(),
+            month: d.getMonth(),
+          });
+        }
+        const byMonth = articles.reduce((acc, a) => {
+          if (!a.publishedAt) return acc;
+          const d = new Date(a.publishedAt);
+          const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+          if (!acc[key]) acc[key] = { total: 0, reviews: 0, lists: 0 };
+          acc[key].total++;
+          if (a.category === 'review') acc[key].reviews++;
+          else if (a.category === 'list') acc[key].lists++;
+          return acc;
+        }, {});
+        const monthsData = months.map(m => ({ ...m, ...(byMonth[m.key] || { total: 0, reviews: 0, lists: 0 }) }));
+        const maxVal = Math.max(...monthsData.map(m => m.total), 1);
+        const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+        const currentMonth = byMonth[currentMonthKey]?.total || 0;
+        const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        const prevMonthKey = `${prevMonthDate.getFullYear()}-${String(prevMonthDate.getMonth()+1).padStart(2,'0')}`;
+        const prevMonth = byMonth[prevMonthKey]?.total || 0;
+        const completedMonths = monthsData.filter((m, i) => i < 11 && m.total > 0);
+        const avgPerMonth = completedMonths.length > 0 ? (completedMonths.reduce((s, m) => s + m.total, 0) / completedMonths.length).toFixed(1) : 0;
+        const bestMonth = monthsData.reduce((best, m) => m.total > best.total ? m : best, { total: 0, label: '-' });
+        const trend = currentMonth > prevMonth ? 'up' : currentMonth < prevMonth ? 'down' : 'equal';
+        return (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Statistiques de publication</h2>
+            {/* KPI Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <div className="card p-5">
+                <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Ce mois-ci</p>
+                <div className="flex items-end gap-2">
+                  <p className="text-3xl font-bold text-gray-900">{currentMonth}</p>
+                  {trend === 'up' && <span className="text-green-500 flex items-center text-sm mb-1"><TrendingUp className="w-4 h-4 mr-1" />+{currentMonth - prevMonth}</span>}
+                  {trend === 'down' && <span className="text-red-400 flex items-center text-sm mb-1"><TrendingDown className="w-4 h-4 mr-1" />{currentMonth - prevMonth}</span>}
+                  {trend === 'equal' && <span className="text-gray-400 flex items-center text-sm mb-1"><Minus className="w-4 h-4 mr-1" />0</span>}
+                </div>
+                <p className="text-xs text-gray-400">vs {prevMonth} le mois dernier</p>
+              </div>
+              <div className="card p-5">
+                <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Moyenne / mois</p>
+                <p className="text-3xl font-bold text-gray-900">{avgPerMonth}</p>
+                <p className="text-xs text-gray-400">sur les 11 derniers mois</p>
+              </div>
+              <div className="card p-5">
+                <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Meilleur mois</p>
+                <p className="text-3xl font-bold text-gray-900">{bestMonth.total}</p>
+                <p className="text-xs text-gray-400">{bestMonth.label}</p>
+              </div>
+              <div className="card p-5">
+                <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Total publiés</p>
+                <p className="text-3xl font-bold text-primary-600">{articles.length}</p>
+                <p className="text-xs text-gray-400">tous temps confondus</p>
+              </div>
+            </div>
+            {/* Bar Chart */}
+            <div className="card p-6 mb-8">
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">Articles publiés — 12 derniers mois</h3>
+              <div className="flex items-end gap-2 h-48">
+                {monthsData.map((m) => {
+                  const heightPct = maxVal > 0 ? Math.round((m.total / maxVal) * 100) : 0;
+                  const isCurrentMonth = m.key === currentMonthKey;
+                  return (
+                    <div key={m.key} className="flex-1 flex flex-col items-center gap-1">
+                      <span className="text-xs font-bold text-gray-700">{m.total > 0 ? m.total : ''}</span>
+                      <div className="w-full flex flex-col justify-end" style={{ height: '160px' }}>
+                        <div
+                          style={{ height: `${heightPct}%`, minHeight: m.total > 0 ? '4px' : '0' }}
+                          className={`w-full rounded-t-md transition-all ${
+                            isCurrentMonth ? 'bg-primary-600' : 'bg-gray-300 hover:bg-gray-400'
+                          }`}
+                          title={`${m.label} : ${m.total} article${m.total > 1 ? 's' : ''}`}
+                        />
+                      </div>
+                      <span className="text-xs text-gray-500 text-center leading-tight">{m.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-center gap-4 mt-4 text-xs text-gray-500">
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-primary-600 inline-block"></span>Mois en cours</span>
+                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-gray-300 inline-block"></span>Mois passés</span>
+              </div>
+            </div>
+            {/* Monthly Table */}
+            <div className="card overflow-hidden">
+              <div className="p-6 border-b border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-800">Détail par mois</h3>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="text-left px-6 py-3 text-gray-500 font-semibold">Mois</th>
+                      <th className="text-center px-4 py-3 text-gray-500 font-semibold">Total</th>
+                      <th className="text-center px-4 py-3 text-gray-500 font-semibold">Critiques</th>
+                      <th className="text-center px-4 py-3 text-gray-500 font-semibold">Listes</th>
+                      <th className="text-center px-4 py-3 text-gray-500 font-semibold">Tendance</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {[...monthsData].reverse().map((m, i, arr) => {
+                      const prev = arr[i + 1];
+                      const diff = prev ? m.total - prev.total : null;
+                      const isCurrentMonth = m.key === currentMonthKey;
+                      return (
+                        <tr key={m.key} className={isCurrentMonth ? 'bg-primary-50' : 'hover:bg-gray-50'}>
+                          <td className="px-6 py-3 font-medium text-gray-900 capitalize">
+                            {isCurrentMonth && <span className="inline-block w-2 h-2 rounded-full bg-primary-600 mr-2 mb-0.5"></span>}
+                            {new Date(m.year, m.month, 1).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+                          </td>
+                          <td className="text-center px-4 py-3 font-bold text-gray-900">{m.total}</td>
+                          <td className="text-center px-4 py-3 text-gray-600">{m.reviews}</td>
+                          <td className="text-center px-4 py-3 text-gray-600">{m.lists}</td>
+                          <td className="text-center px-4 py-3">
+                            {diff === null ? <span className="text-gray-300">—</span> :
+                              diff > 0 ? <span className="text-green-600 font-semibold flex items-center justify-center gap-1"><TrendingUp className="w-3.5 h-3.5" />+{diff}</span> :
+                              diff < 0 ? <span className="text-red-400 font-semibold flex items-center justify-center gap-1"><TrendingDown className="w-3.5 h-3.5" />{diff}</span> :
+                              <span className="text-gray-400 flex items-center justify-center gap-1"><Minus className="w-3.5 h-3.5" />0</span>
+                            }
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {activeTab === 'queue' && (
         <div>
